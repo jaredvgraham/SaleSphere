@@ -12,6 +12,10 @@ export default clerkMiddleware((auth, req) => {
   const currentRoute = new URL(req.url);
   const isLanding = currentRoute.pathname === "/landing";
 
+  if (isPublicApi(req) || req.url.includes("/api/webhooks/clerk")) {
+    return NextResponse.next(); // Allow API requests (like the webhook) to pass through without checking user authentication
+  }
+
   // If user is authenticated and accessing a public route (except landing)
   if (
     userId &&
