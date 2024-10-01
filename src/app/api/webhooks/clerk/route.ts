@@ -84,10 +84,10 @@ export async function POST(req: Request) {
 
       if (newUser) {
         const params = {
-          external_id: newUser._id,
+          externalId: newUser._id,
         };
         const updatedUser = await clerkClient.users.updateUser(
-          newUser.clerkId,
+          user.clerkId,
           params
         );
         console.log("updatedUser", updatedUser);
@@ -101,5 +101,8 @@ export async function POST(req: Request) {
     return new Response("", { status: 200 });
   } catch (error) {
     console.log(error);
+    return new Response("Error occured", {
+      status: 500,
+    });
   }
 }
