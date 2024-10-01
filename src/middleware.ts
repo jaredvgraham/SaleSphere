@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const isPublic = createRouteMatcher(["/sign-in", "/sign-up", "/landing"]);
 
-const isPublicApi = createRouteMatcher(["/api/auth"]);
+const isPublicApi = createRouteMatcher(["/api/auth", "/api/webhooks/clerk"]);
 
 export default clerkMiddleware((auth, req) => {
   console.log("at middleware");
