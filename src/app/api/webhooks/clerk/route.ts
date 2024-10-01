@@ -83,16 +83,8 @@ export async function POST(req: Request) {
       console.log("newUser", newUser);
 
       if (newUser) {
-        const params = {
-          externalId: newUser._id,
-        };
-        const updatedUser = await clerkClient.users.updateUser(
-          user.clerkId,
-          params
-        );
-        console.log("updatedUser", updatedUser);
+        return NextResponse.json({ message: "New user Created", status: 200 });
       }
-      return NextResponse.json({ message: "New user Created", status: 200 });
     }
 
     console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
