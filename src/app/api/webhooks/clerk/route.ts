@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { Webhook } from "svix";
 import { NextResponse } from "next/server";
 import { createUser } from "@/actions/user.actions";
-import { log } from "console";
 
 export async function POST(req: Request) {
   //   const event = await clerkClient.webhooks.readEvent(req);
@@ -15,5 +14,5 @@ export async function POST(req: Request) {
   //   return new Response("OK", { status: 200 });
   // }
 
-  log("at webhook");
+  console.log("at webhook");
 }

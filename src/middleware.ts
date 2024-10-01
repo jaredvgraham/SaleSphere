@@ -11,7 +11,6 @@ export default clerkMiddleware((auth, req) => {
   const { userId } = auth();
   const currentRoute = new URL(req.url);
   const isLanding = currentRoute.pathname === "/landing";
-  const isApiReq = currentRoute.pathname.startsWith("/api");
 
   // If user is authenticated and accessing a public route (except landing)
   if (
