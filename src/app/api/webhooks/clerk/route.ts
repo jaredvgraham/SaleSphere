@@ -75,7 +75,7 @@ export async function POST(req: Request) {
 
       if (newUser) {
         const params = {
-          externalId: newUser._id,
+          external_id: newUser._id,
         };
         const response = await clerkClient.users.updateUser(
           newUser.clerkId,
