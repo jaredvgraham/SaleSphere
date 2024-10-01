@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 const isPublic = createRouteMatcher(["/sign-in", "/sign-up", "/landing"]);
 
-const isPublicApi = createRouteMatcher(["/api/auth", "/api/webhooks/clerk"]);
+const isPublicApi = createRouteMatcher(["/api/auth"]);
 
 export default clerkMiddleware((auth, req) => {
   console.log("at middleware");
@@ -25,10 +25,7 @@ export default clerkMiddleware((auth, req) => {
   // Skip redirection if on sign-up or sign-in page, or during API requests
   if (
     !userId &&
-    (isPublic(req) ||
-      isPublicApi(req) ||
-      req.url.includes("/sign-up") ||
-      req.url.includes("clerk"))
+    (isPublic(req) || isPublicApi(req) || req.url.includes("/sign-up"))
   ) {
     return NextResponse.next();
   }
