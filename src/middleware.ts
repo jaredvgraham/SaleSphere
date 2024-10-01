@@ -23,6 +23,8 @@ export default clerkMiddleware((auth, req) => {
     !isLanding &&
     !currentRoute.pathname.includes("/sign-up")
   ) {
+    console.log("redirecting to landing from", req.url);
+
     return NextResponse.redirect(new URL("/landing", req.url));
   }
 
@@ -36,6 +38,7 @@ export default clerkMiddleware((auth, req) => {
 
   // Redirect unauthenticated users to sign-in for protected routes
   if (!userId && !isPublic(req) && !isPublicApi(req)) {
+    console.log("redirecting to sign-in from", req.url);
     return NextResponse.redirect(new URL("/sign-in", req.url));
   }
 
