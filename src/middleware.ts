@@ -25,7 +25,10 @@ export default clerkMiddleware((auth, req) => {
   // Skip redirection if on sign-up or sign-in page, or during API requests
   if (
     !userId &&
-    (isPublic(req) || isPublicApi(req) || req.url.includes("/sign-up"))
+    (isPublic(req) ||
+      isPublicApi(req) ||
+      req.url.includes("/sign-up") ||
+      req.url.includes("clerk"))
   ) {
     return NextResponse.next();
   }

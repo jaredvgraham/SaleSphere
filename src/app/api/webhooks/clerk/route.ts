@@ -77,10 +77,11 @@ export async function POST(req: Request) {
         const params = {
           external_id: newUser._id,
         };
-        const response = await clerkClient.users.updateUser(
+        const updatedUser = await clerkClient.users.updateUser(
           newUser.clerkId,
           params
         );
+        console.log("updatedUser", updatedUser);
       }
       return NextResponse.json({ message: "New user Created", status: 200 });
     }
