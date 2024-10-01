@@ -5,6 +5,9 @@ import { Webhook } from "svix";
 import { NextResponse } from "next/server";
 import { createUser } from "@/actions/user.actions";
 
+export const maxDuration = 300; // 300 seconds or 5 minutes
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
 
