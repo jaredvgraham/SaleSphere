@@ -9,6 +9,15 @@ export const maxDuration = 300; // 300 seconds or 5 minutes
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+  console.log("at clerk webhook");
+
   // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
 
   try {
