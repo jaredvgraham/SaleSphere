@@ -1,11 +1,13 @@
 "use client";
 import LogoutButton from "@/components/logoutButton";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import React from "react";
 
 const Dashboard = () => {
   const { userId } = useAuth();
+  const { user } = useUser();
   console.log("userId", userId);
+  console.log("user", user);
   return (
     <div>
       Dashboard

@@ -74,16 +74,13 @@ export async function POST(req: Request) {
       console.log("newUser", newUser);
 
       if (newUser) {
-        console.log("updating metadata");
-        console.log("updating metadata");
-        console.log("updating metadata");
-
-        const res = await clerkClient.users.updateUserMetadata(user.clerkId, {
-          publicMetadata: {
-            user_id: newUser._id,
-          },
-        });
-        console.log("res", res);
+        const params = {
+          externalId: newUser._id,
+        };
+        const response = await clerkClient.users.updateUser(
+          newUser.clerkId,
+          params
+        );
       }
       return NextResponse.json({ message: "New user Created", status: 200 });
     }
