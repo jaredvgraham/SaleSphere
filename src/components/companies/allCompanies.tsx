@@ -24,7 +24,7 @@ const AllCompanies = () => {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {companies.map((company) => (
+      {companies?.map((company) => (
         <div key={company._id}>{company.name}</div>
       ))}
     </div>
