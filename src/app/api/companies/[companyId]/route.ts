@@ -13,7 +13,7 @@ export async function GET(
     const { userId } = auth();
     await connectDB();
 
-    const user = await User.findOne({ clerlId: userId });
+    const user = await User.findOne({ clerkId: userId });
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
