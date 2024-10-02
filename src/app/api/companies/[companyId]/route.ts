@@ -2,25 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/userModel";
-import Company, { ICompany } from "@/models/companyModel";
-
-interface CompanyResponse {
-  company: ICompany;
-  related: ICompany[];
-  nearby: ICompany[];
-}
-
-const nearbyCompanies = async (company: ICompany) => {
-  return await Company.find({
-    _id: { $in: company.nearbyCompanyIds },
-  });
-};
-
-const relatedCompanies = async (company: ICompany) => {
-  return await Company.find({
-    _id: { $in: company.relatedCompanyIds },
-  });
-};
+import Company from "@/models/companyModel";
 
 export async function GET(
   req: NextRequest,
