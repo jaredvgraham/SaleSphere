@@ -2,7 +2,25 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/userModel";
-import Company from "@/models/companyModel";
+import Company, { ICompany } from "@/models/companyModel";
+
+interface CompanyResponse {
+  company: ICompany;
+  related: ICompany[];
+  nearby: ICompany[];
+}
+
+const nearbyCompanies = async (company: ICompany) => {
+  return await Company.find({
+    _id: { $in: company.nearbyCompanyIds },
+  });
+};
+
+const relatedCompanies = async (company: ICompany) => {
+  return await Company.find({
+    _id: { $in: company.relatedCompanyIds },
+  });
+};
 
 export async function GET(
   req: NextRequest,
@@ -22,13 +40,10 @@ export async function GET(
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
-
-    const relatedCompanies = await Company.find({
-      _id: { $in: company.relatedCompanyIds },
-    });
-    const nearbyCompanies = await Company.find({
-      _id: { $in: company.nearbyCompanyIds },
-    });
+    const [relatedCompanies, nearbyCompanies] = await Promise.all([
+      Company.find({ _id: { $in: company.relatedCompanyIds } }),
+      Company.find({ _id: { $in: company.nearbyCompanyIds } }),
+    ]);
 
     return NextResponse.json(
       { company: company, related: relatedCompanies, nearby: nearbyCompanies },
