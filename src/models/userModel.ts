@@ -7,7 +7,7 @@ export interface IUser {
   plan: "basic" | "standard" | "premium";
   companyIds?: Types.ObjectId[];
 }
-
+//
 const userSchema = new Schema({
   clerkId: {
     type: String,
