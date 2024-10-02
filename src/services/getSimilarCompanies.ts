@@ -26,29 +26,32 @@ Please list the nearby and related companies by name.
   ]
 }
 `;
+  try {
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are a helpful assistant." },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
 
-  const completion = await openai.chat.completions.create({
-    model: "gpt-4o-mini",
-    messages: [
-      { role: "system", content: "You are a helpful assistant." },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-  });
+    // console.log(completion.choices[0].message);
+    let res = completion.choices[0].message;
+    console.log("res", res);
+    console.log("token count", completion.usage?.total_tokens);
 
-  // console.log(completion.choices[0].message);
-  let res = completion.choices[0].message;
-  console.log("res", res);
-  console.log("token count", completion.usage?.total_tokens);
+    if (!res.content) {
+      throw new Error("No response from GPT-4o");
+    }
+    const jsonString = res.content.replace(/```json|```/g, "").trim();
 
-  if (!res.content) {
-    throw new Error("No response from GPT-4o");
+    // Parse the JSON string into an object
+    const companyData = JSON.parse(jsonString);
+    return companyData;
+  } catch (error) {
+    console.error(error);
   }
-  const jsonString = res.content.replace(/```json|```/g, "").trim();
-
-  // Parse the JSON string into an object
-  const companyData = JSON.parse(jsonString);
-  return companyData;
 };

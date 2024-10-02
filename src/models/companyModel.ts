@@ -8,9 +8,9 @@ export interface ICompany {
     coordinates: [number, number];
   };
   industry?: string;
-  nearbyCompanies?: Types.ObjectId[]; // Reference to other company documents
+  nearbyCompanyIds?: Types.ObjectId[]; // Reference to other company documents
   website?: string;
-  relatedCompanies?: Types.ObjectId[]; // Reference to other company documents
+  relatedCompanyIds?: Types.ObjectId[]; // Reference to other company documents
 }
 
 const companySchema = new Schema<ICompany>({
@@ -23,13 +23,12 @@ const companySchema = new Schema<ICompany>({
     },
     coordinates: {
       type: [Number],
-      required: true,
     },
   },
   industry: { type: String },
-  nearbyCompanies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], // Store ObjectId references to nearby companies
+  nearbyCompanyIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], // Store ObjectId references to nearby companies
   website: { type: String },
-  relatedCompanies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], // Store ObjectId references to related companies
+  relatedCompanyIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], // Store ObjectId references to related companies
 });
 
 // 2dsphere index for geospatial queries

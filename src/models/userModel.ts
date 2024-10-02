@@ -1,12 +1,11 @@
 import { Schema, model, models, Types } from "mongoose";
-import { ICompany } from "./companyModel";
 
 export interface IUser {
   clerkId: string;
   email: string;
   name: string;
   plan: "basic" | "standard" | "premium";
-  companiesIDS?: Types.ObjectId[];
+  companyIds?: Types.ObjectId[];
 }
 
 const userSchema = new Schema({
@@ -30,7 +29,7 @@ const userSchema = new Schema({
     enum: ["basic", "standard", "premium"],
     default: "basic",
   },
-  companies: [
+  companyIds: [
     {
       type: Types.ObjectId,
       ref: "Company",
