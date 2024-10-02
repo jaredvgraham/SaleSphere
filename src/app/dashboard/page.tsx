@@ -2,15 +2,33 @@
 import AllCompanies from "@/components/companies/allCompanies";
 import LogoutButton from "@/components/logoutButton";
 import { useAuthFetch } from "@/hooks/privateFetch";
+import { Company } from "@/types";
 import { useAuth, useSession, useUser } from "@clerk/nextjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const { userId } = useAuth();
-
   const [company, setCompany] = useState("");
+  const [companies, setCompanies] = useState<Company[]>([]);
 
   const authFetch = useAuthFetch();
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const res = await authFetch("companies", {
+          method: "GET",
+        });
+
+        console.log("companies", res);
+
+        setCompanies(res.companies);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchCompanies();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +57,7 @@ const Dashboard = () => {
         />
         <button type="submit">Submit</button>
       </form>
-      <AllCompanies />
+      <AllCompanies companies={companies} />
     </div>
   );
 };
