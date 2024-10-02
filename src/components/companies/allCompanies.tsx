@@ -4,25 +4,13 @@ import { ICompany } from "@/models/companyModel";
 import { Company } from "@/types";
 import React, { useEffect, useState } from "react";
 
-const AllCompanies = () => {
+type Props = {
+  companies: Company[];
+};
+
+const RootCompanies = ({ companies }: Props) => {
   const authFetch = useAuthFetch();
-  const [companies, setCompanies] = useState<Company[]>([]);
-  useEffect(() => {
-    const fetchCompanies = async () => {
-      try {
-        const res = await authFetch("companies", {
-          method: "GET",
-        });
-
-        console.log("companies", res);
-
-        setCompanies(res.companies);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchCompanies();
-  }, []);
+  console.log("companies from all companies", companies);
 
   return (
     <div className="grid grid-cols-3 gap-4">
@@ -33,4 +21,4 @@ const AllCompanies = () => {
   );
 };
 
-export default AllCompanies;
+export default RootCompanies;

@@ -1,15 +1,20 @@
 "use client";
-import AllCompanies from "@/components/companies/allCompanies";
+import RootCompanies from "@/components/companies/allCompanies";
 import LogoutButton from "@/components/logoutButton";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import { Company } from "@/types";
 import { useAuth, useSession, useUser } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
+import { set } from "mongoose";
+import React, { use, useEffect, useState } from "react";
 
 const Dashboard = () => {
   const { userId } = useAuth();
   const [company, setCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
+
+  useEffect(() => {
+    console.log("companies state", companies);
+  }, [companies]);
 
   const authFetch = useAuthFetch();
 
@@ -37,7 +42,9 @@ const Dashboard = () => {
         method: "POST",
         body: JSON.stringify({ company }),
       });
-      console.log("data", res);
+      console.log("res", res.mainCompany);
+
+      setCompanies((prevCompanies) => [...prevCompanies, res.mainCompany]);
     } catch (error) {
       console.error(error);
     }
@@ -57,7 +64,7 @@ const Dashboard = () => {
         />
         <button type="submit">Submit</button>
       </form>
-      <AllCompanies companies={companies} />
+      <RootCompanies companies={companies} />
     </div>
   );
 };
