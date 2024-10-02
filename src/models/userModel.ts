@@ -12,6 +12,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     unique: true,
+    index: true,
   },
   email: {
     type: String,
@@ -28,6 +29,8 @@ const userSchema = new Schema({
     default: "basic",
   },
 });
+
+userSchema.index({ clerkId: 1, email: 1 });
 
 const User = models.User || model<IUser>("User", userSchema);
 
