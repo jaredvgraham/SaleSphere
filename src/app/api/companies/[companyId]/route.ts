@@ -23,7 +23,17 @@ export async function GET(
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ company });
+    const relatedCompanies = await Company.find({
+      _id: { $in: company.relatedCompanyIds },
+    });
+    const nearbyCompanies = await Company.find({
+      _id: { $in: company.nearbyCompanyIds },
+    });
+
+    return NextResponse.json(
+      { company: company, related: relatedCompanies, nearby: nearbyCompanies },
+      { status: 200 }
+    );
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
