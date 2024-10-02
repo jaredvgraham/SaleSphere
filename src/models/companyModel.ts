@@ -1,6 +1,7 @@
 import mongoose, { Schema, model, models, Types } from "mongoose";
 
 export interface ICompany {
+  _id: Types.ObjectId;
   name: string;
   rootCompanyId?: Types.ObjectId;
   location?: {
