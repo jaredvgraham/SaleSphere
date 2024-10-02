@@ -26,7 +26,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className="max-h-screen  overflow-scroll">
       <h1>Dashboard</h1>
       <br />
       user id: {userId}

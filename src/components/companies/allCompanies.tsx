@@ -13,8 +13,10 @@ const AllCompanies = () => {
         const res = await authFetch("companies", {
           method: "GET",
         });
-        console.log("data", res);
-        setCompanies(res.data);
+
+        console.log("companies", res);
+
+        setCompanies(res.companies);
       } catch (error) {
         console.error(error);
       }

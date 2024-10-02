@@ -39,7 +39,7 @@ Please list the nearby and related companies by name.
     });
 
     // console.log(completion.choices[0].message);
-    let res = completion.choices[0].message;
+    const res = completion.choices[0].message;
     console.log("res", res);
     console.log("token count", completion.usage?.total_tokens);
 
