@@ -60,8 +60,8 @@ export async function POST(req: NextRequest) {
       "nearby"
     );
 
-    mainCompany.relatedCompanies = relatedCompanyIds;
-    mainCompany.nearbyCompanies = nearbyCompanyIds;
+    mainCompany.relatedCompanyIds = relatedCompanyIds;
+    mainCompany.nearbyCompanyIds = nearbyCompanyIds;
 
     user.companyIds.push(...relatedCompanyIds, ...nearbyCompanyIds);
 
@@ -76,8 +76,11 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// export async function GET(req: NextRequest) {
-//   const { userId } = auth();
-//   console.log("userId", userId);
-//   return NextResponse.json({ userId }, { status: 200 });
-// }
+export async function GET(req: NextRequest) {
+  const { userId } = auth();
+  const user = await User.findOne({ clerkId: userId });
+
+  const company = await Company.findOne({ name: "GymShark" });
+
+  return NextResponse.json({ company }, { status: 200 });
+}
