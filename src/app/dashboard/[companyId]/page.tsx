@@ -16,10 +16,10 @@ const CompanyPage = () => {
         const res = await authFetch(`companies/${companyId}`, {
           method: "GET",
         });
-        console.log("company", res.company);
+        console.log("company", res);
         setCompany(res.company);
-        setRelatedCompanies(res.company.relatedCompanies);
-        setNearbyCompanies(res.company.nearbyCompanies);
+        setRelatedCompanies(res.related);
+        setNearbyCompanies(res.nearby);
       };
       fetchCompany();
     } catch (error) {
@@ -27,16 +27,16 @@ const CompanyPage = () => {
     }
   }, [companyId]);
   return (
-    <div className="h-screen bg-white  overflow-scroll">
-      <div className="bg-black">
-        <h1 className="text-white">{company?.name}</h1>
-        <h2 className="text-white">Related Companies</h2>
+    <div className="h-screen  overflow-scroll">
+      <div className="">
+        <h1 className="">{company?.name}</h1>
+        <h2 className="">Related Companies</h2>
         <div className="grid grid-cols-3 gap-4">
           {relatedCompanies?.map((company) => (
             <div key={company._id}>{company.name}</div>
           ))}
         </div>
-        <h2 className="text-white">Nearby Companies</h2>
+        <h2 className="">Nearby Companies</h2>
         <div className="grid grid-cols-3 gap-4">
           {nearbyCompanies?.map((company) => (
             <div key={company._id}>{company.name}</div>
