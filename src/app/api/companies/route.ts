@@ -77,10 +77,22 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const { userId } = auth();
-  const user = await User.findOne({ clerkId: userId });
-
-  const company = await Company.findOne({ name: "GymShark" });
-
-  return NextResponse.json({ company }, { status: 200 });
+  try {
+    const { userId } = auth();
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+    const companies = await Company.find({ _id: { $in: user.companyIds } });
+    if (!companies) {
+      return NextResponse.json(
+        { error: "Companies not found" },
+        { status: 404 }
+      );
+    }
+    return NextResponse.json({ companies }, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({ status: 500, message: error });
+  }
 }
