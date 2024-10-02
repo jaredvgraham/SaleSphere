@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
     await user.save();
 
     // Placeholder for fetching/scraping company data for similarities to other companies
-    return NextResponse.json({ companyName }, { status: 200 });
+    return NextResponse.json({ mainCompany }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json({ status: 500, message: error });
@@ -85,7 +85,10 @@ export async function GET(req: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    const companies = await Company.find({ _id: { $in: user.companyIds } });
+    const companies = await Company.find({
+      _id: { $in: user.companyIds },
+      rootCompanyId: { $exists: false },
+    });
     if (!companies) {
       return NextResponse.json(
         { error: "Companies not found" },
