@@ -5,7 +5,7 @@ import CompanyPage from "@/components/companies/Company";
 
 const RelatedCompanyPage = () => {
   const { relatedId } = useParams();
-  return <CompanyPage companyId={relatedId as string} />;
+  return <CompanyPage companyId={relatedId as string} layerDeep={true} />;
 };
 
 export default RelatedCompanyPage;

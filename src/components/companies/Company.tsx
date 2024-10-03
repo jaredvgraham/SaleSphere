@@ -6,9 +6,10 @@ import React, { useEffect, useState } from "react";
 
 type Props = {
   companyId: string;
+  layerDeep: boolean;
 };
 
-const CompanyPage = ({ companyId }: Props) => {
+const CompanyPage = ({ companyId, layerDeep }: Props) => {
   const [company, setCompany] = useState<Company | null>(null);
   const [relatedCompanies, setRelatedCompanies] = useState<Company[]>([]);
   const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>([]);
@@ -52,7 +53,11 @@ const CompanyPage = ({ companyId }: Props) => {
         <div className="grid grid-cols-3 gap-4">
           {relatedCompanies.map((company) => (
             <div
-              onClick={() => router.push(`${pathname}/related/${company._id}`)}
+              onClick={() =>
+                layerDeep
+                  ? router.push(`${pathname}/end-layer/${company._id}`)
+                  : router.push(`${pathname}/related/${company._id}`)
+              }
               key={company._id}
             >
               {company.name}
@@ -63,7 +68,11 @@ const CompanyPage = ({ companyId }: Props) => {
         <div className="grid grid-cols-3 gap-4">
           {nearbyCompanies.map((company) => (
             <div
-              onClick={() => router.push(`${pathname}/nearby/${company._id}`)}
+              onClick={() =>
+                layerDeep
+                  ? router.push(`${pathname}/end-layer/${company._id}`)
+                  : router.push(`${pathname}/nearby/${company._id}`)
+              }
               key={company._id}
             >
               {company.name}

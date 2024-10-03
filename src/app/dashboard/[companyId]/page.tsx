@@ -6,7 +6,7 @@ import React from "react";
 
 const Company = () => {
   const { companyId } = useParams();
-  return <CompanyPage companyId={companyId as string} />;
+  return <CompanyPage companyId={companyId as string} layerDeep={false} />;
 };
 
 export default Company;
