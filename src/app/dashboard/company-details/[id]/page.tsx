@@ -2,22 +2,24 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { useAuthFetch } from "@/hooks/privateFetch";
 
 const CompanyDetails = () => {
   const { id } = useParams(); // Fetch the company ID from the URL parameters
   const [companyData, setCompanyData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
     // Fetch company data from the API
     const fetchCompanyData = async () => {
       try {
-        const response = await fetch(`/api/details/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch company data");
-        }
-        const data = await response.json();
+        const data = await authFetch(`details/${id}`);
+
+        console.log("data", data);
+        console.log("rootRelation", data.companyData.rootRelation);
+
         setCompanyData(data.companyData); // Store the company data
       } catch (err: any) {
         setError(err.message);
@@ -66,7 +68,7 @@ const CompanyDetails = () => {
       </div>
       <div className="mb-4">
         <h2 className="text-xl font-semibold">Relation to Root Company</h2>
-        <p>{companyData.rootRelation || "No relation data available."}</p>
+        <p>{companyData.rootRelation}</p>
       </div>
     </div>
   );

@@ -1,5 +1,14 @@
 import mongoose, { Schema, model, models, Types } from "mongoose";
 
+export interface WikiData {
+  summary?: string;
+  products?: string;
+  revenue?: string;
+  keyPeople?: string;
+  competitors?: string;
+  rootRelation?: string;
+}
+
 export interface ICompany {
   _id: Types.ObjectId;
   name: string;
@@ -14,7 +23,17 @@ export interface ICompany {
   relatedCompanyIds?: Types.ObjectId[]; // Reference to other company documents
   onDashboard: boolean;
   createdAt?: Date;
+  wikiData?: WikiData;
 }
+
+const wikiDataSchema = new Schema<WikiData>({
+  summary: { type: String },
+  products: { type: String },
+  revenue: { type: String },
+  keyPeople: { type: String },
+  competitors: { type: String },
+  rootRelation: { type: String },
+});
 
 const companySchema = new Schema<ICompany>({
   name: { type: String, required: true },
@@ -34,6 +53,7 @@ const companySchema = new Schema<ICompany>({
   relatedCompanyIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], // Store ObjectId references to related companies
   onDashboard: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
+  wikiData: { type: wikiDataSchema, default: {} },
 });
 
 // 2dsphere index for geospatial queries

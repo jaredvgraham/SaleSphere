@@ -29,6 +29,15 @@ export async function GET(
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
+    console.log("wikiData", company.wikiData);
+
+    if (company.wikiData.summary) {
+      return NextResponse.json(
+        { companyData: company.wikiData },
+        { status: 200 }
+      );
+    }
+
     console.log(company.name);
     const rootCompany = await Company.findOne({
       _id: company.rootCompanyId,
@@ -50,7 +59,8 @@ export async function GET(
       rootRelation: "",
     };
 
-    companyData.rootRelation = await getDetails(rootCompany.name, company.name);
+    const corr = await getDetails(rootCompany.name, company.name);
+    companyData.rootRelation = corr;
 
     const wikiData = await wikiScraper(company.name);
     if (!wikiData) {
@@ -59,11 +69,18 @@ export async function GET(
         { status: 500 }
       );
     }
+    console.log("relatio", companyData.rootRelation);
+
     companyData.summary = wikiData.summary;
     companyData.products = wikiData.products;
     companyData.revenue = wikiData.revenue;
     companyData.keyPeople = wikiData.keyPeople;
     companyData.competitors = wikiData.competitors;
+
+    console.log("sending data", companyData);
+    company.wikiData = companyData;
+    await company.save();
+
     return NextResponse.json({ companyData }, { status: 200 });
   } catch (error: any) {
     console.error(error);
