@@ -51,6 +51,7 @@ export async function POST(req: NextRequest) {
     }
     const mainCompany = new Company({
       name: companyName,
+      website: companyData.website,
     });
     await mainCompany.save();
 

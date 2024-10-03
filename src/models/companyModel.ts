@@ -13,6 +13,7 @@ export interface ICompany {
   website?: string;
   relatedCompanyIds?: Types.ObjectId[]; // Reference to other company documents
   onDashboard: boolean;
+  createdAt?: Date;
 }
 
 const companySchema = new Schema<ICompany>({
@@ -32,6 +33,7 @@ const companySchema = new Schema<ICompany>({
   website: { type: String },
   relatedCompanyIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }], // Store ObjectId references to related companies
   onDashboard: { type: Boolean, default: false },
+  createdAt: { type: Date, default: Date.now },
 });
 
 // 2dsphere index for geospatial queries

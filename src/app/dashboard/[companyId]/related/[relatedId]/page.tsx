@@ -1,11 +1,11 @@
 "use client";
 import { useParams } from "next/navigation";
 import React from "react";
-import CompanyPage from "../../page";
+import CompanyPage from "@/components/companies/Company";
 
 const RelatedCompanyPage = () => {
-  const { companyId } = useParams();
-  return <CompanyPage companyIdProp={companyId as string} />;
+  const { relatedId } = useParams();
+  return <CompanyPage companyId={relatedId as string} />;
 };
 
 export default RelatedCompanyPage;

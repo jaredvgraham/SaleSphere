@@ -50,6 +50,7 @@ export async function GET(
 
       company.relatedCompanyIds = relatedCompanyIds;
       company.nearbyCompanyIds = nearbyCompanyIds;
+      company.website = companyData.website;
       await company.save();
     }
 
