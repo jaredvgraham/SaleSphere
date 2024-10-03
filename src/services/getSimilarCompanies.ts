@@ -2,7 +2,17 @@ import { openai } from "@/lib/chatGPT";
 
 export const getSimilarCompanies = async (company: string) => {
   const prompt = `Provide detailed information about the company ${company}. I would like to know:
-1. The industry this company operates in.
+1. The industry this company operates in. Choose from the following list of industries:
+   - Technology
+   - Healthcare
+   - Finance
+   - Energy
+   - Manufacturing
+   - Retail
+   - Telecommunications
+   - Automotive
+   - Agriculture
+   - Hospitality and Tourism
 2. A list of find where ${company} is located and give me 10 companies within a 5 mile radius of their address 
 3. ${company}'s official website.
 4. A list of 100 related or similar companies.

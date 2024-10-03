@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
     const mainCompany = new Company({
       name: companyName,
       website: companyData.website,
+      industry: companyData.industry,
     });
     await mainCompany.save();
 
@@ -117,7 +118,12 @@ export async function GET(req: NextRequest) {
         { status: 404 }
       );
     }
-    return NextResponse.json({ companies }, { status: 200 });
+    console.log("length", user.companyIds.length);
+
+    return NextResponse.json(
+      { companies, totalCompanies: user.companyIds.length },
+      { status: 200 }
+    );
   } catch (error) {
     console.log(error);
     return NextResponse.json({ status: 500, message: error });
