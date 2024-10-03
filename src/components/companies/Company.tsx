@@ -45,37 +45,106 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   }, [companyId]); // Dependency array updated
 
   return (
-    <div className="h-screen overflow-scroll">
-      <div>
-        <h1>{company?.name}</h1>
-        <h2>Website: {company?.website}</h2>
-        <h2>Related Companies</h2>
-        <div className="grid grid-cols-3 gap-4">
-          {relatedCompanies.map((company) => (
+    <div className="h-screen overflow-scroll bg-gray-50 p-8">
+      {/* Company Information Section */}
+      <div className="bg-white shadow-md rounded-lg p-8 mb-10">
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">
+          {company?.name}
+        </h1>
+        <p className="text-lg text-gray-600 mb-4">
+          <span className="font-semibold">Website:</span>{" "}
+          <a
+            href={company?.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            {company?.website}
+          </a>
+        </p>
+      </div>
+
+      {/* Related Companies Section */}
+      <div className="mb-10">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Related Companies
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {relatedCompanies.map((relatedCompany) => (
             <div
-              onClick={() =>
-                layerDeep
-                  ? router.push(`${pathname}/end-layer/${company._id}`)
-                  : router.push(`${pathname}/related/${company._id}`)
-              }
-              key={company._id}
+              key={relatedCompany._id}
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-300"
             >
-              {company.name}
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {relatedCompany.name}
+              </h3>
+              <div className="flex flex-col items-start  mb-2">
+                <button
+                  className="text-blue-600 font-semibold hover:underline"
+                  onClick={() =>
+                    router.push(`company-details/${relatedCompany._id}`)
+                  }
+                >
+                  More Details →
+                </button>
+                {!layerDeep && (
+                  <button
+                    className="text-blue-600 font-semibold hover:underline"
+                    onClick={() =>
+                      router.push(`${pathname}/related/${relatedCompany._id}`)
+                    }
+                  >
+                    More related to{" "}
+                    <strong className="text-gray-700">
+                      {relatedCompany.name}
+                    </strong>{" "}
+                    →
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
-        <h2>Nearby Companies</h2>
-        <div className="grid grid-cols-3 gap-4">
-          {nearbyCompanies.map((company) => (
+      </div>
+
+      {/* Nearby Companies Section */}
+      <div>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Nearby Companies
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {nearbyCompanies.map((nearbyCompany) => (
             <div
-              onClick={() =>
-                layerDeep
-                  ? router.push(`${pathname}/end-layer/${company._id}`)
-                  : router.push(`${pathname}/nearby/${company._id}`)
-              }
-              key={company._id}
+              key={nearbyCompany._id}
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-300"
             >
-              {company.name}
+              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                {nearbyCompany.name}
+              </h3>
+              <div className="flex flex-col items-start  mb-2">
+                <button
+                  className="text-blue-600 font-semibold hover:underline"
+                  onClick={() =>
+                    router.push(`company-details/${nearbyCompany._id}`)
+                  }
+                >
+                  More Details →
+                </button>
+                {!layerDeep && (
+                  <button
+                    className="text-blue-600 font-semibold hover:underline"
+                    onClick={() =>
+                      router.push(`${pathname}/nearby/${nearbyCompany._id}`)
+                    }
+                  >
+                    More related to{" "}
+                    <strong className="text-gray-700">
+                      {nearbyCompany.name}
+                    </strong>{" "}
+                    →
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>

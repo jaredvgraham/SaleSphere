@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import RootCompanies from "@/components/companies/allCompanies";
+import RootCompanies from "@/components/companies/RootCompanies";
 import LogoutButton from "@/components/logoutButton";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import { Company } from "@/types";
@@ -16,6 +16,7 @@ const Dashboard = () => {
   const [selectedIndustryCompanies, setSelectedIndustryCompanies] = useState<
     Company[] | null
   >([]);
+  const [selectedIndustry, setSelectedIndustry] = useState("");
   const [totalCompanies, setTotalCompanies] = useState(0);
 
   const authFetch = useAuthFetch();
@@ -55,6 +56,7 @@ const Dashboard = () => {
 
   // Function to show businesses based on selected industry
   const showBusinesses = (industryName: string) => {
+    setSelectedIndustry(industryName);
     const filteredCompanies = companies.filter(
       (comp) => comp.industry === industryName
     );
@@ -80,7 +82,7 @@ const Dashboard = () => {
     <div className="h-screen bg-slate-50 overflow-scroll">
       <form
         onSubmit={handleSubmit}
-        className="w-2/3 mx-auto p-6 rounded-3xl mt-10 shadow-xl bg-white"
+        className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-white"
       >
         <h2 className="text-center text-4xl text-gray-900 font-semibold mb-6 italic">
           <label htmlFor="company">Add new Company</label>
@@ -102,29 +104,39 @@ const Dashboard = () => {
         </div>
       </form>
 
-      <div className="grid grid-cols-2 gap-4 p-6 w-full">
-        <div className="bg-white rounded-xl p-2">
+      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 p-6 w-full">
+        <div className="bg-white rounded-xl p-2 shadow-lg">
           <h2 className="text-xl ml-4 italic p-2">Industries</h2>
           <IndustryChart
             industryData={industryData}
             showBusinesses={showBusinesses}
           />
         </div>
-        <div className="bg-white rounded-xl p-2">
+        <div className="bg-white rounded-xl p-2 shadow-lg">
           <h2 className="text-xl ml-4 italic p-2">Total Companies</h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />
         </div>
       </div>
-
-      <div className="p-6 w-full">
-        <h2 className="text-xl">All Companies</h2>
-        <RootCompanies companies={companies} />
-      </div>
+      {!selectedIndustryCompanies && (
+        <div className="p-6 w-full">
+          <h2 className="text-xl">Root Companies</h2>
+          <RootCompanies companies={companies} />
+        </div>
+      )}
 
       {selectedIndustryCompanies && (
         <div className="p-6 w-full">
-          <h2 className="text-xl">Selected Industry Companies</h2>
+          <div className="flex  items-center p-2">
+            <h2 className="text-xl">{selectedIndustry} Companies</h2>
+
+            <button
+              onClick={() => setSelectedIndustryCompanies(null)}
+              className="ml-4 bg-gradient-to-r from-gray-600 to-black text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300 ease-in-out hover:bg-gray-800"
+            >
+              Show all companies
+            </button>
+          </div>
           <RootCompanies companies={selectedIndustryCompanies} />
         </div>
       )}
