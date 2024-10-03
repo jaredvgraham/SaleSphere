@@ -40,6 +40,15 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
+    const userCompanies = await Company.find({ _id: { $in: user.companyIds } });
+    if (userCompanies.length > 0) {
+      if (userCompanies.some((company) => company.name === companyName)) {
+        return NextResponse.json(
+          { error: "Company already exists" },
+          { status: 400 }
+        );
+      }
+    }
     const mainCompany = new Company({
       name: companyName,
     });
