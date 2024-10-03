@@ -21,7 +21,7 @@ const RootCompanies = ({ companies }: Props) => {
           onClick={() => router.push(`/dashboard/${company._id}`)}
           key={company._id}
         >
-          {company.name}
+          <h2 className=" cursor-pointer"> {company.name}</h2>
         </div>
       ))}
     </div>
