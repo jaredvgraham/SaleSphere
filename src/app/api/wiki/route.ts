@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     // Variables to store summary and paragraph count
     let summary = "";
     let paragraphCount = 0;
-
+    //
     // Loop through paragraphs to find a valid one and construct a longer summary
     $("p").each((i, elem) => {
       let paragraph = $(elem).text().trim();
