@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Loader from "@/components/loader";
 
 const CompanyDetails = () => {
   const { id } = useParams(); // Fetch the company ID from the URL parameters
@@ -30,7 +31,7 @@ const CompanyDetails = () => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading company details...</p>;
+    return <Loader />;
   }
 
   if (error) {

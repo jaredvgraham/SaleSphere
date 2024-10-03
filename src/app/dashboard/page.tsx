@@ -7,6 +7,7 @@ import { Company } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import IndustryChart from "@/components/companies/dashboard/IndustryChart";
 import TotalCompaniesChart from "@/components/companies/dashboard/TotalCompaniesChart";
+import Loader from "@/components/loader";
 // Import your chart component
 
 const Dashboard = () => {
@@ -18,6 +19,7 @@ const Dashboard = () => {
   >([]);
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [totalCompanies, setTotalCompanies] = useState(0);
+  const [isLoading, setIsLoading] = useState(false); // State for loading
 
   const authFetch = useAuthFetch();
 
@@ -43,14 +45,18 @@ const Dashboard = () => {
   // Handle form submission to add a new company
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true); // Show loader
     try {
       const res = await authFetch("companies", {
         method: "POST",
         body: JSON.stringify({ company }),
       });
       setCompanies((prevCompanies) => [...prevCompanies, res.mainCompany]);
+      setCompany("");
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false); // Hide loader
     }
   };
 
@@ -79,7 +85,8 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-slate-50 overflow-scroll">
+    <div className="h-screen bg-slate-50 overflow-scroll relative">
+      {isLoading && <Loader />} {/* Show the loader when loading */}
       <form
         onSubmit={handleSubmit}
         className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-white"
@@ -103,7 +110,6 @@ const Dashboard = () => {
           </button>
         </div>
       </form>
-
       <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 p-6 w-full">
         <div className="bg-white rounded-xl p-2 shadow-lg">
           <h2 className="text-xl ml-4 italic p-2">Industries</h2>
@@ -126,7 +132,6 @@ const Dashboard = () => {
           <RootCompanies companies={companies} />
         </div>
       )}
-
       {selectedIndustryCompanies && (
         <div className="p-6 w-full">
           <div className="flex  items-center p-2">
