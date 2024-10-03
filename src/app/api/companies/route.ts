@@ -40,11 +40,14 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-
     const mainCompany = new Company({
       name: companyName,
     });
     await mainCompany.save();
+
+    if (!mainCompany.rootCompanyId) {
+      mainCompany.onDashboard = true;
+    }
 
     user.companyIds.push(mainCompany._id);
 
@@ -87,7 +90,7 @@ export async function GET(req: NextRequest) {
     }
     const companies = await Company.find({
       _id: { $in: user.companyIds },
-      rootCompanyId: { $exists: false },
+      onDashboard: true,
     });
     if (!companies) {
       return NextResponse.json(
