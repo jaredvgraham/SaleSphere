@@ -3,6 +3,8 @@ import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/userModel";
 import Company from "@/models/companyModel";
+import { getSimilarCompanies } from "@/services/getSimilarCompanies";
+import { addCompanies } from "@/services/mongo/addCompanies";
 
 export async function GET(
   req: NextRequest,
@@ -26,6 +28,30 @@ export async function GET(
       Company.find({ _id: { $in: company.relatedCompanyIds } }),
       Company.find({ _id: { $in: company.nearbyCompanyIds } }),
     ]);
+
+    if (relatedCompanies.length === 0 || nearbyCompanies.length === 0) {
+      const companyData = await getSimilarCompanies(company.name);
+      if (!companyData) {
+        return NextResponse.json(
+          { error: "Company info not found" },
+          { status: 404 }
+        );
+      }
+      const relatedCompanyIds = await addCompanies(
+        companyData.relatedCompanies,
+        company._id,
+        "related"
+      );
+      const nearbyCompanyIds = await addCompanies(
+        companyData.nearbyCompanies,
+        company._id,
+        "nearby"
+      );
+
+      company.relatedCompanyIds = relatedCompanyIds;
+      company.nearbyCompanyIds = nearbyCompanyIds;
+      await company.save();
+    }
 
     return NextResponse.json(
       { company: company, related: relatedCompanies, nearby: nearbyCompanies },
