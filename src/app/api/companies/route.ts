@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
 
     if (!mainCompany.rootCompanyId) {
       mainCompany.onDashboard = true;
+      await mainCompany.save();
     }
 
     user.companyIds.push(mainCompany._id);

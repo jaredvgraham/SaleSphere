@@ -1,15 +1,24 @@
 "use client";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import { Company } from "@/types";
-import { useParams } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const CompanyPage = () => {
-  const { companyId } = useParams();
+type Props = {
+  companyIdProp: string;
+};
+
+const CompanyPage = ({ companyIdProp }: Props) => {
+  const params = useParams();
+  console.log("params", params);
+  const companyId = companyIdProp || params.companyId;
+
   const authFetch = useAuthFetch();
   const [company, setCompany] = useState<Company>();
   const [relatedCompanies, setRelatedCompanies] = useState<Company[]>();
   const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>();
+  const router = useRouter();
+  const pathname = usePathname();
   useEffect(() => {
     try {
       const fetchCompany = async () => {
@@ -33,13 +42,23 @@ const CompanyPage = () => {
         <h2 className="">Related Companies</h2>
         <div className="grid grid-cols-3 gap-4">
           {relatedCompanies?.map((company) => (
-            <div key={company._id}>{company.name}</div>
+            <div
+              onClick={() => router.push(`${pathname}/related/${company._id}`)}
+              key={company._id}
+            >
+              {company.name}
+            </div>
           ))}
         </div>
         <h2 className="">Nearby Companies</h2>
         <div className="grid grid-cols-3 gap-4">
           {nearbyCompanies?.map((company) => (
-            <div key={company._id}>{company.name}</div>
+            <div
+              onClick={() => router.push(`${pathname}/nearby/${company._id}`)}
+              key={company._id}
+            >
+              {company.name}
+            </div>
           ))}
         </div>
       </div>
