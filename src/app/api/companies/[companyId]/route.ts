@@ -37,16 +37,39 @@ export async function GET(
           { status: 404 }
         );
       }
+
+      let filteredRelatedCompanies = [];
+      let filteredNearbyCompanies = [];
+      for (const relatedCompany of companyData.relatedCompanies) {
+        if (relatedCompanies.some((c) => c.name === relatedCompany)) {
+          continue;
+        }
+        filteredRelatedCompanies.push(relatedCompany);
+      }
+      for (const nearbyCompany of companyData.nearbyCompanies) {
+        if (nearbyCompanies.some((c) => c.name === nearbyCompany)) {
+          continue;
+        }
+        filteredNearbyCompanies.push(nearbyCompany);
+      }
       const relatedCompanyIds = await addCompanies(
-        companyData.relatedCompanies,
+        filteredRelatedCompanies,
         company._id,
         "related"
       );
       const nearbyCompanyIds = await addCompanies(
-        companyData.nearbyCompanies,
+        filteredNearbyCompanies,
         company._id,
         "nearby"
       );
+
+      for (const relatedCompanyId of relatedCompanyIds) {
+        user.companyIds.push(relatedCompanyId);
+      }
+      for (const nearbyCompanyId of nearbyCompanyIds) {
+        user.companyIds.push(nearbyCompanyId);
+      }
+      await user.save();
 
       company.relatedCompanyIds = relatedCompanyIds;
       company.nearbyCompanyIds = nearbyCompanyIds;
