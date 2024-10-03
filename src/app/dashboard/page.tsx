@@ -113,7 +113,9 @@ const Dashboard = () => {
           />
         </div>
         <div className="bg-white rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl ml-4 italic p-2">Total Companies</h2>
+          <h2 className="text-xl ml-4 italic p-2">
+            Total Companies<strong> {totalCompanies}</strong>
+          </h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />
         </div>
