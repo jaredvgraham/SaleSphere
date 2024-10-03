@@ -50,8 +50,8 @@ export async function GET(
       );
     }
 
-    let filteredRelatedCompanies = [];
-    let filteredNearbyCompanies = [];
+    const filteredRelatedCompanies = [];
+    const filteredNearbyCompanies = [];
 
     const userCompanyNames = await Promise.all(
       user.companyIds.map(async (id: ObjectId) => {
