@@ -45,9 +45,14 @@ export async function POST(req: NextRequest) {
     });
     await mainCompany.save();
 
-    if (!mainCompany.rootCompanyId) {
-      mainCompany.onDashboard = true;
-      await mainCompany.save();
+    const companyCheck = await Company.findOne({ _id: mainCompany._id });
+    if (!companyCheck) {
+      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    }
+
+    if (!companyCheck.rootCompanyId) {
+      companyCheck.onDashboard = true;
+      await companyCheck.save();
     }
 
     user.companyIds.push(mainCompany._id);
@@ -93,6 +98,9 @@ export async function GET(req: NextRequest) {
       _id: { $in: user.companyIds },
       onDashboard: true,
     });
+    for (let i = 0; i < companies.length; i++) {
+      console.log("company on dqah", companies[i].onDashboard);
+    }
     if (!companies) {
       return NextResponse.json(
         { error: "Companies not found" },
