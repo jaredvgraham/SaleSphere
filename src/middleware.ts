@@ -9,11 +9,11 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware(
   (auth, request) => {
-    if (!isPublicRoute(request)) {
+    if (!isPublicRoute(request) && !request.url.startsWith("/api/webhooks")) {
       auth().protect();
     }
-  }
-  // { debug: true }
+  },
+  { debug: true }
 );
 
 export const config = {
