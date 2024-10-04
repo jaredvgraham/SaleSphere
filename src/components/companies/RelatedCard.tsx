@@ -11,22 +11,29 @@ type Props = {
 
 const RelatedCard = ({ relatedCompany, pathname }: Props) => {
   const authFetch = useAuthFetch();
-  const [isFavoriting, setIsFavoriting] = useState(false); // Controls animation
+  const [isFavoriting, setIsFavoriting] = useState(false);
+  console.log("relatedCompany", relatedCompany);
 
   const handleFavClick = async (companyId: string) => {
-    setIsFavoriting(true); // Start animation
-    if (relatedCompany.favorite) {
+    console.log("fav clicked");
+    console.log("companyId", companyId);
+    console.log("relatedCompany", relatedCompany);
+
+    setIsFavoriting(true);
+    if (relatedCompany.favorite === true) {
       await authFetch(`add-favorite`, {
         method: "PATCH",
         body: JSON.stringify({ companyId }),
       });
+      relatedCompany.favorite = false;
     } else {
-      await authFetch(`remove-favorite`, {
+      await authFetch(`add-favorite`, {
         method: "POST",
         body: JSON.stringify({ companyId }),
       });
+      relatedCompany.favorite = true;
     }
-    setIsFavoriting(false); // End animation
+    setIsFavoriting(false);
   };
 
   return (

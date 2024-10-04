@@ -3,9 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 import Company from "@/models/companyModel";
 
 export async function POST(req: NextRequest) {
-  const { companyId } = await req.json();
-
   try {
+    const { companyId } = await req.json();
     await connectDB();
     if (!companyId) {
       return NextResponse.json(
@@ -18,6 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
     company.favorite = true;
+    company.markModified("favorite");
     await company.save();
     return NextResponse.json({ message: "Favorite added" }, { status: 200 });
   } catch (error: any) {
