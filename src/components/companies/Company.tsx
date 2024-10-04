@@ -1,6 +1,7 @@
 "use client";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import { Company } from "@/types";
+import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -79,14 +80,12 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
                 {relatedCompany.name}
               </h3>
               <div className="flex flex-col items-start  mb-2">
-                <button
+                <Link
                   className="text-blue-600 font-semibold hover:underline"
-                  onClick={() =>
-                    router.push(`company-details/${relatedCompany._id}`)
-                  }
+                  href={`/company-details/${relatedCompany._id}`}
                 >
                   More Details →
-                </button>
+                </Link>
                 {!layerDeep && (
                   <button
                     className="text-blue-600 font-semibold hover:underline"
@@ -122,14 +121,12 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
                 {nearbyCompany.name}
               </h3>
               <div className="flex flex-col items-start  mb-2">
-                <button
+                <Link
                   className="text-blue-600 font-semibold hover:underline"
-                  onClick={() =>
-                    router.push(`company-details/${nearbyCompany._id}`)
-                  }
+                  href={`/company-details/${nearbyCompany._id}`}
                 >
                   More Details →
-                </button>
+                </Link>
                 {!layerDeep && (
                   <button
                     className="text-blue-600 font-semibold hover:underline"
