@@ -67,7 +67,7 @@ const CompanyDetails = () => {
             rel="noopener noreferrer"
             className="text-blue-500 hover:underline"
           >
-            {companyData.website}
+            {companyData.website || "No website available."}
           </a>
         </div>
       </div>
