@@ -25,6 +25,7 @@ export interface ICompany {
   onDashboard: boolean;
   createdAt?: Date;
   wikiData?: WikiData;
+  favorite: boolean;
 }
 
 const wikiDataSchema = new Schema<WikiData>({
@@ -56,6 +57,7 @@ const companySchema = new Schema<ICompany>({
   onDashboard: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   wikiData: { type: wikiDataSchema, default: {} },
+  favorite: { type: Boolean, default: false },
 });
 
 // 2dsphere index for geospatial queries
