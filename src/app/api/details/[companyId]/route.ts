@@ -31,13 +31,17 @@ export async function GET(
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
-    console.log("wikiData", company.wikiData);
+    const companyDataCheck = company.wikiData
+      ? company.wikiData.toObject()
+      : null;
 
-    if (company.wikiData.summary) {
-      return NextResponse.json(
-        { companyData: company.wikiData },
-        { status: 200 }
-      );
+    if (companyDataCheck?.summary) {
+      const dataToSend = {
+        ...companyDataCheck,
+        name: company.name,
+      };
+      console.log("sending data", dataToSend);
+      return NextResponse.json({ companyData: dataToSend }, { status: 200 });
     }
 
     console.log(company.name);

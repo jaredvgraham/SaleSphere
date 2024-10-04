@@ -20,6 +20,7 @@ const CompanyDetails = () => {
         console.log("Company data:", data);
 
         setCompanyData(data.companyData); // Store the company data
+        console.log("name", data.companyData.name);
       } catch (err: any) {
         setError(err.message);
       } finally {
