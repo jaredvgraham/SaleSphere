@@ -5,6 +5,7 @@ import Company from "@/models/companyModel";
 import { connectDB } from "@/lib/db";
 import { getDetails } from "@/services/chatGPT/getDetails";
 import { wikiScraper } from "@/services/scraping/wiki";
+import { getWebsite } from "@/services/chatGPT/getWebsite";
 
 type WikiData = {
   name: string;
@@ -14,6 +15,7 @@ type WikiData = {
   keyPeople: string;
   competitors: string;
   rootRelation: string;
+  website: string;
 };
 
 export async function GET(
@@ -57,10 +59,16 @@ export async function GET(
       keyPeople: "",
       competitors: "",
       rootRelation: "",
+      website: "",
     };
 
-    const corr = await getDetails(rootCompany.name, company.name);
+    const [corr, website] = await Promise.all([
+      getDetails(rootCompany.name, company.name),
+      getWebsite(company.name),
+    ]);
+
     companyData.rootRelation = corr;
+    companyData.website = website;
 
     const wikiData = await wikiScraper(company.name);
     if (!wikiData) {

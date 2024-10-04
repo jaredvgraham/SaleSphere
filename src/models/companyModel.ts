@@ -7,6 +7,7 @@ export interface WikiData {
   keyPeople?: string;
   competitors?: string;
   rootRelation?: string;
+  website?: string;
 }
 
 export interface ICompany {
@@ -33,6 +34,7 @@ const wikiDataSchema = new Schema<WikiData>({
   keyPeople: { type: String },
   competitors: { type: String },
   rootRelation: { type: String },
+  website: { type: String },
 });
 
 const companySchema = new Schema<ICompany>({

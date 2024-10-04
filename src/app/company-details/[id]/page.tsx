@@ -56,6 +56,22 @@ const CompanyDetails = () => {
       </div>
 
       {/* Company Details Section */}
+      {/* website */}
+
+      <div className="max-w-5xl mx-auto">
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">Website</h2>
+          <a
+            href={companyData.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 hover:underline"
+          >
+            {companyData.website}
+          </a>
+        </div>
+      </div>
+
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Summary Card */}
         <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
