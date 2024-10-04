@@ -6,6 +6,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Loader from "../loader";
 import { set } from "mongoose";
+import RelatedCard from "./RelatedCard";
 
 type Props = {
   companyId: string;
@@ -104,36 +105,11 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {relatedCompanies.map((relatedCompany) => (
-            <div
+            <RelatedCard
               key={relatedCompany._id}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-300"
-            >
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {relatedCompany.name}
-              </h3>
-              <div className="flex flex-col items-start  mb-2">
-                <Link
-                  className="text-blue-600 font-semibold hover:underline"
-                  href={`/company-details/${relatedCompany._id}`}
-                >
-                  More Details →
-                </Link>
-                {/* {!layerDeep && ( */}
-                <Link
-                  className="text-blue-600 font-semibold hover:underline"
-                  href={`${pathname.split("related")[0]}/related/${
-                    relatedCompany._id
-                  }`}
-                >
-                  More related to{" "}
-                  <strong className="text-gray-700">
-                    {relatedCompany.name}
-                  </strong>{" "}
-                  →
-                </Link>
-                {/* )} */}
-              </div>
-            </div>
+              relatedCompany={relatedCompany}
+              pathname={pathname}
+            />
           ))}
         </div>
       </div>

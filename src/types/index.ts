@@ -10,4 +10,5 @@ export interface Company {
   nearbyCompanyIds?: string[]; // Reference to other company documents
   website?: string;
   relatedCompanyIds?: string[]; // Reference to other company documents
+  favorite?: boolean;
 }
