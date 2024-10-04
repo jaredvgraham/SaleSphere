@@ -19,11 +19,10 @@ const Dashboard = () => {
   >([]);
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [totalCompanies, setTotalCompanies] = useState(0);
-  const [isLoading, setIsLoading] = useState(false); // State for loading
+  const [isLoading, setIsLoading] = useState(false);
 
   const authFetch = useAuthFetch();
 
-  // Fetch companies from the API
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -42,10 +41,9 @@ const Dashboard = () => {
     fetchCompanies();
   }, []);
 
-  // Handle form submission to add a new company
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true); // Show loader
+    setIsLoading(true);
     try {
       const res = await authFetch("companies", {
         method: "POST",
@@ -56,20 +54,18 @@ const Dashboard = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setIsLoading(false); // Hide loader
+      setIsLoading(false);
     }
   };
 
-  // Function to show businesses based on selected industry
   const showBusinesses = (industryName: string) => {
     setSelectedIndustry(industryName);
     const filteredCompanies = companies.filter(
       (comp) => comp.industry === industryName
     );
-    setSelectedIndustryCompanies(filteredCompanies); // This will show businesses from the selected industry
+    setSelectedIndustryCompanies(filteredCompanies);
   };
 
-  // Prepare industry data for the IndustryChart component
   const industryData = companies.reduce((acc: any, curr: Company) => {
     if ((curr.favorite === true && !curr.rootCompanyId) || !curr.industry) {
       return acc;
@@ -78,10 +74,8 @@ const Dashboard = () => {
     const industryIndex = acc.findIndex((ind: any) => ind.name === industry);
 
     if (industryIndex === -1) {
-      // If the industry does not exist in the accumulator, add it
       acc.push({ name: industry, businessCount: 1 });
     } else {
-      // Otherwise, increase the count for that industry
       acc[industryIndex].businessCount++;
     }
     return acc;
