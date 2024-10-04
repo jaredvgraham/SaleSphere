@@ -66,15 +66,15 @@ export async function GET(
       website: "",
     };
 
-    const [corr, website] = await Promise.all([
+    const [corr, website, wikiData] = await Promise.all([
       getDetails(rootCompany.name, company.name),
       getWebsite(company.name),
+      wikiScraper(company.name),
     ]);
 
     companyData.rootRelation = corr;
     companyData.website = website;
 
-    const wikiData = await wikiScraper(company.name);
     if (!wikiData) {
       return NextResponse.json(
         { error: "Failed to fetch company data from Wikipedia" },
