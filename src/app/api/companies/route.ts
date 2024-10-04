@@ -107,7 +107,7 @@ export async function GET(req: NextRequest) {
     }
     const companies = await Company.find({
       _id: { $in: user.companyIds },
-      onDashboard: true,
+      $or: [{ onDashboard: true }, { favorite: true }],
     });
     for (let i = 0; i < companies.length; i++) {
       console.log("company on dqah", companies[i].onDashboard);

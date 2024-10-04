@@ -71,6 +71,9 @@ const Dashboard = () => {
 
   // Prepare industry data for the IndustryChart component
   const industryData = companies.reduce((acc: any, curr: Company) => {
+    if (curr.favorite === true) {
+      return acc;
+    }
     const industry = curr.industry || "Unknown Industry";
     const industryIndex = acc.findIndex((ind: any) => ind.name === industry);
 
@@ -127,10 +130,20 @@ const Dashboard = () => {
         </div>
       </div>
       {!selectedIndustryCompanies && (
-        <div className="p-6 w-full">
-          <h2 className="text-xl">Root Companies</h2>
-          <RootCompanies companies={companies} />
-        </div>
+        <>
+          <div className="p-6 w-full">
+            <h2 className="text-xl">Root Companies</h2>
+            <RootCompanies
+              companies={companies.filter((company) => !company.favorite)}
+            />
+          </div>
+          <div className="p-6 w-full">
+            <h2 className="text-xl">Favorites</h2>
+            <RootCompanies
+              companies={companies.filter((company) => company.favorite)}
+            />
+          </div>
+        </>
       )}
       {selectedIndustryCompanies && (
         <div className="p-6 w-full">
