@@ -1,7 +1,7 @@
 import { connectDB } from "@/lib/db";
 import Company from "@/models/companyModel";
 import User from "@/models/userModel";
-import { getSimilarCompanies } from "@/services/getSimilarCompanies";
+import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { addCompanies } from "@/services/mongo/addCompanies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";

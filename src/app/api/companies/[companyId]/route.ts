@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/userModel";
 import Company from "@/models/companyModel";
-import { getSimilarCompanies } from "@/services/getSimilarCompanies";
+import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { addCompanies } from "@/services/mongo/addCompanies";
 import { ObjectId } from "mongoose";
 
@@ -26,12 +26,18 @@ export async function GET(
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
+    console.log("the company", company);
+
     const [relatedCompanies, nearbyCompanies] = await Promise.all([
       Company.find({ _id: { $in: company.relatedCompanyIds } }),
       Company.find({ _id: { $in: company.nearbyCompanyIds } }),
     ]);
 
     if (relatedCompanies.length > 0 && nearbyCompanies.length > 0) {
+      console.log("sending existing data");
+      console.log("related", relatedCompanies.length);
+      console.log("nearby", nearbyCompanies.length);
+
       return NextResponse.json(
         {
           company: company,

@@ -3,9 +3,10 @@ import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/userModel";
 import Company from "@/models/companyModel";
-import { getSimilarCompanies } from "@/services/getSimilarCompanies";
+import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { addCompanies } from "@/services/mongo/addCompanies";
 import { ObjectId } from "mongoose";
+import { getMoreCompanies } from "@/services/chatGPT/getMoreSimilar";
 
 export async function GET(
   req: NextRequest,
@@ -36,17 +37,6 @@ export async function GET(
       Company.find({ _id: { $in: company.nearbyCompanyIds } }),
     ]);
 
-    const companyData = await getSimilarCompanies(company.name);
-    if (!companyData) {
-      return NextResponse.json(
-        { error: "Company info not found" },
-        { status: 404 }
-      );
-    }
-
-    const filteredRelatedCompanies = [];
-    const filteredNearbyCompanies = [];
-
     const userCompanyNames = await Promise.all(
       user.companyIds.map(async (id: ObjectId) => {
         const existingCompany = await Company.findById({ _id: id });
@@ -60,15 +50,24 @@ export async function GET(
       ...userCompanyNames,
     ];
 
+    const companyData = await getMoreCompanies(
+      company.name,
+      existingCompanyNames
+    );
+    if (!companyData) {
+      return NextResponse.json(
+        { error: "Company info not found" },
+        { status: 404 }
+      );
+    }
+
+    const filteredRelatedCompanies = [];
+
     for (const relatedCompany of companyData.relatedCompanies) {
       if (!existingCompanyNames.includes(relatedCompany)) {
         filteredRelatedCompanies.push(relatedCompany);
-      }
-    }
-
-    for (const nearbyCompany of companyData.nearbyCompanies) {
-      if (!existingCompanyNames.includes(nearbyCompany)) {
-        filteredNearbyCompanies.push(nearbyCompany);
+      } else {
+        console.log("company already exists", relatedCompany);
       }
     }
 
@@ -77,40 +76,30 @@ export async function GET(
       company._id,
       "related"
     );
-    const nearbyCompanyIds = await addCompanies(
-      filteredNearbyCompanies,
-      company._id,
-      "nearby"
-    );
 
-    user.companyIds.push(...relatedCompanyIds, ...nearbyCompanyIds);
+    user.companyIds.push(...relatedCompanyIds);
     await user.save();
 
     console.log("user company length AFTER", user.companyIds.length);
 
-    company.relatedCompanyIds = relatedCompanyIds;
-    company.nearbyCompanyIds = nearbyCompanyIds;
-    company.website = companyData.website;
-    company.industry = companyData.industry;
+    company.relatedCompanyIds.push(...relatedCompanyIds);
+
     await company.save();
 
     const fullRelatedCompanies = await Company.find({
       name: { $in: filteredRelatedCompanies },
     });
 
-    const fullNearbyCompanies = await Company.find({
-      name: { $in: filteredNearbyCompanies },
-    });
-
     return NextResponse.json(
       {
         company: company,
         related: fullRelatedCompanies,
-        nearby: fullNearbyCompanies,
+        nearby: nearbyCompanies,
       },
       { status: 200 }
     );
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.log(error);
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }

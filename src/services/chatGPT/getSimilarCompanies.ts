@@ -13,7 +13,7 @@ export const getSimilarCompanies = async (company: string) => {
    - Automotive
    - Agriculture
    - Hospitality and Tourism
-2. A list of find where ${company} is located and give me 10 companies within a 5 mile radius of their address 
+2. Find where ${company} is located and give me 10 companies within a 5 mile radius of their address 
 3. ${company}'s official website.
 4. A list of 100 related or similar companies.
 
