@@ -49,7 +49,7 @@ export async function GET(
         { status: 404 }
       );
     }
-    let companyData: WikiData = {
+    const companyData: WikiData = {
       name: company.name,
       summary: "",
       products: "",

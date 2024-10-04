@@ -4,9 +4,9 @@ import { FiHome, FiMail } from "react-icons/fi"; // Using react-icons for icons
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 h-full bg-gray-800 shadow-lg">
+    <aside className="w-64 h-full bg-black shadow-lg">
       {/* Logo Section */}
-      <div className="flex items-center justify-center h-20 bg-gray-900">
+      <div className="flex items-center justify-center h-20 bg-black">
         <h1 className="text-3xl font-semibold text-white">Logo</h1>
       </div>
 

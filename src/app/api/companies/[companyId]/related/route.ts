@@ -21,6 +21,11 @@ export async function GET(
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    console.log("user company length BEFORE", user.companyIds.length);
+    console.log("user company length BEFORE", user.companyIds.length);
+    console.log("user company length BEFORE", user.companyIds.length);
+    console.log("user company length BEFORE", user.companyIds.length);
+
     const company = await Company.findOne({ _id: companyId });
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
@@ -30,17 +35,6 @@ export async function GET(
       Company.find({ _id: { $in: company.relatedCompanyIds } }),
       Company.find({ _id: { $in: company.nearbyCompanyIds } }),
     ]);
-
-    if (relatedCompanies.length > 0 && nearbyCompanies.length > 0) {
-      return NextResponse.json(
-        {
-          company: company,
-          related: relatedCompanies,
-          nearby: nearbyCompanies,
-        },
-        { status: 200 }
-      );
-    }
 
     const companyData = await getSimilarCompanies(company.name);
     if (!companyData) {
@@ -91,6 +85,8 @@ export async function GET(
 
     user.companyIds.push(...relatedCompanyIds, ...nearbyCompanyIds);
     await user.save();
+
+    console.log("user company length AFTER", user.companyIds.length);
 
     company.relatedCompanyIds = relatedCompanyIds;
     company.nearbyCompanyIds = nearbyCompanyIds;

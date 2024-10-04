@@ -12,7 +12,7 @@ export const wikiScraper = async (companyName: string) => {
     // Load the HTML into a cheerio instance
     const $ = cheerio.load(data);
 
-    let wikiData = {
+    const wikiData = {
       name: companyName,
       summary: "",
       products: "",
