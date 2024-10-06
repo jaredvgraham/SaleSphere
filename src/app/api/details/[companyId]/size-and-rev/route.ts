@@ -28,7 +28,7 @@ export async function GET(
     const companySize = company.employeeCount;
     const companyRev = company.revenue;
 
-    console.log("from mongo", companySize, companyRev);
+    console.log("from mongo", company);
 
     if (companySize && companyRev) {
       console.log("already have size and rev");
@@ -53,7 +53,7 @@ export async function GET(
     console.log("employeeCount", sizeAndRev.employeeCount);
     console.log("revenue", sizeAndRev.revenue);
 
-    company.size = sizeAndRev.employeeCount;
+    company.employeeCount = sizeAndRev.employeeCount;
     company.revenue = sizeAndRev.revenue;
 
     await company.save();

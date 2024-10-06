@@ -6,6 +6,7 @@ import Company from "@/models/companyModel";
 import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { addCompanies } from "@/services/mongo/addCompanies";
 import { ObjectId } from "mongoose";
+import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 
 export async function GET(
   req: NextRequest,
@@ -21,12 +22,10 @@ export async function GET(
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const company = await Company.findOne({ _id: companyId });
+    const company = await Company.findById(companyId);
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
-
-    console.log("the company", company);
 
     const [relatedCompanies, nearbyCompanies] = await Promise.all([
       Company.find({ _id: { $in: company.relatedCompanyIds } }),
@@ -34,16 +33,8 @@ export async function GET(
     ]);
 
     if (relatedCompanies.length > 0 && nearbyCompanies.length > 0) {
-      console.log("sending existing data");
-      console.log("related", relatedCompanies.length);
-      console.log("nearby", nearbyCompanies.length);
-
       return NextResponse.json(
-        {
-          company: company,
-          related: relatedCompanies,
-          nearby: nearbyCompanies,
-        },
+        { company, related: relatedCompanies, nearby: nearbyCompanies },
         { status: 200 }
       );
     }
@@ -56,12 +47,9 @@ export async function GET(
       );
     }
 
-    const filteredRelatedCompanies = [];
-    const filteredNearbyCompanies = [];
-
     const userCompanyNames = await Promise.all(
       user.companyIds.map(async (id: ObjectId) => {
-        const existingCompany = await Company.findById({ _id: id });
+        const existingCompany = await Company.findById(id);
         return existingCompany?.name;
       })
     );
@@ -72,49 +60,52 @@ export async function GET(
       ...userCompanyNames,
     ];
 
-    for (const relatedCompany of companyData.relatedCompanies) {
-      if (!existingCompanyNames.includes(relatedCompany)) {
-        filteredRelatedCompanies.push(relatedCompany);
-      }
-    }
-
-    for (const nearbyCompany of companyData.nearbyCompanies) {
-      if (!existingCompanyNames.includes(nearbyCompany)) {
-        filteredNearbyCompanies.push(nearbyCompany);
-      }
-    }
-
-    const relatedCompanyIds = await addCompanies(
-      filteredRelatedCompanies,
-      company._id,
-      "related"
+    const filteredRelatedCompanies = companyData.relatedCompanies.filter(
+      (relatedCompany: any) => !existingCompanyNames.includes(relatedCompany)
     );
-    const nearbyCompanyIds = await addCompanies(
-      filteredNearbyCompanies,
-      company._id,
-      "nearby"
+
+    const filteredNearbyCompanies = companyData.nearbyCompanies.filter(
+      (nearbyCompany: any) => !existingCompanyNames.includes(nearbyCompany)
     );
+
+    const [relatedCompanyIds, nearbyCompanyIds] = await Promise.all([
+      addCompanies(filteredRelatedCompanies, company._id, "related"),
+      addCompanies(filteredNearbyCompanies, company._id, "nearby"),
+    ]);
+
+    const updatedCompaniesPromises = [
+      ...relatedCompanyIds,
+      ...nearbyCompanyIds,
+    ].map(async (companyId) => {
+      const company = await Company.findById(companyId);
+      if (!company) return null;
+      const sizeAndRev = await getSizeAndRev(company.name);
+      if (sizeAndRev) {
+        company.employeeCount = sizeAndRev.employeeCount;
+        company.revenue = sizeAndRev.revenue;
+        await company.save();
+      }
+      return company;
+    });
+
+    await Promise.all(updatedCompaniesPromises);
 
     user.companyIds.push(...relatedCompanyIds, ...nearbyCompanyIds);
-    await user.save();
-
-    company.relatedCompanyIds = relatedCompanyIds;
-    company.nearbyCompanyIds = nearbyCompanyIds;
+    company.relatedCompanyIds.push(...relatedCompanyIds);
+    company.nearbyCompanyIds.push(...nearbyCompanyIds);
     company.website = companyData.website;
     company.industry = companyData.industry;
-    await company.save();
 
-    const fullRelatedCompanies = await Company.find({
-      name: { $in: filteredRelatedCompanies },
-    });
+    await Promise.all([user.save(), company.save()]);
 
-    const fullNearbyCompanies = await Company.find({
-      name: { $in: filteredNearbyCompanies },
-    });
+    const [fullRelatedCompanies, fullNearbyCompanies] = await Promise.all([
+      Company.find({ name: { $in: filteredRelatedCompanies } }),
+      Company.find({ name: { $in: filteredNearbyCompanies } }),
+    ]);
 
     return NextResponse.json(
       {
-        company: company,
+        company,
         related: fullRelatedCompanies,
         nearby: fullNearbyCompanies,
       },

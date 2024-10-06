@@ -5,8 +5,9 @@ import User from "@/models/userModel";
 import Company from "@/models/companyModel";
 import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { addCompanies } from "@/services/mongo/addCompanies";
-import { ObjectId } from "mongoose";
+import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 import { getMoreCompanies } from "@/services/chatGPT/getMoreSimilar";
+import { ObjectId } from "mongoose";
 
 export async function GET(
   req: NextRequest,
@@ -22,14 +23,18 @@ export async function GET(
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    console.log("user company length BEFORE", user.companyIds.length);
-    console.log("user company length BEFORE", user.companyIds.length);
-    console.log("user company length BEFORE", user.companyIds.length);
-    console.log("user company length BEFORE", user.companyIds.length);
-
     const company = await Company.findOne({ _id: companyId });
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
+    }
+
+    if (!company.employeeCount || !company.revenue) {
+      const sizeAndRev = await getSizeAndRev(company.name);
+      if (sizeAndRev) {
+        company.employeeCount = sizeAndRev.employeeCount;
+        company.revenue = sizeAndRev.revenue;
+        await company.save();
+      }
     }
 
     const [relatedCompanies, nearbyCompanies] = await Promise.all([
@@ -71,23 +76,35 @@ export async function GET(
       }
     }
 
-    const relatedCompanyIds = await addCompanies(
-      filteredRelatedCompanies,
-      company._id,
-      "related"
+    const relatedCompanyIds = await Promise.all(
+      filteredRelatedCompanies.map(async (relatedCompanyName) => {
+        const newCompanyId = await addCompanies(
+          [relatedCompanyName],
+          company._id,
+          "related"
+        );
+
+        const newCompany = await Company.findById(newCompanyId[0]);
+        if (newCompany) {
+          const sizeAndRev = await getSizeAndRev(relatedCompanyName);
+          if (sizeAndRev) {
+            newCompany.employeeCount = sizeAndRev.employeeCount;
+            newCompany.revenue = sizeAndRev.revenue;
+            await newCompany.save();
+          }
+        }
+        return newCompanyId[0];
+      })
     );
 
     user.companyIds.push(...relatedCompanyIds);
     await user.save();
 
-    console.log("user company length AFTER", user.companyIds.length);
-
     company.relatedCompanyIds.push(...relatedCompanyIds);
-
     await company.save();
 
     const fullRelatedCompanies = await Company.find({
-      name: { $in: filteredRelatedCompanies },
+      _id: { $in: relatedCompanyIds },
     });
 
     return NextResponse.json(

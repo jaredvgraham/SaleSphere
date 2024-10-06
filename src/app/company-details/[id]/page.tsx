@@ -4,10 +4,11 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import Loader from "@/components/loader";
+import { Company } from "@/types";
 
 const CompanyDetails = () => {
   const { id } = useParams(); // Fetch the company ID from the URL parameters
-  const [companyData, setCompanyData] = useState<any>(null);
+  const [companyData, setCompanyData] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const authFetch = useAuthFetch();
@@ -26,12 +27,7 @@ const CompanyDetails = () => {
         console.log("Company data1:", data);
 
         setCompanyData(data.companyData); // Store the company data
-        console.log("name", data.companyData.name);
-        if (!data.companyData.size) {
-          console.log("No size data available");
-
-          await getTest();
-        }
+        console.log("employeeCount", data.companyData.employeeCount);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -41,23 +37,6 @@ const CompanyDetails = () => {
 
     fetchCompanyData();
   }, [id]);
-
-  const getTest = async () => {
-    console.log("Getting test data");
-
-    try {
-      const response = await authFetch(`details/${id}/size-and-rev`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("data", response);
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
 
   if (loading) {
     return <Loader />;
@@ -125,6 +104,16 @@ const CompanyDetails = () => {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Revenue</h2>
           <p className="text-gray-700">
             {companyData.revenue || "Revenue data unavailable."}
+          </p>
+        </div>
+
+        {/* Employee Count Card */}
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Employee Count
+          </h2>
+          <p className="text-gray-700">
+            {companyData.employeeCount || "Employee count data unavailable."}
           </p>
         </div>
 

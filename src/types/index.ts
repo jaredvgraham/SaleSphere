@@ -11,4 +11,24 @@ export interface Company {
   website?: string;
   relatedCompanyIds?: string[]; // Reference to other company documents
   favorite?: boolean;
+  onDashboard?: boolean;
+  createdAt?: Date;
+  rootRelation?: string;
+  employeeCount?: string;
+  revenue?: string;
+  wikiData?: WikiData;
+  products?: string;
+  keyPeople?: string;
+  competitors?: string;
+  summary?: string;
+}
+
+export interface WikiData {
+  summary?: string;
+  products?: string;
+  revenue?: string;
+  keyPeople?: string;
+  competitors?: string;
+  website?: string;
+  employeeCount?: string;
 }

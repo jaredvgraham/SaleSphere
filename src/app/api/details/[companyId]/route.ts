@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/db";
 import { getDetails } from "@/services/chatGPT/getDetails";
 import { wikiScraper } from "@/services/scraping/wiki";
 import { getWebsite } from "@/services/chatGPT/getWebsite";
+import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 
 type WikiData = {
   name: string;
@@ -16,6 +17,7 @@ type WikiData = {
   competitors: string;
   rootRelation: string;
   website: string;
+  employeeCount: string;
 };
 
 export async function GET(
@@ -39,6 +41,8 @@ export async function GET(
       const dataToSend = {
         ...companyDataCheck,
         name: company.name,
+        employeeCount: company.employeeCount,
+        revenue: company.revenue,
       };
       console.log("sending data", dataToSend);
       return NextResponse.json({ companyData: dataToSend }, { status: 200 });
@@ -64,6 +68,7 @@ export async function GET(
       competitors: "",
       rootRelation: "",
       website: "",
+      employeeCount: "",
     };
 
     const [corr, website, wikiData] = await Promise.all([
@@ -74,6 +79,8 @@ export async function GET(
 
     companyData.rootRelation = corr;
     companyData.website = website;
+    companyData.employeeCount = company.employeeCount;
+    companyData.revenue = company.revenue;
 
     if (!wikiData) {
       return NextResponse.json(
@@ -85,12 +92,13 @@ export async function GET(
 
     companyData.summary = wikiData.summary;
     companyData.products = wikiData.products;
-    companyData.revenue = wikiData.revenue;
+
     companyData.keyPeople = wikiData.keyPeople;
     companyData.competitors = wikiData.competitors;
 
     console.log("sending data", companyData);
     company.wikiData = companyData;
+
     await company.save();
 
     return NextResponse.json({ companyData }, { status: 200 });

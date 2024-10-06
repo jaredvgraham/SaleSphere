@@ -2,6 +2,7 @@ import { connectDB } from "@/lib/db";
 import Company from "@/models/companyModel";
 import User from "@/models/userModel";
 import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
+import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 import { addCompanies } from "@/services/mongo/addCompanies";
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
@@ -26,13 +27,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let companyData = await getSimilarCompanies(companyName);
-    console.log("companyData", companyData);
-    console.log("length", companyData.relatedCompanies.length);
-
-    if (!companyData) {
-      companyData = await getSimilarCompanies(companyName);
-    }
+    const [companyData, revAndSize] = await Promise.all([
+      getSimilarCompanies(companyName),
+      getSizeAndRev(companyName),
+    ]);
 
     if (!companyData) {
       return NextResponse.json(
@@ -53,6 +51,8 @@ export async function POST(req: NextRequest) {
       name: companyName,
       website: companyData.website,
       industry: companyData.industry,
+      employeeCount: revAndSize.employeeCount,
+      revenue: revAndSize.revenue,
     });
     await mainCompany.save();
 
@@ -88,7 +88,6 @@ export async function POST(req: NextRequest) {
     await mainCompany.save();
     await user.save();
 
-    // Placeholder for fetching/scraping company data for similarities to other companies
     return NextResponse.json({ mainCompany }, { status: 200 });
   } catch (error) {
     console.log(error);
