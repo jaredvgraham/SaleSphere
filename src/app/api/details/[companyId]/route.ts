@@ -95,7 +95,8 @@ export async function GET(
 
     return NextResponse.json({ companyData }, { status: 200 });
   } catch (error: any) {
-    console.error(error);
+    console.log(error);
+
     return NextResponse.json(
       { error: "Failed to fetch company" },
       { status: 500 }

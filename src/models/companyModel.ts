@@ -26,6 +26,8 @@ export interface ICompany {
   createdAt?: Date;
   wikiData?: WikiData;
   favorite: boolean;
+  employeeCount?: string;
+  revenue?: string;
 }
 
 const wikiDataSchema = new Schema<WikiData>({
@@ -58,6 +60,8 @@ const companySchema = new Schema<ICompany>({
   createdAt: { type: Date, default: Date.now },
   wikiData: { type: wikiDataSchema, default: {} },
   favorite: { type: Boolean, default: false },
+  employeeCount: { type: String },
+  revenue: { type: String },
 });
 
 // 2dsphere index for geospatial queries

@@ -16,11 +16,22 @@ const CompanyDetails = () => {
     // Fetch company data from the API
     const fetchCompanyData = async () => {
       try {
-        const data = await authFetch(`details/${id}`);
-        console.log("Company data:", data);
+        const data = await authFetch(`details/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        console.log("Company data1:", data);
+        console.log("Company data1:", data);
 
         setCompanyData(data.companyData); // Store the company data
         console.log("name", data.companyData.name);
+        if (!data.companyData.size) {
+          console.log("No size data available");
+
+          await getTest();
+        }
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -30,6 +41,23 @@ const CompanyDetails = () => {
 
     fetchCompanyData();
   }, [id]);
+
+  const getTest = async () => {
+    console.log("Getting test data");
+
+    try {
+      const response = await authFetch(`details/${id}/size-and-rev`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("data", response);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
 
   if (loading) {
     return <Loader />;
