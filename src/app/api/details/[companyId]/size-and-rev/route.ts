@@ -25,20 +25,6 @@ export async function GET(
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    const companySize = company.employeeCount;
-    const companyRev = company.revenue;
-
-    console.log("from mongo", company);
-
-    if (companySize && companyRev) {
-      console.log("already have size and rev");
-      console.log("already have size and rev");
-      console.log("already have size and rev");
-      console.log("already have size and rev");
-
-      return NextResponse.json({ companySize, companyRev }, { status: 200 });
-    }
-
     const sizeAndRev = await getSizeAndRev(company.name);
     if (!sizeAndRev) {
       return NextResponse.json(

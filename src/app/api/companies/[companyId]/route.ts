@@ -2,11 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/userModel";
-import Company from "@/models/companyModel";
+import Company, { ICompany } from "@/models/companyModel";
 import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { addCompanies } from "@/services/mongo/addCompanies";
-import { ObjectId } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
+import { fetchRelatedAndNearbyCompanies } from "@/services/mongo/fetchRelatedAndNearbyCompanies";
+import { addSizeAndRev } from "@/services/mongo/addSizeAndRev";
 
 export async function GET(
   req: NextRequest,
@@ -27,10 +29,8 @@ export async function GET(
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
 
-    const [relatedCompanies, nearbyCompanies] = await Promise.all([
-      Company.find({ _id: { $in: company.relatedCompanyIds } }),
-      Company.find({ _id: { $in: company.nearbyCompanyIds } }),
-    ]);
+    const { relatedCompanies, nearbyCompanies } =
+      await fetchRelatedAndNearbyCompanies(company);
 
     if (relatedCompanies.length > 0 && nearbyCompanies.length > 0) {
       return NextResponse.json(
@@ -73,22 +73,14 @@ export async function GET(
       addCompanies(filteredNearbyCompanies, company._id, "nearby"),
     ]);
 
-    const updatedCompaniesPromises = [
-      ...relatedCompanyIds,
-      ...nearbyCompanyIds,
-    ].map(async (companyId) => {
-      const company = await Company.findById(companyId);
-      if (!company) return null;
-      const sizeAndRev = await getSizeAndRev(company.name);
-      if (sizeAndRev) {
-        company.employeeCount = sizeAndRev.employeeCount;
-        company.revenue = sizeAndRev.revenue;
-        await company.save();
-      }
-      return company;
-    });
-
-    await Promise.all(updatedCompaniesPromises);
+    if (!company.rootCompanyId) {
+      console.log("Root company not found for", company.name);
+      await Promise.all(
+        [...relatedCompanyIds, ...nearbyCompanyIds].map(
+          (id: mongoose.Types.ObjectId) => addSizeAndRev(id)
+        )
+      );
+    }
 
     user.companyIds.push(...relatedCompanyIds, ...nearbyCompanyIds);
     company.relatedCompanyIds.push(...relatedCompanyIds);

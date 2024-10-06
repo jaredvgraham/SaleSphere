@@ -5,13 +5,15 @@ type SizeAndRev = {
 };
 
 export const getSizeAndRev = async (company: string) => {
-  const prompt = `Research the company ${company} and find the **Important**: accurate **employee count** and **yaerly revenue**.
+  const prompt = `Tell me ${company}'s accurate **employee count** and **yaerly revenue**.
     **Important**: Only return the result in **valid JSON format**. No explanations or additional text should be provided. Use this example format:
    data = {
       "employeeCount": "500-1000",
       "revenue": "$1.5 billion
     }
     `;
+  console.log("prompt", prompt);
+
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",

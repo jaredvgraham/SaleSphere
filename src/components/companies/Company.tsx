@@ -66,8 +66,25 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
     }
   };
 
-  const handleUpdatedRev = async () => {
-    console.log("Updating revenue");
+  const handleUpdateSizeAndRev = async () => {
+    try {
+      const res = await authFetch(`details/${companyId}/size-and-rev`, {
+        method: "GET",
+      });
+      console.log("sizeAndRev", res);
+
+      setCompany((prevCompany: Company | null) =>
+        prevCompany
+          ? {
+              ...prevCompany,
+              employeeCount: res.employeeCount,
+              revenue: res.revenue,
+            }
+          : null
+      );
+    } catch (error) {
+      console.error("Error updating size and revenue:", error);
+    }
   };
 
   if (loading) {
@@ -104,7 +121,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
           <p className="text-lg text-gray-600 mb-4">Doesnt look right? ^ </p>
           <button
             className="p-2 bg-black text-white rounded-xl"
-            onClick={handleUpdatedRev}
+            onClick={handleUpdateSizeAndRev}
           >
             Update Revenue
           </button>
