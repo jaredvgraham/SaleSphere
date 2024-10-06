@@ -5,7 +5,7 @@ type SizeAndRev = {
 };
 
 export const getSizeAndRev = async (company: string) => {
-  const prompt = `Research the company ${company} and find the employee count and yaerly revenue.
+  const prompt = `Research the company ${company} and find the **Important**: accurate **employee count** and **yaerly revenue**.
     **Important**: Only return the result in **valid JSON format**. No explanations or additional text should be provided. Use this example format:
    data = {
       "employeeCount": "500-1000",

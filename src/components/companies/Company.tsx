@@ -66,6 +66,10 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
     }
   };
 
+  const handleUpdatedRev = async () => {
+    console.log("Updating revenue");
+  };
+
   if (loading) {
     return <Loader />;
   }
@@ -73,21 +77,38 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   return (
     <div className="h-screen overflow-scroll bg-gray-50 p-8">
       {/* Company Information Section */}
-      <div className="bg-white shadow-md rounded-lg p-8 mb-10">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          {company?.name}
-        </h1>
-        <p className="text-lg text-gray-600 mb-4">
-          <span className="font-semibold">Website:</span>{" "}
-          <a
-            href={company?.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-500 hover:underline"
+      <div className="bg-white shadow-md rounded-lg p-8 mb-10 flex justify-between">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            {company?.name}
+          </h1>
+          <p className="text-lg text-gray-600 mb-4">
+            <span className="font-semibold">Website:</span>{" "}
+            <a
+              href={company?.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              {company?.website}
+            </a>
+          </p>
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-gray-600 mb-4">
+            Revenue: {company?.revenue || "Not available"}
+          </h2>
+          <h2 className="text-lg font-semibold text-gray-600 mb-4">
+            Employee Count: {company?.employeeCount || "Not available"}
+          </h2>
+          <p className="text-lg text-gray-600 mb-4">Doesnt look right? ^ </p>
+          <button
+            className="p-2 bg-black text-white rounded-xl"
+            onClick={handleUpdatedRev}
           >
-            {company?.website}
-          </a>
-        </p>
+            Update Revenue
+          </button>
+        </div>
       </div>
 
       {/* Related Companies Section */}

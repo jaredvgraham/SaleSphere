@@ -22,7 +22,7 @@ const RelatedCard = ({ relatedCompany, pathname }: Props) => {
     setIsFavoriting(true);
     if (relatedCompany.favorite === true) {
       await authFetch(`add-favorite`, {
-        method: "PATCH",
+        method: "PUT",
         body: JSON.stringify({ companyId }),
       });
       relatedCompany.favorite = false;
