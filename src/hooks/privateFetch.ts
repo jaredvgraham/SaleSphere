@@ -19,7 +19,9 @@ export const useAuthFetch = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        const error = new Error(errorData.message || "Something went wrong!");
+        const error = new Error(
+          errorData.message || errorData.error || "Something went wrong!"
+        );
         console.log("error", error);
         throw error;
       }
