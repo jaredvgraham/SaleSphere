@@ -4,6 +4,11 @@ import React, { useCallback, useMemo, useState, useRef } from "react";
 import { createEditor, Descendant, Text, Element as SlateElement } from "slate";
 import { Slate, Editable, withReact } from "slate-react";
 import { withHistory } from "slate-history";
+import { useParams } from "next/navigation";
+
+interface SalesEditorProps {
+  companyId: string;
+}
 
 // Define a custom element type
 type CustomElement = { type: "paragraph"; children: Descendant[] };
@@ -16,7 +21,7 @@ const initialValue: CustomElement[] = [
   },
 ];
 
-export default function SalesEditor() {
+export default function SalesEditor({ companyId }: SalesEditorProps) {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -30,7 +35,7 @@ export default function SalesEditor() {
       const response = await fetch("/api/email-suggestions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ emailText }),
+        body: JSON.stringify({ emailText, companyId }),
       });
 
       const data = await response.json();

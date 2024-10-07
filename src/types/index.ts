@@ -34,6 +34,7 @@ export interface WikiData {
 }
 
 export interface UserCompanyRequest {
+  userId: string;
   name: string;
   industry: string;
   productOrService: string;

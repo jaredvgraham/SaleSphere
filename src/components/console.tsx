@@ -71,7 +71,8 @@ const Console = () => {
             </p>
           </div>
           <div>
-            <SalesEditor /> {/* Add the email editor */}
+            <SalesEditor companyId={companyId as string} />{" "}
+            {/* Add the email editor */}
           </div>
         </div>
       </div>
