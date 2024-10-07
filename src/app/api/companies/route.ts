@@ -24,20 +24,8 @@ export async function POST(req: NextRequest) {
     const { company: companyName } = await req.json();
     if (!companyName) {
       return NextResponse.json(
-        { error: "Company name is required" },
+        { message: "Company name is required" },
         { status: 400 }
-      );
-    }
-
-    const [companyData, revAndSize] = await Promise.all([
-      getSimilarCompanies(companyName),
-      getSizeAndRev(companyName),
-    ]);
-
-    if (!companyData) {
-      return NextResponse.json(
-        { error: "Company info not found" },
-        { status: 404 }
       );
     }
     const userCompanies = await Company.find({ _id: { $in: user.companyIds } });
@@ -53,6 +41,18 @@ export async function POST(req: NextRequest) {
         );
       }
     }
+    const [companyData, revAndSize] = await Promise.all([
+      getSimilarCompanies(companyName),
+      getSizeAndRev(companyName),
+    ]);
+
+    if (!companyData) {
+      return NextResponse.json(
+        { message: "Company info not found" },
+        { status: 404 }
+      );
+    }
+
     const mainCompany = new Company({
       name: companyName,
       website: companyData.website,
@@ -64,7 +64,10 @@ export async function POST(req: NextRequest) {
 
     const companyCheck = await Company.findOne({ _id: mainCompany._id });
     if (!companyCheck) {
-      return NextResponse.json({ error: "Company not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Company not found" },
+        { status: 404 }
+      );
     }
 
     if (!companyCheck.rootCompanyId) {

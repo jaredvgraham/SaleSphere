@@ -8,6 +8,7 @@ import { useAuth } from "@clerk/nextjs";
 import IndustryChart from "@/components/companies/dashboard/IndustryChart";
 import TotalCompaniesChart from "@/components/companies/dashboard/TotalCompaniesChart";
 import Loader from "@/components/loader";
+import { formatError } from "@/utils/formatErr";
 // Import your chart component
 
 const Dashboard = () => {
@@ -20,6 +21,7 @@ const Dashboard = () => {
   const [selectedIndustry, setSelectedIndustry] = useState("");
   const [totalCompanies, setTotalCompanies] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const authFetch = useAuthFetch();
 
@@ -53,6 +55,7 @@ const Dashboard = () => {
       setCompany("");
     } catch (error) {
       console.error(error);
+      setError(formatError(error));
     } finally {
       setIsLoading(false);
     }
@@ -106,6 +109,7 @@ const Dashboard = () => {
             Submit
           </button>
         </div>
+        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </form>
       <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 p-6 w-full">
         <div className="bg-white rounded-xl p-2 shadow-lg">
