@@ -32,3 +32,11 @@ export interface WikiData {
   website?: string;
   employeeCount?: string;
 }
+
+export interface UserCompanyRequest {
+  name: string;
+  industry: string;
+  productOrService: string;
+  website?: string;
+  ceo: string;
+}
