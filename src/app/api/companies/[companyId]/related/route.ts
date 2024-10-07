@@ -84,16 +84,20 @@ export async function GET(
           "related"
         );
 
-        const newCompany = await Company.findById(newCompanyId[0]);
-        if (newCompany) {
-          const sizeAndRev = await getSizeAndRev(relatedCompanyName);
-          if (sizeAndRev) {
-            newCompany.employeeCount = sizeAndRev.employeeCount;
-            newCompany.revenue = sizeAndRev.revenue;
-            await newCompany.save();
+        if (user.plan !== "basic") {
+          const newCompany = await Company.findById(newCompanyId[0]);
+          if (newCompany) {
+            const sizeAndRev = await getSizeAndRev(relatedCompanyName);
+            if (sizeAndRev) {
+              newCompany.employeeCount = sizeAndRev.employeeCount;
+              newCompany.revenue = sizeAndRev.revenue;
+              await newCompany.save();
+            }
           }
+          return newCompanyId[0];
+        } else {
+          return newCompanyId[0];
         }
-        return newCompanyId[0];
       })
     );
 

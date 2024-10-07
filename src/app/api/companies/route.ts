@@ -4,7 +4,9 @@ import User from "@/models/userModel";
 import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 import { addCompanies } from "@/services/mongo/addCompanies";
+import { addSizeAndRev } from "@/services/mongo/addSizeAndRev";
 import { auth } from "@clerk/nextjs/server";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -78,6 +80,13 @@ export async function POST(req: NextRequest) {
       companyData.nearbyCompanies,
       mainCompany._id,
       "nearby"
+    );
+    console.log("addSizeAndRev");
+
+    await Promise.all(
+      [...relatedCompanyIds, ...nearbyCompanyIds].map(
+        (id: mongoose.Types.ObjectId) => addSizeAndRev(id)
+      )
     );
 
     mainCompany.relatedCompanyIds = relatedCompanyIds;
