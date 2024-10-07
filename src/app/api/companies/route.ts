@@ -42,9 +42,13 @@ export async function POST(req: NextRequest) {
     }
     const userCompanies = await Company.find({ _id: { $in: user.companyIds } });
     if (userCompanies.length > 0) {
-      if (userCompanies.some((company) => company.name === companyName)) {
+      if (
+        userCompanies.some(
+          (company) => company.name === companyName && !company.rootCompanyId
+        )
+      ) {
         return NextResponse.json(
-          { error: "Company already exists" },
+          { message: "Company already exists" },
           { status: 400 }
         );
       }
