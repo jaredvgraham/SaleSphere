@@ -17,7 +17,7 @@ export const getSizeAndRev = async (company: string) => {
     Here is the google search result for the yearly revenue of ${company}: ${googleRevenue}.
     From the above information, can you provide the employee count and revenue of ${company} in the following format:
     **Important**: Even if employee count is an exact number, please provide a range. For example, if the employee count is 100, please provide the range as "50-100".
-    **Important**: If the revenue is a range or not an exact number, please provide the revenue in an exact number format. For example, if the revenue is "$1.5 billion", please provide the revenue as "$1.5 billion".
+    **Important**: If the revenue is a range or not an exact number, please provide the revenue in an exact number format. For example, if the revenue is "$1.5 billion - $2 billion", please provide the revenue as "$1.7 billion".
     **Important**: Only return the result in **valid JSON format**. No explanations or additional text should be provided. Use this example format:
    data = {
       "employeeCount": "500-1000",

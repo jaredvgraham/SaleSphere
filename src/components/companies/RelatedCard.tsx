@@ -55,6 +55,14 @@ const RelatedCard = ({ relatedCompany, pathname }: Props) => {
         />
       </div>
       <div className="flex flex-col items-start mb-2">
+        <p className="text-gray-700">
+          Revenue: <strong>{relatedCompany.revenue}</strong>
+        </p>
+        <p className="text-gray-700">
+          Employees: <strong>{relatedCompany.employeeCount}</strong>
+        </p>
+      </div>
+      <div className="flex flex-col items-start mb-2">
         <Link
           className="text-blue-600 font-semibold hover:underline"
           href={`/company-details/${relatedCompany._id}`}
