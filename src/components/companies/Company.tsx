@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Loader from "../loader";
 import { set } from "mongoose";
 import RelatedCard from "./RelatedCard";
+import AddFav from "./AddFav";
 
 type Props = {
   companyId: string;
@@ -110,8 +111,6 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
               {company?.website}
             </a>
           </p>
-        </div>
-        <div>
           <h2 className="text-lg font-semibold text-gray-600 mb-4">
             Revenue: {company?.revenue || "Not available"}
           </h2>
@@ -125,6 +124,11 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
           >
             Update Revenue
           </button>
+        </div>
+        <div>
+          <div className="flex justify-end  p-4">
+            <AddFav relatedCompany={company as Company} size={60} />
+          </div>
         </div>
       </div>
 

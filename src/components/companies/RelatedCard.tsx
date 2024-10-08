@@ -3,6 +3,7 @@ import { Company } from "@/types";
 import Link from "next/link";
 import React, { useState } from "react";
 import { FiStar } from "react-icons/fi";
+import AddFav from "./AddFav";
 
 type Props = {
   relatedCompany: Company;
@@ -11,30 +12,8 @@ type Props = {
 
 const RelatedCard = ({ relatedCompany, pathname }: Props) => {
   const authFetch = useAuthFetch();
-  const [isFavoriting, setIsFavoriting] = useState(false);
+
   console.log("relatedCompany", relatedCompany);
-
-  const handleFavClick = async (companyId: string) => {
-    console.log("fav clicked");
-    console.log("companyId", companyId);
-    console.log("relatedCompany", relatedCompany);
-
-    setIsFavoriting(true);
-    if (relatedCompany.favorite === true) {
-      await authFetch(`add-favorite`, {
-        method: "PUT",
-        body: JSON.stringify({ companyId }),
-      });
-      relatedCompany.favorite = false;
-    } else {
-      await authFetch(`add-favorite`, {
-        method: "POST",
-        body: JSON.stringify({ companyId }),
-      });
-      relatedCompany.favorite = true;
-    }
-    setIsFavoriting(false);
-  };
 
   return (
     <div
@@ -45,14 +24,7 @@ const RelatedCard = ({ relatedCompany, pathname }: Props) => {
         <h3 className="text-xl font-semibold text-gray-800 mb-2">
           {relatedCompany.name}
         </h3>
-        <FiStar
-          className={`${
-            relatedCompany.favorite ? "text-yellow-500" : "text-gray-400"
-          } transition-transform duration-300 ${
-            isFavoriting ? "animate-ping" : ""
-          }`}
-          onClick={() => handleFavClick(relatedCompany._id)}
-        />
+        <AddFav relatedCompany={relatedCompany} size={20} />
       </div>
       <div className="flex flex-col items-start mb-2">
         <p className="text-gray-700">

@@ -37,12 +37,14 @@ export async function GET(
       ? company.wikiData.toObject()
       : null;
 
-    if (companyDataCheck?.summary) {
+    if (companyDataCheck?.summary || companyDataCheck?.rootRelation) {
       const dataToSend = {
         ...companyDataCheck,
         name: company.name,
         employeeCount: company.employeeCount,
         revenue: company.revenue,
+        _id: company._id,
+        favorite: company.favorite,
       };
       console.log("sending data", dataToSend);
       return NextResponse.json({ companyData: dataToSend }, { status: 200 });
@@ -101,7 +103,16 @@ export async function GET(
 
     await company.save();
 
-    return NextResponse.json({ companyData }, { status: 200 });
+    const companyDataToSend = {
+      ...companyData,
+      _id: company._id,
+      favorite: company.favorite,
+    };
+
+    return NextResponse.json(
+      { companyData: companyDataToSend },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.log(error);
 

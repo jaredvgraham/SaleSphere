@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import Loader from "@/components/loader";
 import { Company } from "@/types";
+import AddFav from "@/components/companies/AddFav";
 
 const CompanyDetails = () => {
   const { id } = useParams(); // Fetch the company ID from the URL parameters
@@ -55,12 +56,21 @@ const CompanyDetails = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-500 via-teal-500 to-purple-600 text-white py-12 mb-8 rounded-lg shadow-lg">
+      <div className="relative bg-gradient-to-r from-blue-500 via-teal-500 to-purple-600 text-white py-12 mb-8 rounded-lg shadow-lg">
         <h1 className="text-5xl font-bold text-center">{companyData.name}</h1>
         <p className="text-center mt-4 text-lg">
           Explore detailed insights about{" "}
           <span className="font-semibold">{companyData.name}</span>.
         </p>
+        <div className=" absolute top-5 right-5 z-30">
+          <AddFav
+            relatedCompany={{
+              ...companyData,
+              _id: Array.isArray(id) ? id[0] : id,
+            }}
+            size={40}
+          />
+        </div>
       </div>
 
       {/* Company Details Section */}
