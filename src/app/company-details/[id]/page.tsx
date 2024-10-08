@@ -152,10 +152,20 @@ const CompanyDetails = () => {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">
             Relation to Root Company
           </h2>
-          <p className="text-gray-700">
-            {companyData.rootRelation ||
-              "No relation to root company available."}
-          </p>
+
+          {companyData.rootRelation && (
+            <>
+              <ul className="p-2">
+                {companyData.rootRelation
+                  .split(". **")
+                  .map((relation, index) => (
+                    <li key={index} className="text-gray-700 mt-2 list-disc">
+                      {relation}
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </div>
