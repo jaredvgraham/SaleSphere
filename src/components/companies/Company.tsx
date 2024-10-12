@@ -117,13 +117,6 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
           <h2 className="text-lg font-semibold text-gray-600 mb-4">
             Employee Count: {company?.employeeCount || "Not available"}
           </h2>
-          <p className="text-lg text-gray-600 mb-4">Doesnt look right? ^ </p>
-          <button
-            className="p-2 bg-black text-white rounded-xl"
-            onClick={handleUpdateSizeAndRev}
-          >
-            Update Revenue
-          </button>
         </div>
         <div>
           <div className="flex justify-end  p-4">

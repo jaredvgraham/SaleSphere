@@ -29,6 +29,7 @@ export interface ICompany {
   employeeCount?: string;
   revenue?: string;
   relatedScore?: number;
+  numOfLocations?: number;
 }
 
 const wikiDataSchema = new Schema<WikiData>({
@@ -64,6 +65,7 @@ const companySchema = new Schema<ICompany>({
   employeeCount: { type: String },
   revenue: { type: String },
   relatedScore: { type: Number, required: false },
+  numOfLocations: { type: Number, required: false },
 });
 
 // 2dsphere index for geospatial queries

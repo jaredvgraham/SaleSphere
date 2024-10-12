@@ -17,6 +17,8 @@ const CompanyDetails = () => {
   useEffect(() => {
     // Fetch company data from the API
     const fetchCompanyData = async () => {
+      console.log("fetching company data");
+
       try {
         const data = await authFetch(`details/${id}`, {
           method: "GET",
@@ -115,6 +117,17 @@ const CompanyDetails = () => {
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">Summary</h2>
           <p className="text-gray-700">
             {companyData.summary || "No summary available."}
+          </p>
+        </div>
+
+        {/* numOfLocations*/}
+
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Number of Locations
+          </h2>
+          <p className="text-gray-700">
+            {companyData.numOfLocations || "Number of locations unavailable."}
           </p>
         </div>
 

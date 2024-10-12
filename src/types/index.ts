@@ -21,6 +21,7 @@ export interface Company {
   keyPeople?: string;
   competitors?: string;
   summary?: string;
+  numOfLocations?: number;
 }
 
 export interface WikiData {

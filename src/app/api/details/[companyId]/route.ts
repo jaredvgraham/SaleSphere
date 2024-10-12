@@ -6,7 +6,8 @@ import { connectDB } from "@/lib/db";
 import { getDetails } from "@/services/chatGPT/getDetails";
 import { wikiScraper } from "@/services/scraping/wiki";
 import { getWebsite } from "@/services/chatGPT/getWebsite";
-import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
+
+import { getNumOfLocations } from "@/services/chatGPT/getNumOfLocations";
 
 type WikiData = {
   name: string;
@@ -18,6 +19,7 @@ type WikiData = {
   rootRelation: string;
   website: string;
   employeeCount: string;
+  numOfLocations: number | null;
 };
 
 export async function GET(
@@ -45,8 +47,9 @@ export async function GET(
         revenue: company.revenue,
         _id: company._id,
         favorite: company.favorite,
+        numOfLocations: company.numOfLocations,
       };
-      console.log("sending data", dataToSend);
+      console.log("sending past data", dataToSend);
       return NextResponse.json({ companyData: dataToSend }, { status: 200 });
     }
 
@@ -71,18 +74,25 @@ export async function GET(
       rootRelation: "",
       website: "",
       employeeCount: "",
+      numOfLocations: null,
     };
 
-    const [corr, website, wikiData] = await Promise.all([
+    const [corr, website, wikiData, numOfLocations] = await Promise.all([
       getDetails(rootCompany.name, company.name),
       getWebsite(company.name),
       wikiScraper(company.name),
+      getNumOfLocations(company.name),
     ]);
+
+    console.log("numOfLocations", numOfLocations);
 
     companyData.rootRelation = corr;
     companyData.website = website;
     companyData.employeeCount = company.employeeCount;
     companyData.revenue = company.revenue;
+    companyData.numOfLocations = isNaN(Number(numOfLocations))
+      ? 0
+      : Number(numOfLocations);
 
     if (!wikiData) {
       return NextResponse.json(
@@ -90,7 +100,6 @@ export async function GET(
         { status: 500 }
       );
     }
-    console.log("relatio", companyData.rootRelation);
 
     companyData.summary = wikiData.summary;
     companyData.products = wikiData.products;
@@ -98,8 +107,8 @@ export async function GET(
     companyData.keyPeople = wikiData.keyPeople;
     companyData.competitors = wikiData.competitors;
 
-    console.log("sending data", companyData);
     company.wikiData = companyData;
+    company.numOfLocations = companyData.numOfLocations || 0;
 
     await company.save();
 
@@ -108,6 +117,8 @@ export async function GET(
       _id: company._id,
       favorite: company.favorite,
     };
+
+    console.log("sending data", companyDataToSend);
 
     return NextResponse.json(
       { companyData: companyDataToSend },
