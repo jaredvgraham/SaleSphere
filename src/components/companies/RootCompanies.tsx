@@ -18,7 +18,7 @@ const RootCompanies = ({ companies }: Props) => {
         <div
           key={company._id}
           className="bg-white p-6 rounded-lg shadow-md hover:shadow-2xl hover:bg-blue-50 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 border border-transparent hover:border-blue-500"
-          onClick={() => router.push(`/dashboard/${company._id}`)}
+          onClick={() => router.push(`/company/${company._id}`)}
         >
           <h2 className="text-xl font-semibold text-gray-800 mb-2">
             {company.name}
