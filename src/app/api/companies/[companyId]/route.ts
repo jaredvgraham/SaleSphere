@@ -35,7 +35,7 @@ export async function GET(
 
     if (relatedCompanies.length > 0 && nearbyCompanies.length > 0) {
       for (let i = 0; i < relatedCompanies.length; i++) {
-        let relatedScoree = await relatedScore(
+        const relatedScoree = await relatedScore(
           company.employeeCount as string,
           company.revenue as string,
           relatedCompanies[i].employeeCount as string,
