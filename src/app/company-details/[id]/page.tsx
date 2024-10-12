@@ -88,6 +88,25 @@ const CompanyDetails = () => {
             {companyData.website || "No website available."}
           </a>
         </div>
+        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+            Relation to Root Company
+          </h2>
+
+          {companyData.rootRelation && (
+            <>
+              <ul className="p-2">
+                {companyData.rootRelation
+                  .split(". **")
+                  .map((relation, index) => (
+                    <li key={index} className="text-gray-700 mt-2 list-disc">
+                      {relation.split(relation[relation.length - 1])[0]}
+                    </li>
+                  ))}
+              </ul>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -145,27 +164,6 @@ const CompanyDetails = () => {
           <p className="text-gray-700">
             {companyData.competitors || "No competitors listed."}
           </p>
-        </div>
-
-        {/* Relation to Root Company Card */}
-        <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-            Relation to Root Company
-          </h2>
-
-          {companyData.rootRelation && (
-            <>
-              <ul className="p-2">
-                {companyData.rootRelation
-                  .split(". **")
-                  .map((relation, index) => (
-                    <li key={index} className="text-gray-700 mt-2 list-disc">
-                      {relation}
-                    </li>
-                  ))}
-              </ul>
-            </>
-          )}
         </div>
       </div>
     </div>
