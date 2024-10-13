@@ -29,9 +29,12 @@ export async function GET(
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
-    userPlan === "basic" && company.rootCompanyId
-      ? (userPlan = false)
-      : (userPlan = true);
+    if (userPlan === "basic" && company.rootCompanyId) {
+      userPlan = false;
+    } else {
+      userPlan = true;
+    }
+
     const { relatedCompanies, nearbyCompanies } =
       await fetchRelatedAndNearbyCompanies(company);
 
