@@ -19,6 +19,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   const [relatedCompanies, setRelatedCompanies] = useState<Company[]>([]);
   const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userPlan, setUserPlan] = useState(false);
 
   const authFetch = useAuthFetch();
   const router = useRouter();
@@ -32,14 +33,19 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
         const res = await authFetch(`companies/${companyId}`, {
           method: "GET",
         });
-        console.log("Fetched company data:", res);
+
         setCompany(res.company);
 
         setRelatedCompanies(res.related);
-        console.log("related", res.related);
 
         setNearbyCompanies(res.nearby);
-        console.log("nearby", res.nearby);
+        console.log("res.userPlan", res.userPlan);
+
+        if (!res.company.rootCompanyId) {
+          setUserPlan(true);
+        } else {
+          setUserPlan(res.userPlan);
+        }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching company:", error);
@@ -67,27 +73,6 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
     }
   };
 
-  const handleUpdateSizeAndRev = async () => {
-    try {
-      const res = await authFetch(`details/${companyId}/size-and-rev`, {
-        method: "GET",
-      });
-      console.log("sizeAndRev", res);
-
-      setCompany((prevCompany: Company | null) =>
-        prevCompany
-          ? {
-              ...prevCompany,
-              employeeCount: res.employeeCount,
-              revenue: res.revenue,
-            }
-          : null
-      );
-    } catch (error) {
-      console.error("Error updating size and revenue:", error);
-    }
-  };
-
   if (loading) {
     return <Loader />;
   }
@@ -111,6 +96,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
               {company?.website}
             </a>
           </p>
+
           <h2 className="text-lg font-semibold text-gray-600 mb-4">
             Revenue: {company?.revenue || "Not available"}
           </h2>
@@ -144,6 +130,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
               key={relatedCompany._id}
               relatedCompany={relatedCompany}
               pathname={pathname}
+              userPlan={userPlan}
             />
           ))}
         </div>

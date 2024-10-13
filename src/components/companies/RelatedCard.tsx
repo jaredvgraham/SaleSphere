@@ -8,13 +8,10 @@ import AddFav from "./AddFav";
 type Props = {
   relatedCompany: Company;
   pathname: string;
+  userPlan: boolean;
 };
 
-const RelatedCard = ({ relatedCompany, pathname }: Props) => {
-  const authFetch = useAuthFetch();
-
-  console.log("relatedCompany", relatedCompany);
-
+const RelatedCard = ({ relatedCompany, pathname, userPlan }: Props) => {
   return (
     <div
       key={relatedCompany._id}
@@ -26,14 +23,21 @@ const RelatedCard = ({ relatedCompany, pathname }: Props) => {
         </h3>
         <AddFav relatedCompany={relatedCompany} size={20} />
       </div>
-      <div className="flex flex-col items-start mb-2">
-        <p className="text-gray-700">
-          Revenue: <strong>{relatedCompany.revenue}</strong>
-        </p>
-        <p className="text-gray-700">
-          Employees: <strong>{relatedCompany.employeeCount}</strong>
-        </p>
-      </div>
+      {userPlan === false &&
+      !relatedCompany.revenue &&
+      !relatedCompany.employeeCount ? (
+        <p className="text-red-700">Upgrade to see Size and Revenue</p>
+      ) : (
+        <div className="flex flex-col items-start mb-2">
+          <p className="text-gray-700">
+            Revenue: <strong>{relatedCompany.revenue}</strong>
+          </p>
+          <p className="text-gray-700">
+            Employees: <strong>{relatedCompany.employeeCount}</strong>
+          </p>
+        </div>
+      )}
+
       <div className="flex flex-col items-start mb-2">
         <Link
           className="text-blue-600 font-semibold hover:underline"

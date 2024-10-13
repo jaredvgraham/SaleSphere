@@ -24,12 +24,14 @@ export async function GET(
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-
+    let userPlan = user.plan;
     const company = await Company.findById(companyId);
     if (!company) {
       return NextResponse.json({ error: "Company not found" }, { status: 404 });
     }
-
+    userPlan === "basic" && company.rootCompanyId
+      ? (userPlan = false)
+      : (userPlan = true);
     const { relatedCompanies, nearbyCompanies } =
       await fetchRelatedAndNearbyCompanies(company);
 
@@ -47,7 +49,12 @@ export async function GET(
       const relatedCompaniesResponse = mergeSort(relatedCompanies);
       console.log(relatedCompaniesResponse[0]);
       return NextResponse.json(
-        { company, related: relatedCompaniesResponse, nearby: nearbyCompanies },
+        {
+          company,
+          related: relatedCompaniesResponse,
+          nearby: nearbyCompanies,
+          userPlan,
+        },
         { status: 200 }
       );
     }
@@ -86,13 +93,16 @@ export async function GET(
       addCompanies(filteredNearbyCompanies, company._id, "nearby"),
     ]);
 
-    if (!company.rootCompanyId) {
-      console.log("Root company not found for", company.name);
+    if (user.plan !== "basic") {
+      console.log("user plan is not basic", user.plan);
+
       await Promise.all(
         [...relatedCompanyIds, ...nearbyCompanyIds].map(
           (id: mongoose.Types.ObjectId) => addSizeAndRev(id)
         )
       );
+    } else {
+      userPlan = false;
     }
 
     user.companyIds.push(...relatedCompanyIds, ...nearbyCompanyIds);
@@ -120,14 +130,6 @@ export async function GET(
         fullRelatedCompanies[i].revenue as string
       );
 
-      // Log the input parameters and the calculated score
-      console.log(`Calculating score for: 
-          Company: ${fullRelatedCompanies[i].name}, 
-          Root Employee Count: ${company.employeeCount}, 
-          Root Revenue: ${company.revenue}, 
-          Related Employee Count: ${fullRelatedCompanies[i].employeeCount}, 
-          Related Revenue: ${fullRelatedCompanies[i].revenue}
-          Score: ${score}`);
       fullRelatedCompanies[i].relatedScore = score;
     }
     const relatedCompaniesResponse = mergeSort(fullRelatedCompanies);
@@ -138,6 +140,7 @@ export async function GET(
         company,
         related: relatedCompaniesResponse,
         nearby: fullNearbyCompanies,
+        userPlan,
       },
       { status: 200 }
     );

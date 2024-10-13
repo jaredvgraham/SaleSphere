@@ -11,8 +11,6 @@ type Props = {
 const AddFav = ({ relatedCompany, size }: Props) => {
   const authFetch = useAuthFetch();
   const [isFavoriting, setIsFavoriting] = useState(false);
-  console.log("relatedCompany wit id", relatedCompany);
-  console.log("isfav", relatedCompany.favorite);
 
   const handleFavClick = async (companyId: string) => {
     console.log("fav clicked");

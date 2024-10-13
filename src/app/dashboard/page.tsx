@@ -70,7 +70,7 @@ const Dashboard = () => {
   };
 
   const industryData = companies.reduce((acc: any, curr: Company) => {
-    if ((curr.favorite === true && !curr.rootCompanyId) || !curr.industry) {
+    if ((curr.favorite === true && !curr.onDashboard) || !curr.industry) {
       return acc;
     }
     const industry = curr.industry || "Unknown Industry";
