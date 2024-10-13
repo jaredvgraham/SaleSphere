@@ -6,6 +6,7 @@ export interface IUser {
   name: string;
   plan: "basic" | "standard" | "premium";
   companyIds?: Types.ObjectId[];
+  customerId?: string;
 }
 //
 const userSchema = new Schema({
@@ -35,6 +36,9 @@ const userSchema = new Schema({
       ref: "Company",
     },
   ],
+  customerId: {
+    type: String,
+  },
 });
 
 userSchema.index({ clerkId: 1, email: 1 });

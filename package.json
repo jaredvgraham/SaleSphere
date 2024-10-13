@@ -23,6 +23,7 @@
     "slate": "^0.103.0",
     "slate-history": "^0.109.0",
     "slate-react": "^0.110.1",
+    "stripe": "^17.2.0",
     "svix": "^1.37.0"
   },
   "devDependencies": {
