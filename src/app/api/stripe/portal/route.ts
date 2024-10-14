@@ -7,7 +7,7 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL?.split("/api")[0];
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   await connectDB();
   try {
     const { userId } = auth();

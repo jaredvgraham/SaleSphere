@@ -13,12 +13,13 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL?.split("/api")[0];
 async function getOrCreateCustomerId(user: IUserDocument) {
   let customerId = user.customerId;
   if (!customerId) {
+    console.log("Creating customer");
+
     const customer = await stripe.customers.create({
       email: user.email,
     });
-    customerId = customer.id;
-    user.customerId = customerId;
-    await user.save();
+
+    return customer.id;
   }
 
   return customerId;
@@ -28,13 +29,13 @@ async function createRecurringPrice(plan: string) {
   let price: number;
   switch (plan) {
     case "basic":
-      price = 2000;
+      price = 1000;
       break;
     case "standard":
-      price = 4000;
+      price = 5000;
       break;
     case "premium":
-      price = 6000;
+      price = 10000;
       break;
     default:
       price = 0;
@@ -49,6 +50,14 @@ export async function POST(req: NextRequest) {
     const user = (await User.findOne({ clerkId: userId })) as IUserDocument;
 
     const { plan } = await req.json();
+    console.log("Plan", plan);
+
+    if (user.plan === plan) {
+      return NextResponse.json(
+        { message: "User already subscribed to this plan" },
+        { status: 400 }
+      );
+    }
 
     const recurringPrice = await createRecurringPrice(plan);
     if (recurringPrice === 0) {
@@ -71,6 +80,13 @@ export async function POST(req: NextRequest) {
 
     // get or create customer Id
     const customerId = await getOrCreateCustomerId(user);
+    console.log("Customer ID", customerId);
+
+    user.customerId = customerId;
+
+    await user.save();
+
+    console.log("user.customerId", user.customerId);
 
     // Create a checkout session for the purchase
     const session = await stripe.checkout.sessions.create({

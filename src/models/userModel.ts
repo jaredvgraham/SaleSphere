@@ -38,6 +38,7 @@ const userSchema = new Schema({
   ],
   customerId: {
     type: String,
+    default: null,
   },
 });
 
