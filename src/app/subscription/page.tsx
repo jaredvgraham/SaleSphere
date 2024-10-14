@@ -18,9 +18,23 @@ const page = () => {
         console.error(error);
       }
     };
-    getPortal();
   }, []);
-  return <div>page</div>;
+
+  const cancelSubscription = async () => {
+    try {
+      const res = await authFetch("stripe/cancel", {
+        method: "POST",
+      });
+      console.log("cancel subscription", res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  return (
+    <div>
+      <button onClick={cancelSubscription}>Cancel Subscription</button>
+    </div>
+  );
 };
 
 export default page;

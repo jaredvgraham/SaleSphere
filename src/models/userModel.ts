@@ -7,6 +7,7 @@ export interface IUser {
   plan: "basic" | "standard" | "premium";
   companyIds?: Types.ObjectId[];
   customerId?: string;
+  subscriptionId?: string;
 }
 //
 const userSchema = new Schema({
@@ -27,8 +28,8 @@ const userSchema = new Schema({
   },
   plan: {
     type: String,
-    enum: ["basic", "standard", "premium"],
-    default: "basic",
+    enum: ["none", "basic", "standard", "premium"],
+    default: "none",
   },
   companyIds: [
     {
@@ -37,6 +38,10 @@ const userSchema = new Schema({
     },
   ],
   customerId: {
+    type: String,
+    default: null,
+  },
+  subscriptionId: {
     type: String,
     default: null,
   },

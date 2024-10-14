@@ -15,6 +15,23 @@ export async function POST(req: NextRequest) {
   try {
     const event = stripe.webhooks.constructEvent(payload, sig, webhookSecret);
 
+    if (event.type === "customer.subscription.deleted") {
+      const subscription = event.data.object as Stripe.Subscription;
+
+      const user = await User.findOne({ subscriptionId: subscription.id });
+      if (!user) {
+        return NextResponse.json({
+          status: "error",
+          message: "User not found",
+        });
+      }
+
+      user.subscriptionId = null;
+      user.plan = "none";
+
+      await user.save();
+    }
+
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
@@ -27,7 +44,7 @@ export async function POST(req: NextRequest) {
       );
 
       let productName = "";
-      let amount = 0;
+
       for (const item of lineItems.data) {
         if (!item.price) return;
 
@@ -36,18 +53,10 @@ export async function POST(req: NextRequest) {
           const product = await stripe.products.retrieve(price.product);
           productName = product.name;
         }
-
-        const quantity = item.quantity;
-        amount = item.amount_total;
-
-        console.log("Product Name", productName);
-        console.log("Quantity", quantity);
-        console.log("Amount", amount);
       }
 
+      const subId = session.subscription;
       const email = session.customer_details?.email;
-
-      console.log("Customer email: ", email);
 
       const user = await User.findOne({ email });
       if (!user) {
@@ -57,6 +66,7 @@ export async function POST(req: NextRequest) {
         });
       }
 
+      user.subscriptionId = subId;
       user.plan = productName;
 
       await user.save();

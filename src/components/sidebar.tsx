@@ -1,8 +1,13 @@
+"use client";
+import { AuthProvider, useAuthTwo } from "@/hooks/authContext";
 import Link from "next/link";
 import React from "react";
 import { FiHome, FiMail } from "react-icons/fi"; // Using react-icons for icons
 
 const Sidebar = () => {
+  const { user } = useAuthTwo();
+  console.log("user", user);
+
   return (
     <aside className="w-64 h-full bg-black shadow-lg">
       {/* Logo Section */}

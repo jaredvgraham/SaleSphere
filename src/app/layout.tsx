@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
+import { AuthProvider } from "@/hooks/authContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,11 +37,13 @@ export default function RootLayout({
             <div>Loading...</div>
           </ClerkLoading>
           <ClerkLoaded>
-            <Navbar />
-            <div className="flex w-full h-screen">
-              <Sidebar />
-              <div className="flex-1">{children}</div>
-            </div>
+            <AuthProvider>
+              <Navbar />
+              <div className="flex w-full h-screen">
+                <Sidebar />
+                <div className="flex-1">{children}</div>
+              </div>
+            </AuthProvider>
           </ClerkLoaded>
         </body>
       </html>
