@@ -6,9 +6,11 @@ import { useAuthFetch } from "./privateFetch";
 import { IUser } from "@/models/userModel";
 import { ReactNode } from "react";
 import Loader from "@/components/loader";
+import { User } from "@/types";
+import { getMaxCompanies } from "@/contants";
 
 type AuthContextType = {
-  user: IUser | null;
+  user: User | null;
   setUser: any;
   authLoading: boolean;
   setAuthLoading: any;
@@ -26,7 +28,7 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
   const authFetch = useAuthFetch();
   const router = useRouter();
@@ -40,7 +42,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const res = await authFetch("user", {
           method: "GET",
         });
-        setUser(res.user);
+        setUser({
+          ...res.user,
+          maxCompanies:
+            getMaxCompanies[res.user.plan as keyof typeof getMaxCompanies] || 0,
+        });
+
         setAuthLoading(false);
 
         if (res.user?.plan === "none") {

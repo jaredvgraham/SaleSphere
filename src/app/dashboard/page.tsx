@@ -16,6 +16,7 @@ import MonthCompaniesChart from "@/components/companies/dashboard/MonthCompanies
 
 const Dashboard = () => {
   const { userId } = useAuth();
+  const { user } = useAuthTwo();
   const [company, setCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
   const [monthlyCompanies, setMonthlyCompanies] = useState<Company[]>([]);
@@ -26,6 +27,7 @@ const Dashboard = () => {
   const [totalCompanies, setTotalCompanies] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const authFetch = useAuthFetch();
   // const { authLoading } = useAuthTwo();
@@ -55,14 +57,28 @@ const Dashboard = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!company || !user?.maxCompanies) {
+      setError("Company name cannot be empty");
+      setIsLoading(false);
+      return;
+    }
+    if (user?.maxCompanies <= totalCompanies) {
+      setError("You have reached the maximum number of companies on your plan");
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
+
     try {
       const res = await authFetch("companies", {
         method: "POST",
         body: JSON.stringify({ company }),
       });
+      console.log("res", res);
+
       setCompanies((prevCompanies) => [...prevCompanies, res.mainCompany]);
       setCompany("");
+      setSuccess(`${res.mainCompany.name} added successfully`);
     } catch (error) {
       console.error(error);
       setError(formatError(error));
@@ -122,6 +138,9 @@ const Dashboard = () => {
         </div>
 
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+        {success && (
+          <p className="text-green-500 text-center mt-4">{success}</p>
+        )}
       </form>
       <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 p-6 w-full">
         <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
@@ -134,18 +153,19 @@ const Dashboard = () => {
         <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
           <h2 className="text-xl font-medium ml-4  p-2">
             Total Companies:
-            <strong className="text-gray-600"> {totalCompanies}</strong>
+            <strong className="text-gray-500"> {totalCompanies}</strong>
           </h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />
         </div>
         <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
           <h2 className="text-xl font-medium ml-4  p-2">
-            Companies this month:
-            <strong className="text-gray-600">
+            Monthly Companies:
+            <strong className="text-gray-500">
               {" "}
               {monthlyCompanies.length}
-            </strong>
+            </strong>{" "}
+            <strong className="text-gray-500">/ {user?.maxCompanies}</strong>
           </h2>
 
           <MonthCompaniesChart totalCompanies={monthlyCompanies} />

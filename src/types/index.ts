@@ -42,3 +42,14 @@ export interface UserCompanyRequest {
   website?: string;
   ceo: string;
 }
+
+export interface User {
+  _id: string;
+  email: string;
+  password: string;
+  plan: string;
+  companyIds: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  maxCompanies: number;
+}
