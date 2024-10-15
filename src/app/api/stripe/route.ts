@@ -12,7 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL?.split("/api")[0];
 
 async function getOrCreateCustomerId(user: IUserDocument) {
-  let customerId = user.customerId;
+  const customerId = user.customerId;
   if (!customerId) {
     console.log("Creating customer");
 
