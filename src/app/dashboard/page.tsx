@@ -11,12 +11,14 @@ import Loader from "@/components/loader";
 import { formatError } from "@/utils/formatErr";
 import { useAuthTwo } from "@/hooks/authContext";
 import { FiSend } from "react-icons/fi";
+import MonthCompaniesChart from "@/components/companies/dashboard/MonthCompaniesChart";
 // Import your chart component
 
 const Dashboard = () => {
   const { userId } = useAuth();
   const [company, setCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [monthlyCompanies, setMonthlyCompanies] = useState<Company[]>([]);
   const [selectedIndustryCompanies, setSelectedIndustryCompanies] = useState<
     Company[] | null
   >([]);
@@ -42,6 +44,7 @@ const Dashboard = () => {
         console.log("companies", res);
         setCompanies(res.companies);
         setTotalCompanies(res.totalCompanies);
+        setMonthlyCompanies(res.monthCompanies);
         setSelectedIndustryCompanies(null);
       } catch (error) {
         console.error(error);
@@ -135,6 +138,17 @@ const Dashboard = () => {
           </h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />
+        </div>
+        <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
+          <h2 className="text-xl font-medium ml-4  p-2">
+            Companies this month:
+            <strong className="text-gray-600">
+              {" "}
+              {monthlyCompanies.length}
+            </strong>
+          </h2>
+
+          <MonthCompaniesChart totalCompanies={monthlyCompanies} />
         </div>
       </div>
       {!selectedIndustryCompanies && (
