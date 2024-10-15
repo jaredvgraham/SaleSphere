@@ -8,6 +8,7 @@ import Loader from "../loader";
 import { set } from "mongoose";
 import RelatedCard from "./RelatedCard";
 import AddFav from "./AddFav";
+import { useCompany } from "@/hooks/companyContext";
 
 type Props = {
   companyId: string;
@@ -15,6 +16,11 @@ type Props = {
 };
 
 const CompanyPage = ({ companyId, layerDeep }: Props) => {
+  const { setGlobalCompanyId } = useCompany();
+  useEffect(() => {
+    setGlobalCompanyId(companyId);
+    console.log("setGlobalCompanyId", companyId);
+  }, [companyId]);
   const [company, setCompany] = useState<Company | null>(null);
   const [relatedCompanies, setRelatedCompanies] = useState<Company[]>([]);
   const [nearbyCompanies, setNearbyCompanies] = useState<Company[]>([]);

@@ -8,6 +8,7 @@ import { wikiScraper } from "@/services/scraping/wiki";
 import { getWebsite } from "@/services/chatGPT/getWebsite";
 
 import { getNumOfLocations } from "@/services/chatGPT/getNumOfLocations";
+import { sk } from "date-fns/locale";
 
 type WikiData = {
   name: string;
@@ -57,12 +58,10 @@ export async function GET(
     const rootCompany = await Company.findOne({
       _id: company.rootCompanyId,
     });
+    let skipRelation = false;
     if (!rootCompany) {
       console.log("Root company not found");
-      return NextResponse.json(
-        { error: "Root company not found" },
-        { status: 404 }
-      );
+      skipRelation = true;
     }
     const companyData: WikiData = {
       name: company.name,
@@ -77,8 +76,11 @@ export async function GET(
       numOfLocations: null,
     };
 
-    const [corr, website, wikiData, numOfLocations] = await Promise.all([
-      getDetails(rootCompany.name, company.name),
+    let corr = "";
+    if (!skipRelation) {
+      corr = await getDetails(rootCompany.name, company.name);
+    }
+    const [website, wikiData, numOfLocations] = await Promise.all([
       getWebsite(company.name),
       wikiScraper(company.name),
       getNumOfLocations(company.name),

@@ -3,9 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import SalesEditor from "@/components/emailEditor";
 import Loader from "@/components/loader"; // Import the loader
+import { useCompany } from "@/hooks/companyContext";
 
 const Console = () => {
   const { companyId } = useParams(); // Fetch the company ID from the URL parameters
+  const { setGlobalCompanyId } = useCompany();
+  useEffect(() => {
+    setGlobalCompanyId(companyId as string);
+  }, [companyId]);
   const [companyData, setCompanyData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

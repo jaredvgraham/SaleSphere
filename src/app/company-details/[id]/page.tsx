@@ -6,9 +6,15 @@ import { useAuthFetch } from "@/hooks/privateFetch";
 import Loader from "@/components/loader";
 import { Company } from "@/types";
 import AddFav from "@/components/companies/AddFav";
+import { useCompany } from "@/hooks/companyContext";
 
 const CompanyDetails = () => {
   const { id } = useParams(); // Fetch the company ID from the URL parameters
+  const { setGlobalCompanyId } = useCompany();
+  useEffect(() => {
+    setGlobalCompanyId(id as string);
+    console.log("setGlobalCompanyId", id);
+  }, [id]);
   const [companyData, setCompanyData] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { AuthProvider } from "@/hooks/authContext";
 import Loader from "@/components/loader";
+import { CompanyProvider } from "@/hooks/companyContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,11 +40,13 @@ export default function RootLayout({
           </ClerkLoading>
           <ClerkLoaded>
             <AuthProvider>
-              <Navbar />
-              <div className="flex w-full h-[94vh] bg-gray-100 overflow-hidden">
-                <Sidebar />
-                <div className="flex-1">{children}</div>
-              </div>
+              <CompanyProvider>
+                <Navbar />
+                <div className="flex w-full h-[94vh] bg-gray-100 overflow-hidden">
+                  <Sidebar />
+                  <div className="flex-1">{children}</div>
+                </div>
+              </CompanyProvider>
             </AuthProvider>
           </ClerkLoaded>
         </body>
