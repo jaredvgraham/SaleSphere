@@ -38,6 +38,14 @@ const Sidebar = () => {
             </Link>
           </li>
         </ul>
+        {/* Setyings */}
+        <div className="absolute bottom-0 ">
+          <div className="flex items-center justify-center text-gray-300 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300">
+            <Link href={"/settings"} className="text-lg">
+              Settings
+            </Link>
+          </div>
+        </div>
       </nav>
     </aside>
   );

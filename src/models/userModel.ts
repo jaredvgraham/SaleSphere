@@ -4,7 +4,7 @@ export interface IUser {
   clerkId: string;
   email: string;
   name: string;
-  plan: "basic" | "standard" | "premium";
+  plan: "none" | "basic" | "standard" | "premium";
   companyIds?: Types.ObjectId[];
   customerId?: string;
   subscriptionId?: string;
