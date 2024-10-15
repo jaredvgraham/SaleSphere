@@ -137,7 +137,7 @@ export async function GET(req: NextRequest) {
     console.log("monthCompanies", monthCompanies.length);
 
     return NextResponse.json(
-      { companies, totalCompanies: user.companyIds.length },
+      { companies, totalCompanies: user.companyIds.length, monthCompanies },
       { status: 200 }
     );
   } catch (error) {
