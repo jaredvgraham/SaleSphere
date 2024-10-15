@@ -64,10 +64,15 @@ type PricingPageProps = {
   currentPlanProp?: string | null;
 };
 
-const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
+const PricingPage = ({
+  upgrade = false,
+  currentPlanProp = null,
+}: PricingPageProps) => {
   const Router = useRouter();
   const authFetch = useAuthFetch();
-  const [currentPlan, setCurrentPlan] = useState(currentPlanProp);
+  const [currentPlan, setCurrentPlan] = useState<string | null>(
+    currentPlanProp
+  );
   const { user } = useAuthTwo();
   const [succsess, setSuccess] = useState("");
   const [error, setError] = useState("");
