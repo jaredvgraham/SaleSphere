@@ -58,7 +58,7 @@ const CompanyDetails = () => {
   return (
     <div className="h-screen bg-gray-100 p-6 overflow-scroll">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-500 via-teal-500 to-purple-600 text-white py-12 mb-8 rounded-lg shadow-lg">
+      <div className="relative bg-modern-gradient text-gray-600 py-12 mb-8 rounded-lg shadow-lg">
         <h1 className="text-5xl font-bold text-center">{companyData.name}</h1>
         <p className="text-center mt-4 text-lg">
           Explore detailed insights about{" "}

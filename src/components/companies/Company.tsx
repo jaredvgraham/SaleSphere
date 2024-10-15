@@ -80,7 +80,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   return (
     <div className="h-screen overflow-scroll bg-gray-50 p-8">
       {/* Company Information Section */}
-      <div className="bg-white shadow-md rounded-lg p-8 mb-10 flex justify-between">
+      <div className="bg-modern-gradient shadow-md rounded-lg p-8 mb-10 flex justify-between">
         <div>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
             {company?.name}

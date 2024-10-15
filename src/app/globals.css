@@ -25,3 +25,22 @@ body {
     text-wrap: balance;
   }
 } */
+
+.bg-modern-gradient {
+  background: linear-gradient(
+    135deg,
+    rgb(234, 247, 247),
+    rgb(232, 232, 232),
+    rgb(228, 234, 244),
+    rgb(240, 244, 248)
+  );
+}
+/* .bg-modern-gradient {
+  background: linear-gradient(
+    135deg,
+    rgb(211, 222, 240),
+    rgb(145, 180, 238),
+    rgb(167, 139, 250),
+    rgb(240, 244, 248)
+  );
+} */

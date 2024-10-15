@@ -10,6 +10,7 @@ import TotalCompaniesChart from "@/components/companies/dashboard/TotalCompanies
 import Loader from "@/components/loader";
 import { formatError } from "@/utils/formatErr";
 import { useAuthTwo } from "@/hooks/authContext";
+import { FiSend } from "react-icons/fi";
 // Import your chart component
 
 const Dashboard = () => {
@@ -91,43 +92,45 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-slate-50 overflow-scroll relative">
+    <div className="h-screen  overflow-scroll relative">
       {isLoading && <Loader />} {/* Show the loader when loading */}
       <form
         onSubmit={handleSubmit}
-        className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-white"
+        className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg"
       >
-        <h2 className="text-center text-4xl text-gray-900 font-semibold mb-6 italic">
-          <label htmlFor="company">Add new Company</label>
+        <h2 className="text-center text-3xl font-bold text-gray-500 mb-8">
+          Add New Company
         </h2>
-        <div className="flex items-center bg-gradient-to-r from-teal-200 via-blue-200 to-black rounded-full p-1">
+
+        <div className="relative flex items-center bg-gray-900 rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300">
           <input
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            className="flex-grow bg-white text-gray-800 px-6 py-3 rounded-full focus:outline-none border-none shadow-sm"
+            className="w-full p-4 pr-12 text-gray-300 bg-transparent rounded-lg focus:outline-none placeholder:-gray-400"
             placeholder="Enter company name"
           />
           <button
             type="submit"
-            className="ml-4 bg-gradient-to-r from-gray-600 to-black text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300 ease-in-out hover:bg-gray-800"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-gray-900 to-blue-400 text-white p-2 rounded-full shadow-md hover:from-gray-700 hover:to-blue-400 transition-transform  hover:scale-110 duration-300"
           >
-            Submit
+            <FiSend className="w-5 h-5" />
           </button>
         </div>
+
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </form>
       <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 p-6 w-full">
-        <div className="bg-white rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl ml-4 italic p-2">Industries</h2>
+        <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
+          <h2 className="text-xl font-medium ml-4  p-2">Industries</h2>
           <IndustryChart
             industryData={industryData}
             showBusinesses={showBusinesses}
           />
         </div>
-        <div className="bg-white rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl ml-4 italic p-2">
-            Total Companies<strong> {totalCompanies}</strong>
+        <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
+          <h2 className="text-xl font-medium ml-4  p-2">
+            Total Companies:<strong> {totalCompanies}</strong>
           </h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />
@@ -135,14 +138,16 @@ const Dashboard = () => {
       </div>
       {!selectedIndustryCompanies && (
         <>
-          <div className="p-6 w-full">
-            <h2 className="text-xl">Root Companies</h2>
+          <div className="p-6 w-full  ">
+            <h2 className="text-2xl font-medium p-2 text-center">
+              Root Companies
+            </h2>
             <RootCompanies
               companies={companies.filter((company) => !company.rootCompanyId)}
             />
           </div>
-          <div className="p-6 w-full">
-            <h2 className="text-xl">Favorites</h2>
+          <div className="p-6 w-full mt-2">
+            <h2 className="text-2xl font-medium p-2 text-center">Favorites</h2>
             <RootCompanies
               companies={companies.filter((company) => company.favorite)}
             />

@@ -36,8 +36,8 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
             {
               label: "Total Companies",
               data: [totalCompanies], // Use the totalCompanies value
-              backgroundColor: "#4CAF50", // Green color for the bar
-              borderColor: "#388E3C",
+              backgroundColor: "rgb(80,150,0)", // Set the bar color
+              borderColor: "white", // Optional: border color of bars
               borderWidth: 1,
             },
           ],

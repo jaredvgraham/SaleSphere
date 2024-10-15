@@ -42,8 +42,8 @@ const IndustryChart = ({ industryData, showBusinesses }: Props) => {
             {
               label: "Root Businesses", // Label for the dataset
               data: industryData.map((ind) => ind.businessCount), // Y-axis data
-              backgroundColor: "#36A2EB", // Set the bar color
-              borderColor: "#1E90FF", // Optional: border color of bars
+              backgroundColor: "rgb(80,30,140)", // Set the bar color
+              borderColor: "black", // Optional: border color of bars
               borderWidth: 1, // Border width for the bars
             },
           ],
