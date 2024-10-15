@@ -60,8 +60,8 @@ const packages = [
 ];
 
 type PricingPageProps = {
-  upgrade: boolean | null;
-  currentPlanProp: string | null;
+  upgrade?: boolean;
+  currentPlanProp?: string | null;
 };
 
 const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
