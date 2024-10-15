@@ -60,23 +60,18 @@ const packages = [
 ];
 
 type PricingPageProps = {
-  upgrade?: boolean;
+  upgrade?: boolean | null | undefined;
   currentPlanProp?: string | null;
 };
 
-const PricingPage = ({
-  upgrade = false,
-  currentPlanProp = null,
-}: PricingPageProps) => {
+const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
   const Router = useRouter();
   const authFetch = useAuthFetch();
-  const [currentPlan, setCurrentPlan] = useState<string | null>(
-    currentPlanProp
-  );
+  const [currentPlan, setCurrentPlan] = useState(currentPlanProp);
   const { user } = useAuthTwo();
   const [succsess, setSuccess] = useState("");
   const [error, setError] = useState("");
-
+  //
   useEffect(() => {
     if (user?.plan !== "none" && !upgrade) {
       Router.push("/");
