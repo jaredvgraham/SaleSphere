@@ -9,7 +9,7 @@ const Sidebar = () => {
   console.log("user", user);
 
   return (
-    <aside className=" w-64 h-full bg-black shadow-lg hidden lg:block">
+    <aside className=" w-64 h-[94vh] bg-black shadow-lg hidden lg:block">
       {/* Logo Section */}
       <div className="flex items-center justify-center h-20 bg-black">
         <h1 className="text-3xl font-semibold text-white">Logo</h1>

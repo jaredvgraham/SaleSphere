@@ -44,7 +44,7 @@ const Console = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-8">
+    <div className="h-[100%] bg-gradient-to-br from-slate-50 to-slate-100 p-8 overflow-scroll">
       <div className="bg-white shadow-xl rounded-3xl p-8 mb-8">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           {companyData.name}

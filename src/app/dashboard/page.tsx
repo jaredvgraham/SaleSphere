@@ -95,7 +95,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="h-screen  overflow-scroll relative">
+    <div className="h-[100%] overflow-scroll relative">
       {isLoading && <Loader />} {/* Show the loader when loading */}
       <form
         onSubmit={handleSubmit}

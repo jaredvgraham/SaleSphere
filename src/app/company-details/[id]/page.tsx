@@ -56,7 +56,7 @@ const CompanyDetails = () => {
   }
 
   return (
-    <div className="h-screen bg-gray-100 p-6 overflow-scroll">
+    <div className="h-[100%] bg-gray-100 p-6 overflow-scroll">
       {/* Hero Section */}
       <div className="relative bg-modern-gradient text-gray-600 py-12 mb-8 rounded-lg shadow-lg">
         <h1 className="text-5xl font-bold text-center">{companyData.name}</h1>

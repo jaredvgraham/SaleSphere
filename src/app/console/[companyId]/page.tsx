@@ -2,11 +2,7 @@ import Console from "@/components/console";
 import React from "react";
 
 const page = () => {
-  return (
-    <div>
-      <Console />
-    </div>
-  );
+  return <Console />;
 };
 
 export default page;

@@ -78,7 +78,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   }
 
   return (
-    <div className="h-screen overflow-scroll bg-gray-50 p-8">
+    <div className="h-[100%] overflow-scroll bg-gray-50 p-8">
       {/* Company Information Section */}
       <div className="bg-modern-gradient shadow-md rounded-lg p-8 mb-10 flex justify-between">
         <div>
