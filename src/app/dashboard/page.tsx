@@ -123,7 +123,7 @@ const Dashboard = () => {
 
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </form>
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 p-6 w-full">
+      <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 p-6 w-full">
         <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
           <h2 className="text-xl font-medium ml-4  p-2">Industries</h2>
           <IndustryChart

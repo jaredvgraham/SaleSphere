@@ -1,27 +1,22 @@
 import { useEffect, useRef } from "react";
 import {
   Chart,
-  LineController, // Use line chart
-  LineElement,
-  PointElement,
+  BarController,
+  BarElement,
   CategoryScale,
   LinearScale,
-  TimeScale,
   Tooltip,
   Legend,
 } from "chart.js";
-import "chartjs-adapter-date-fns"; // Adapter for working with date-fns in Chart.js
 import { Company } from "@/types";
-import { groupCompaniesByDate } from "@/utils";
+import { groupCompaniesByWeek } from "@/utils";
 
-// Register necessary components for a time-based line or bar chart
+// Register necessary components for the bar chart
 Chart.register(
-  LineController,
-  LineElement,
-  PointElement,
+  BarController,
+  BarElement,
   CategoryScale,
   LinearScale,
-  TimeScale, // Add TimeScale for X-axis
   Tooltip,
   Legend
 );
@@ -34,55 +29,43 @@ const MonthCompaniesChart = ({ totalCompanies }: Props) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // Group the companies by date (day or week)
-    const groupedData = groupCompaniesByDate(totalCompanies, "day");
+    // Group the companies by week for the last 4 weeks
+    const groupedData = groupCompaniesByWeek(totalCompanies);
 
     if (chartRef.current && groupedData.length > 0) {
       const ctx = chartRef.current.getContext("2d");
       if (!ctx) return;
 
+      // Dynamically generate labels "Week-1", "Week-2", etc.
+      const weekLabels = groupedData.map((_, index) => `Week-${index + 1}`);
+
       const chart = new Chart(ctx, {
-        type: "line", // Line chart
+        type: "bar", // Bar chart
         data: {
-          labels: groupedData.map((data) => data.date), // X-axis labels (dates)
+          labels: weekLabels, // Use the "Week-1", "Week-2" labels
           datasets: [
             {
               label: "Companies Created",
               data: groupedData.map((data) => data.count), // Y-axis data (counts)
               backgroundColor: "rgba(75, 192, 192, 0.6)",
               borderColor: "rgba(75, 192, 192, 1)",
-              fill: true, // Fill under the line
-              tension: 0.4, // Smooth the line
-              borderWidth: 2,
-              pointRadius: 3, // Size of data points
+              borderWidth: 1,
             },
           ],
         },
         options: {
           scales: {
             x: {
-              type: "time", // Time-based X-axis
-              time: {
-                unit: "day", // Ensure each day is plotted
-                displayFormats: {
-                  day: "d", // Display only the day (1, 2, 3, etc.)
-                },
-              },
               title: {
                 display: true,
-                text: "Day",
+                text: "Week",
               },
               ticks: {
-                source: "data", // Ensure it uses the data from the dataset
-                autoSkip: false, // Plot every single day
+                autoSkip: false, // Plot every week
               },
             },
             y: {
               beginAtZero: true,
-              title: {
-                display: true,
-                text: "Companies Created",
-              },
             },
           },
           plugins: {
