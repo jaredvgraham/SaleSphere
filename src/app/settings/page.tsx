@@ -1,10 +1,10 @@
 "use client";
 
-import LogoutButton from "@/components/LogoutButton";
 import { useAuthTwo } from "@/hooks/authContext";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import React, { useState } from "react";
 import PricingPage from "../pricing/page";
+import LogoutButton from "@/components/LogoutButton";
 
 const SettingsPage = () => {
   const { user } = useAuthTwo();
