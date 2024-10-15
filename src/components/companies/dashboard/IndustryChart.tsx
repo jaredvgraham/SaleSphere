@@ -34,22 +34,36 @@ const IndustryChart = ({ industryData, showBusinesses }: Props) => {
 
   useEffect(() => {
     if (chartRef.current) {
-      const chart = new Chart(chartRef.current, {
-        type: "bar", // Changed to "bar"
+      const ctx = chartRef.current.getContext("2d");
+      if (!ctx) return;
+
+      // Create the gradient for the bars
+      const gradient = ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        chartRef.current.height * 2
+      );
+      gradient.addColorStop(0, "rgba(79, 141, 242, 1)"); // Start color (top)
+
+      gradient.addColorStop(1, "rgba(169, 169, 169, 1)"); // End color (bottom)
+
+      const chart = new Chart(ctx, {
+        type: "bar",
         data: {
           labels: industryData.map((ind) => ind.name), // X-axis labels
           datasets: [
             {
               label: "Root Businesses", // Label for the dataset
               data: industryData.map((ind) => ind.businessCount), // Y-axis data
-              backgroundColor: "rgb(80,30,140)", // Set the bar color
+              backgroundColor: gradient, // Set the gradient as the bar color
               borderColor: "black", // Optional: border color of bars
               borderWidth: 1, // Border width for the bars
             },
           ],
         },
         options: {
-          indexAxis: "y",
+          indexAxis: "y", // Horizontal bar chart
           scales: {
             x: {
               beginAtZero: true, // X-axis starts at 0

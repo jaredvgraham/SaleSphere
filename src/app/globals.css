@@ -35,12 +35,12 @@ body {
     rgb(240, 244, 248)
   );
 }
-/* .bg-modern-gradient {
+.bg-modern-gradient2 {
   background: linear-gradient(
     135deg,
     rgb(211, 222, 240),
-    rgb(145, 180, 238),
+    rgb(79, 141, 242),
     rgb(167, 139, 250),
     rgb(240, 244, 248)
   );
-} */
+}

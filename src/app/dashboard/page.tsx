@@ -102,12 +102,12 @@ const Dashboard = () => {
           Add New Company
         </h2>
 
-        <div className="relative flex items-center bg-gray-900 rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300">
+        <div className="relative flex items-center bg-gray-300 rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300">
           <input
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            className="w-full p-4 pr-12 text-gray-300 bg-transparent rounded-lg focus:outline-none placeholder:-gray-400"
+            className="w-full p-4 pr-12 text-gray-800 bg-transparent rounded-lg focus:outline-none placeholder:-gray-800"
             placeholder="Enter company name"
           />
           <button
@@ -130,7 +130,8 @@ const Dashboard = () => {
         </div>
         <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
           <h2 className="text-xl font-medium ml-4  p-2">
-            Total Companies:<strong> {totalCompanies}</strong>
+            Total Companies:
+            <strong className="text-gray-600"> {totalCompanies}</strong>
           </h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />

@@ -5,6 +5,7 @@ import { getSimilarCompanies } from "@/services/chatGPT/getSimilarCompanies";
 import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 import { addCompanies } from "@/services/mongo/addCompanies";
 import { addSizeAndRev } from "@/services/mongo/addSizeAndRev";
+import { getCompaniesThisMonth } from "@/services/mongo/companiesThisMonth";
 import { auth } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
@@ -124,16 +125,16 @@ export async function GET(req: NextRequest) {
       _id: { $in: user.companyIds },
       $or: [{ onDashboard: true }, { favorite: true }],
     });
-    for (let i = 0; i < companies.length; i++) {
-      console.log("company on dqah", companies[i].onDashboard);
-    }
+
     if (!companies) {
       return NextResponse.json(
         { error: "Companies not found" },
         { status: 404 }
       );
     }
-    console.log("length", user.companyIds.length);
+    const { monthCompanies } = await getCompaniesThisMonth(user);
+
+    console.log("monthCompanies", monthCompanies.length);
 
     return NextResponse.json(
       { companies, totalCompanies: user.companyIds.length },

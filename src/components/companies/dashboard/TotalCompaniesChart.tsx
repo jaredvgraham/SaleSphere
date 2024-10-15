@@ -28,7 +28,20 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
 
   useEffect(() => {
     if (chartRef.current) {
-      const chart = new Chart(chartRef.current, {
+      const ctx = chartRef.current.getContext("2d");
+      if (!ctx) return;
+
+      // Create a green gradient for the bar
+      const gradient = ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        chartRef.current.height
+      );
+      gradient.addColorStop(0, "rgba(34, 139, 34, 1)"); // Darker green at the top
+      gradient.addColorStop(1, "rgba(144, 238, 144, 1)"); // Lighter green at the bottom
+
+      const chart = new Chart(ctx, {
         type: "bar", // Bar chart type
         data: {
           labels: ["Total Companies"],
@@ -36,7 +49,7 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
             {
               label: "Total Companies",
               data: [totalCompanies], // Use the totalCompanies value
-              backgroundColor: "rgb(80,150,0)", // Set the bar color
+              backgroundColor: gradient, // Use the gradient as background
               borderColor: "white", // Optional: border color of bars
               borderWidth: 1,
             },
