@@ -4,7 +4,7 @@ import { useAuthTwo } from "@/hooks/authContext";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import React, { useState } from "react";
 import PricingPage from "../pricing/page";
-import LogoutButton from "@/components/LogoutButton";
+import Logout from "@/components/Logout";
 
 const SettingsPage = () => {
   const { user } = useAuthTwo();
@@ -89,7 +89,7 @@ const SettingsPage = () => {
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">
               Logout
             </h2>
-            <LogoutButton />
+            <Logout />
           </div>
         </div>
       </div>
