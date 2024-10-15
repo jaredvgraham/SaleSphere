@@ -4,6 +4,7 @@ import User, { IUser } from "@/models/userModel";
 import { auth } from "@clerk/nextjs/server";
 import { Document } from "mongoose";
 import { connectDB } from "@/lib/db";
+import { createRecurringPrice } from "@/utils/reacuringPrice";
 interface IUserDocument extends IUser, Document {}
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
@@ -23,24 +24,6 @@ async function getOrCreateCustomerId(user: IUserDocument) {
   }
 
   return customerId;
-}
-
-async function createRecurringPrice(plan: string) {
-  let price: number;
-  switch (plan) {
-    case "basic":
-      price = 1000;
-      break;
-    case "standard":
-      price = 5000;
-      break;
-    case "premium":
-      price = 10000;
-      break;
-    default:
-      price = 0;
-  }
-  return price;
 }
 
 export async function POST(req: NextRequest) {
@@ -104,6 +87,78 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const { userId } = auth();
+    await connectDB();
+    const user = (await User.findOne({ clerkId: userId })) as IUserDocument;
+
+    const { newPlan } = await req.json();
+    console.log("New Plan", newPlan);
+
+    if (user.plan === newPlan) {
+      return NextResponse.json(
+        { message: "User already subscribed to this plan" },
+        { status: 400 }
+      );
+    }
+
+    const recurringPrice = await createRecurringPrice(newPlan);
+
+    if (recurringPrice === 0) {
+      return NextResponse.json({ message: "Invalid plan" }, { status: 400 });
+    }
+
+    const recurringStripePrice = await stripe.prices.create({
+      unit_amount: recurringPrice,
+      currency: "usd",
+      recurring: {
+        interval: "month",
+      },
+      metadata: {
+        type: "indefinite",
+      },
+      product_data: {
+        name: newPlan,
+      },
+    });
+
+    // get or create customer Id
+    const customerId = await getOrCreateCustomerId(user);
+    console.log("Customer ID", customerId);
+
+    // Create a checkout session for the purchase
+
+    const subscription = await stripe.subscriptions.retrieve(
+      user.subscriptionId as string
+    );
+    console.log("Subscription", subscription);
+
+    const updatedSubscription = await stripe.subscriptions.update(
+      user.subscriptionId as string,
+      {
+        cancel_at_period_end: false,
+        items: [
+          {
+            id: subscription.items.data[0].id,
+            price: recurringStripePrice.id,
+          },
+        ],
+        proration_behavior: "create_prorations",
+      }
+    );
+
+    console.log("Updated Subscription", updatedSubscription);
+
+    user.plan = newPlan;
+    await user.save();
+
+    return NextResponse.json({ status: 200, message: "Subscription updated" });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

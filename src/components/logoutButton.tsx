@@ -1,8 +1,8 @@
 import React from "react";
 import { SignOutButton } from "@clerk/nextjs";
 
-const logoutButton = () => {
+const LogoutButton = () => {
   return <SignOutButton />;
 };
 
-export default logoutButton;
+export default LogoutButton;

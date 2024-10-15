@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import RootCompanies from "@/components/companies/RootCompanies";
-import LogoutButton from "@/components/logoutButton";
+
 import { useAuthFetch } from "@/hooks/privateFetch";
 import { Company } from "@/types";
 import { useAuth } from "@clerk/nextjs";
@@ -9,6 +9,7 @@ import IndustryChart from "@/components/companies/dashboard/IndustryChart";
 import TotalCompaniesChart from "@/components/companies/dashboard/TotalCompaniesChart";
 import Loader from "@/components/loader";
 import { formatError } from "@/utils/formatErr";
+import { useAuthTwo } from "@/hooks/authContext";
 // Import your chart component
 
 const Dashboard = () => {
@@ -24,6 +25,11 @@ const Dashboard = () => {
   const [error, setError] = useState("");
 
   const authFetch = useAuthFetch();
+  // const { authLoading } = useAuthTwo();
+
+  // if (authLoading) {
+  //   return <Loader />;
+  // }
 
   useEffect(() => {
     const fetchCompanies = async () => {

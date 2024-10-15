@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaCheck, FaTimes } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { useAuthFetch } from "@/hooks/privateFetch";
+import { useAuthTwo } from "@/hooks/authContext";
 
 const allFeatures = [
   { text: "Website" },
@@ -58,20 +59,59 @@ const packages = [
   },
 ];
 
-const PricingPage = () => {
+type PricingPageProps = {
+  upgrade: boolean | null;
+  currentPlanProp: string | null;
+};
+
+const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
   const Router = useRouter();
   const authFetch = useAuthFetch();
+  const [currentPlan, setCurrentPlan] = useState(currentPlanProp);
+  const { user } = useAuthTwo();
+  const [succsess, setSuccess] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (user?.plan !== "none" && !upgrade) {
+      Router.push("/");
+    }
+  }, [user]);
 
   const handlePlan = async (title: string) => {
+    if (currentPlan === title.toLowerCase()) {
+      return;
+    }
+    if (upgrade) {
+      handleUpgradePlan(title.toLowerCase());
+      return;
+    }
     try {
       const res = await authFetch("stripe", {
         method: "POST",
         body: JSON.stringify({ plan: title.toLowerCase() }),
       });
       console.log("selected plan", res);
+
       Router.push(res.url);
     } catch (error) {
       console.error("Error selecting plan:", error);
+      setError("Error selecting plan");
+    }
+  };
+
+  const handleUpgradePlan = async (newPlan: string) => {
+    try {
+      const res = await authFetch("stripe", {
+        method: "PUT",
+        body: JSON.stringify({ newPlan }),
+      });
+      console.log("upgrade plan", res);
+      setSuccess("Plan changed successfully");
+      setCurrentPlan(newPlan.toLowerCase());
+    } catch (error) {
+      console.error("Error upgrading plan:", error);
+      setError("Error upgrading plan");
     }
   };
 
@@ -81,6 +121,12 @@ const PricingPage = () => {
         <h1 className="text-4xl md:text-6xl font-extrabold text-center m-5 text-gray-600">
           Pricing Plans
         </h1>
+        {error && (
+          <p className="text-red-500 text-center font-semibold">{error}</p>
+        )}
+        {succsess && (
+          <p className="text-green-500 text-center font-semibold">{succsess}</p>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {packages.map((pkg) => (
             <div
@@ -90,6 +136,9 @@ const PricingPage = () => {
                 pkg.title === "Standard Plan"
                   ? "border-4 gradient-border scale-105 "
                   : ""
+              } ${
+                pkg.title.toLowerCase() === currentPlan &&
+                "bg-gray-200 cursor-not-allowed opacity-50 line-through"
               }`}
             >
               {pkg.title === "Standard Plan" && (

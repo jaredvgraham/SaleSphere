@@ -5,6 +5,7 @@ import { ClerkLoaded, ClerkLoading, ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { AuthProvider } from "@/hooks/authContext";
+import Loader from "@/components/loader";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +35,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ClerkLoading>
-            <div>Loading...</div>
+            <Loader />
           </ClerkLoading>
           <ClerkLoaded>
             <AuthProvider>

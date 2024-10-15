@@ -1,20 +1,31 @@
 "use client";
+
+import LogoutButton from "@/components/LogoutButton";
 import { useAuthTwo } from "@/hooks/authContext";
-import React from "react";
+import { useAuthFetch } from "@/hooks/privateFetch";
+import React, { useState } from "react";
+import PricingPage from "../pricing/page";
 
 const SettingsPage = () => {
   const { user } = useAuthTwo();
+  const authFetch = useAuthFetch();
+  const [showPlans, setShowPlans] = useState(false);
   if (!user) return null;
 
-  const handleCancelPlan = () => {
-    // Logic to cancel the user's plan
-    console.log("Plan cancelled");
+  const handleCancelPlan = async () => {
+    try {
+      const res = await authFetch("stripe/cancel", {
+        method: "POST",
+      });
+      console.log("cancel subscription", res);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleUpgradePlan = () => {
-    // Logic to upgrade the user's plan
-    console.log("Upgrade plan");
-  };
+  if (showPlans) {
+    return <PricingPage upgrade={true} currentPlanProp={user.plan} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200 py-12 px-6">
@@ -55,7 +66,7 @@ const SettingsPage = () => {
             </p>
             {user.plan !== "premium" && (
               <button
-                onClick={handleUpgradePlan}
+                onClick={() => setShowPlans(true)}
                 className="  w-full text-center bg-blue-600 text-white py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300"
               >
                 Upgrade Plan
@@ -71,6 +82,14 @@ const SettingsPage = () => {
                 </button>
               </div>
             )}
+          </div>
+          {/* Logout */}
+
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-semibold text-gray-700 mb-4">
+              Logout
+            </h2>
+            <LogoutButton />
           </div>
         </div>
       </div>
