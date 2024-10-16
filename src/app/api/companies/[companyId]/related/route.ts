@@ -9,6 +9,9 @@ import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 import { getMoreCompanies } from "@/services/chatGPT/getMoreSimilar";
 import { ObjectId } from "mongoose";
 
+export const maxDuration = 300; // 300 seconds or 5 minutes
+export const dynamic = "force-dynamic";
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { companyId: string } }

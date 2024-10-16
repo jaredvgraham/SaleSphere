@@ -10,6 +10,9 @@ import { getSizeAndRev } from "@/services/chatGPT/getSizeAndRev";
 import { fetchRelatedAndNearbyCompanies } from "@/services/mongo/fetchRelatedAndNearbyCompanies";
 import { addSizeAndRev } from "@/services/mongo/addSizeAndRev";
 
+export const maxDuration = 300; // 300 seconds or 5 minutes
+export const dynamic = "force-dynamic";
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { companyId: string } }

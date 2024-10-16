@@ -10,6 +10,9 @@ import { auth } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
+export const maxDuration = 300; // 300 seconds or 5 minutes
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const { userId } = auth();

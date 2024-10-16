@@ -10,6 +10,9 @@ import { getWebsite } from "@/services/chatGPT/getWebsite";
 import { getNumOfLocations } from "@/services/chatGPT/getNumOfLocations";
 import { sk } from "date-fns/locale";
 
+export const maxDuration = 300; // 300 seconds or 5 minutes
+export const dynamic = "force-dynamic";
+
 type WikiData = {
   name: string;
   summary: string;
