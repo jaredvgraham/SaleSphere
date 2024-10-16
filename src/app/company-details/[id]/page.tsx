@@ -79,7 +79,7 @@ const CompanyDetails = () => {
             {companyData?.rootCompanyId && (
               <div className="flex ">
                 <Link
-                  href={`/company-details/${companyData.rootCompanyId}`}
+                  href={`/company/${companyData.rootCompanyId}`}
                   className="text-blue-400 hover:underline"
                 >
                   Back to Root →
