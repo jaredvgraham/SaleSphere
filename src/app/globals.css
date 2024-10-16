@@ -47,10 +47,19 @@ body {
 .bg-card {
   background: linear-gradient(
     135deg,
-    rgb(255, 255, 255),
-    rgb(249, 246, 246),
-    rgb(231, 255, 255, 0.4),
-    rgb(255, 255, 255)
+    rgb(91, 93, 96),
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(91, 93, 96)
+  );
+}
+.bg-alt {
+  background: linear-gradient(
+    135deg,
+    rgb(11, 11, 11),
+    rgb(14, 13, 13),
+    rgb(0, 0, 0),
+    rgb(34, 34, 34)
   );
 }
 .bg-card-blue {

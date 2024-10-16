@@ -9,7 +9,7 @@ const Loader: React.FC = () => {
         justifyContent: "center",
         alignItems: "center",
         minHeight: "100vh",
-        backgroundColor: "rgba(255, 255, 255, 0.8)", // Optional: Slight background overlay
+        // Optional: Slight background overlay
       }}
     >
       <div

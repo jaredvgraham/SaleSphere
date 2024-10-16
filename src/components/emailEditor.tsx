@@ -81,8 +81,10 @@ export default function SalesEditor({ companyId }: SalesEditorProps) {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8">
-      <h1 className="text-3xl font-bold mb-6">Sales Email Assistant</h1>
+    <div className="flex flex-col items-center justify-center  p-8">
+      <h1 className="text-3xl font-bold mb-6 text-gray-300">
+        Sales Email Assistant
+      </h1>
 
       {/* Slate Editor */}
       <Slate
@@ -94,7 +96,7 @@ export default function SalesEditor({ companyId }: SalesEditorProps) {
       >
         <Editable
           placeholder="Start writing your email..."
-          className="w-full max-w-2xl p-4 border border-gray-300 rounded-lg mb-4"
+          className="w-full max-w-2xl p-4 border border-gray-300 rounded-lg mb-4 text-gray-300"
         />
       </Slate>
 

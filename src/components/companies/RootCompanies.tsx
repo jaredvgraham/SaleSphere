@@ -18,22 +18,22 @@ const RootCompanies = ({ companies }: Props) => {
       {companies?.map((company) => (
         <div
           key={company._id}
-          className="bg-card p-6 rounded-lg shadow-md hover:shadow-2xl  cursor-pointer transition-all duration-300 transform hover:-translate-y-1 border  hover:border-blue-500"
+          className="bg-card p-6 rounded-lg shadow-md hover:shadow-2xl  cursor-pointer transition-all duration-300 transform hover:-translate-y-1 border  hover:border-blue-400"
           onClick={() => router.push(`/company/${company._id}`)}
         >
           <div className="flex justify-between mb-2">
             <div className="flex flex-col ">
-              <h2 className="text-xl font-semibold text-gray-800 mb-2">
+              <h2 className="text-xl font-semibold text-gray-300 mb-2">
                 {company.name}
               </h2>
-              <p className="text-gray-600 mb-4">{company.industry}</p>
+              <p className="text-gray-400 mb-4">{company.industry}</p>
 
               {company.website && (
                 <Link
                   href={company.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
+                  className="text-blue-400 hover:underline"
                   onClick={(e) => e.stopPropagation()}
                 >
                   Visit Website
@@ -46,7 +46,7 @@ const RootCompanies = ({ companies }: Props) => {
           </div>
 
           <div className="mt-4 text-right">
-            <span className="text-blue-600 font-semibold hover:underline">
+            <span className="text-blue-400 font-semibold hover:underline">
               View Details →
             </span>
           </div>

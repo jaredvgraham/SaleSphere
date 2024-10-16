@@ -49,11 +49,15 @@ const Console = () => {
   }
 
   return (
-    <div className="h-[100%] bg-gradient-to-br from-slate-50 to-slate-100 p-8 overflow-scroll">
-      <div className="bg-white shadow-xl rounded-3xl p-8 mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+    <div className="h-[100%]  p-8 overflow-scroll">
+      <div className=" shadow-xl rounded-3xl p-8 mb-8">
+        <h1 className="text-4xl font-bold text-gray-300 mb-4">
           {companyData.name}
         </h1>
+        <div>
+          <SalesEditor companyId={companyId as string} />{" "}
+          {/* Add the email editor */}
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
             <h2 className="text-2xl font-semibold text-indigo-700 mb-2">
@@ -74,10 +78,6 @@ const Console = () => {
             <p className="text-gray-700 mb-4">
               {companyData.keyPeople || "No key people information available."}
             </p>
-          </div>
-          <div>
-            <SalesEditor companyId={companyId as string} />{" "}
-            {/* Add the email editor */}
           </div>
         </div>
       </div>

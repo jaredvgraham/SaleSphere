@@ -41,6 +41,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
         });
 
         setCompany(res.company);
+        console.log("company", res.company);
 
         setRelatedCompanies(res.related);
 
@@ -84,30 +85,41 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   }
 
   return (
-    <div className="h-[100%] overflow-scroll bg-gray-50 p-8">
+    <div className="h-[100%] overflow-scroll  p-8">
       {/* Company Information Section */}
-      <div className="bg-modern-gradient shadow-md rounded-lg p-8 mb-10 flex justify-between">
+      <div className="border-2 border-gray-500 shadow-md rounded-lg p-8 mb-10 flex justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            {company?.name}
+          <h1 className="text-4xl font-bold text-gray-300 mb-4">
+            {company?.name} :{" "}
+            {!company?.rootCompanyId ? (
+              <span className="text-violet-400">Root Company</span>
+            ) : (
+              <span className="text-red-300">Related Company</span>
+            )}
           </h1>
-          <p className="text-lg text-gray-600 mb-4">
+          <p className="text-lg text-gray-300 mb-4">
             <span className="font-semibold">Website:</span>{" "}
             <a
               href={company?.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="text-blue-400 hover:underline"
             >
               {company?.website}
             </a>
           </p>
 
-          <h2 className="text-lg font-semibold text-gray-600 mb-4">
-            Revenue: {company?.revenue || "Not available"}
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            Revenue:{" "}
+            <span className="text-green-400">
+              {company?.revenue || "Not available"}
+            </span>
           </h2>
-          <h2 className="text-lg font-semibold text-gray-600 mb-4">
-            Employee Count: {company?.employeeCount || "Not available"}
+          <h2 className="text-lg font-semibold text-gray-300 mb-4">
+            Employee Count:{" "}
+            <strong className="">
+              {company?.employeeCount || "Not available"}
+            </strong>
           </h2>
         </div>
         <div>
@@ -120,11 +132,11 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
       {/* Related Companies Section */}
       <div className="mb-10">
         <div className="flex justify-between mb-2">
-          <h2 className="text-2xl font-semibold text-gray-800  ">
+          <h2 className="text-2xl font-semibold text-gray-300  ">
             Related Companies
           </h2>
           <button
-            className="p-2 bg-black text-white rounded-xl"
+            className="p-2 bg-gray-900 text-white rounded-xl"
             onClick={handleGetMoreRelatedCompanies}
           >
             Get more related companies
