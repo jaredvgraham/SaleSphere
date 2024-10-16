@@ -7,6 +7,7 @@ import Loader from "@/components/loader";
 import { Company } from "@/types";
 import AddFav from "@/components/companies/AddFav";
 import { useCompany } from "@/hooks/companyContext";
+import Link from "next/link";
 
 const CompanyDetails = () => {
   const { id } = useParams(); // Fetch the company ID from the URL parameters
@@ -70,14 +71,22 @@ const CompanyDetails = () => {
           Explore detailed insights about{" "}
           <span className="font-semibold">{companyData.name}</span>.
         </p>
-        <div className=" absolute top-5 right-5 z-30">
-          <AddFav
-            relatedCompany={{
-              ...companyData,
-              _id: Array.isArray(id) ? id[0] : id,
-            }}
-            size={40}
-          />
+        <div className="absolute top-0 right-0 p-4">
+          <div className="flex flex-col justify-between">
+            <div className="flex justify-end  p-4">
+              <AddFav relatedCompany={companyData as Company} size={60} />
+            </div>
+            {companyData?.rootCompanyId && (
+              <div className="flex ">
+                <Link
+                  href={`/company-details/${companyData.rootCompanyId}`}
+                  className="text-blue-400 hover:underline"
+                >
+                  Back to Root →
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -131,6 +140,19 @@ const CompanyDetails = () => {
             className="text-blue-400 hover:underline"
           >
             {companyData.website || "No website available."}
+          </a>
+          <h2 className="text-2xl font-semibold text-gray-300 mt-4 mb-4">
+            LinkedIn
+          </h2>
+          <a
+            className="text-blue-400 hover:underline"
+            href={`https://www.linkedin.com/company/${companyData.name
+              .split(" ")
+              .join("")}`}
+          >
+            {`https://www.linkedin.com/company/${companyData.name
+              .split(" ")
+              .join("")}`}
           </a>
         </div>
         <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">

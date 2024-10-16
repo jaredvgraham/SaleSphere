@@ -122,10 +122,20 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
             </strong>
           </h2>
         </div>
-        <div>
+        <div className="flex flex-col justify-between">
           <div className="flex justify-end  p-4">
             <AddFav relatedCompany={company as Company} size={60} />
           </div>
+          {company?.rootCompanyId && (
+            <div className="flex ">
+              <Link
+                href={`/company-details/${company.rootCompanyId}`}
+                className="text-blue-400 hover:underline"
+              >
+                Back to Root →
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
