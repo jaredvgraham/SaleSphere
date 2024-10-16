@@ -12,23 +12,20 @@ type SidebarProps = {
 };
 
 const Sidebar = ({ path }: SidebarProps) => {
-  const [pathName, setPathName] = useState(path || "/");
+  const [pathName, setPathName] = useState(path || "/dashboard");
   const { user } = useAuthTwo();
   console.log("user", user);
   const { globalCompanyId } = useCompany();
 
   const pathname = usePathname();
 
+  const isDashboard = pathname === "/" || pathname === "/dashboard";
+
   const dashboardLinks = [
     {
       name: "Your Company",
       icon: <FiHome className="w-5 h-5 mr-3" />,
       link: "/user-company",
-    },
-    {
-      name: "Email Editor",
-      icon: <FiMail className="w-5 h-5 mr-3" />,
-      link: "/email-editor",
     },
   ];
 
@@ -51,10 +48,10 @@ const Sidebar = ({ path }: SidebarProps) => {
   ];
 
   return (
-    <aside className="w-64 h-[94vh] bg-black shadow-lg hidden lg:block relative">
+    <aside className="w-64 h-[94vh] nav-col shadow-lg hidden lg:block relative border-r-2">
       {/* Logo Section */}
-      <div className="flex items-center justify-center h-20 bg-black">
-        <h1 className="text-3xl font-semibold text-white">Logo</h1>
+      <div className="flex items-center justify-center h-20 border-b-2 ">
+        <h1 className="text-3xl font-semibold text-gray-100">Logo</h1>
       </div>
 
       {/* Navigation Section */}
@@ -62,7 +59,11 @@ const Sidebar = ({ path }: SidebarProps) => {
         <ul className="space-y-4">
           <li className="p-2">
             <Link href="/">
-              <div className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300">
+              <div
+                className={`flex items-center text-gray-100 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
+                  isDashboard && "bg-gray-500"
+                }`}
+              >
                 <FiHome className="w-5 h-5 mr-3" />
                 <span className="text-lg">Dashboard</span>
               </div>
@@ -75,7 +76,11 @@ const Sidebar = ({ path }: SidebarProps) => {
             ? dashboardLinks.map((link, index) => (
                 <li key={index} className="p-2">
                   <Link href={link.link}>
-                    <div className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300">
+                    <div
+                      className={`flex items-center text-gray-100 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
+                        pathname.includes(link.link) && "bg-gray-500"
+                      }`}
+                    >
                       {link.icon}
                       <span className="text-lg">{link.name}</span>
                     </div>
@@ -85,7 +90,7 @@ const Sidebar = ({ path }: SidebarProps) => {
             : companyLinks.map((link, index) => (
                 <li key={index} className="p-2">
                   <Link href={link.link}>
-                    <div className="flex items-center text-gray-300 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300">
+                    <div className="flex items-center text-gray-600 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300">
                       {link.icon}
                       <span className="text-lg">{link.name}</span>
                     </div>
@@ -96,10 +101,10 @@ const Sidebar = ({ path }: SidebarProps) => {
           {/* Dynamically map through companyLinks if companyId is provided */}
         </ul>
         {/* Settings Link */}
-        <div className="absolute bottom-6 w-full ">
+        <div className="absolute bottom-6 w-full  ">
           <Link href="/settings">
-            <div className="flex justify-center text-gray-300 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ">
-              <span className="text-lg text-gray-300">Settings</span>
+            <div className="flex justify-center  hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ">
+              <span className="text-lg text-gray-100">Settings</span>
             </div>
           </Link>
         </div>

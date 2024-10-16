@@ -115,7 +115,7 @@ const Dashboard = () => {
       {isLoading && <Loader />} {/* Show the loader when loading */}
       <form
         onSubmit={handleSubmit}
-        className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg"
+        className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg mt-2"
       >
         <h2 className="text-center text-3xl font-bold text-gray-500 mb-8">
           Add New Company
@@ -150,10 +150,10 @@ const Dashboard = () => {
             showBusinesses={showBusinesses}
           />
         </div>
-        <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl font-medium ml-4  p-2">
+        <div className="bg-gray-800 rounded-xl p-2 shadow-lg">
+          <h2 className="text-xl text-gray-100 font-medium ml-4  p-2">
             Total Companies:
-            <strong className="text-gray-500"> {totalCompanies}</strong>
+            <strong className="text-gray-200"> {totalCompanies}</strong>
           </h2>
 
           <TotalCompaniesChart totalCompanies={totalCompanies} />

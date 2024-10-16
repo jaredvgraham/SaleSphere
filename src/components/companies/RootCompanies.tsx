@@ -50,19 +50,6 @@ const RootCompanies = ({ companies }: Props) => {
               View Details →
             </span>
           </div>
-
-          {/* Add View Company in Console Button */}
-          <div className="mt-4 text-right">
-            <button
-              className="p-2 bg-gray-800 text-white rounded-md hover:bg-gray-900 transition"
-              onClick={(e) => {
-                e.stopPropagation();
-                router.push(`/console/${company._id}`);
-              }}
-            >
-              View Company in Console
-            </button>
-          </div>
         </div>
       ))}
     </div>

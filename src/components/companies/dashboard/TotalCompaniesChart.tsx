@@ -55,6 +55,34 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
             },
           ],
         },
+        options: {
+          scales: {
+            x: {
+              ticks: {
+                color: "white", // Set X-axis text color to white
+              },
+            },
+            y: {
+              beginAtZero: true,
+              ticks: {
+                color: "white", // Set Y-axis text color to white
+              },
+              grid: {
+                color: "white", // Set Y-axis gridline color to white
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                color: "white", // Set legend text color to white
+              },
+            },
+            tooltip: {
+              bodyColor: "white", // Tooltip text color
+            },
+          },
+        },
       });
 
       return () => {
