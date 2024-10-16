@@ -33,7 +33,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-modern-gradient`}
         >
           <ClerkLoading>
             <Loader />
@@ -41,7 +41,7 @@ export default function RootLayout({
           <ClerkLoaded>
             <AuthProvider>
               <CompanyProvider>
-                <div className=" bg-modern-gradient">
+                <div className=" ">
                   <Navbar />
                   <div className="flex w-full h-[94vh] overflow-hidden">
                     <Sidebar />
