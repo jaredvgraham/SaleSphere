@@ -52,6 +52,7 @@ export async function GET(
         _id: company._id,
         favorite: company.favorite,
         numOfLocations: company.numOfLocations,
+        rootCompanyId: company.rootCompanyId,
       };
       console.log("sending past data", dataToSend);
       return NextResponse.json({ companyData: dataToSend }, { status: 200 });
