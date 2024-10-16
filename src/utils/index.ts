@@ -27,7 +27,7 @@ export const groupCompaniesByWeek = (companies: Company[]) => {
     const createdAt = new Date(company.createdAt as Date);
     return createdAt >= pastDate && createdAt <= currentDate;
   });
-
+  //
   // Group the companies by week
   filteredCompanies.forEach((company) => {
     const createdAt = new Date(company.createdAt as Date);
