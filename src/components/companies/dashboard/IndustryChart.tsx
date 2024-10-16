@@ -79,6 +79,7 @@ const IndustryChart = ({ industryData, showBusinesses }: Props) => {
             y: {
               grid: {
                 color: "white",
+                drawTicks: false,
               },
               ticks: {
                 color: "white",

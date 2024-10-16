@@ -76,6 +76,7 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
               },
               grid: {
                 color: "white",
+                drawTicks: false,
               },
             },
           },

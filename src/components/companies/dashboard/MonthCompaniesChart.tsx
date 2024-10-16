@@ -37,7 +37,7 @@ const MonthCompaniesChart = ({ totalCompanies }: Props) => {
       if (!ctx) return;
 
       // Dynamically generate labels "Week-1", "Week-2", etc.
-      const weekLabels = groupedData.map((_, index) => `Week-${index + 1}`);
+      const weekLabels = groupedData.map((_, index) => `W-${index + 1}`);
 
       const chart = new Chart(ctx, {
         type: "bar", // Bar chart
@@ -59,10 +59,23 @@ const MonthCompaniesChart = ({ totalCompanies }: Props) => {
             x: {
               ticks: {
                 autoSkip: false, // Plot every week
+                color: "white",
+              },
+              grid: {
+                color: "white",
+                drawTicks: false,
               },
             },
             y: {
               beginAtZero: true,
+
+              ticks: {
+                color: "white",
+              },
+              grid: {
+                color: "white",
+                display: false,
+              },
             },
           },
           plugins: {

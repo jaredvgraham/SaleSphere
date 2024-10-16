@@ -113,12 +113,12 @@ const Dashboard = () => {
   return (
     <div className="h-[100%] overflow-scroll relative p-3">
       {isLoading && <Loader />} {/* Show the loader when loading */}
-      <div className=" p-6 w-full rounded-2xl bg-modern-gradient  border-black">
+      <div className=" p-6 w-full rounded-2xl ">
         <form
           onSubmit={handleSubmit}
           className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg  border-2 border-gray-300"
         >
-          <h2 className="text-center text-3xl font-thin text-gray-700 mb-8">
+          <h2 className="text-center text-3xl font-thin text-gray-300 mb-8">
             Add New Company
           </h2>
 
@@ -161,14 +161,14 @@ const Dashboard = () => {
 
             <TotalCompaniesChart totalCompanies={totalCompanies} />
           </div>
-          <div className="bg-card-teal border-2 border-teal-500 rounded-xl p-2 shadow-lg">
-            <h2 className="text-xl  font-light   p-2">
+          <div className="bg-modern-gradient border-2 border-teal-500 rounded-xl p-2 shadow-lg">
+            <h2 className="text-xl text-gray-300 font-light   p-2">
               Monthly Companies:
-              <strong className="text-gray-500">
+              <strong className="text-gray-400">
                 {" "}
                 {monthlyCompanies.length}
               </strong>{" "}
-              <strong className="text-gray-500">/ {user?.maxCompanies}</strong>
+              /<strong className="text-red-800"> {user?.maxCompanies}</strong>
             </h2>
 
             <MonthCompaniesChart totalCompanies={monthlyCompanies} />
@@ -178,7 +178,7 @@ const Dashboard = () => {
       {!selectedIndustryCompanies && (
         <>
           <div className="p-6 w-full  ">
-            <h2 className="text-2xl font-medium p-2 text-center">
+            <h2 className="text-2xl text-gray-300 font-medium p-2 text-center">
               Root Companies
             </h2>
             <RootCompanies
@@ -186,7 +186,9 @@ const Dashboard = () => {
             />
           </div>
           <div className="p-6 w-full mt-2">
-            <h2 className="text-2xl font-medium p-2 text-center">Favorites</h2>
+            <h2 className="text-2xl font-medium text-gray-300 p-2 text-center">
+              Favorites
+            </h2>
             <RootCompanies
               companies={companies.filter((company) => company.favorite)}
             />
