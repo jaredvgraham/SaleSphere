@@ -132,7 +132,7 @@ const Dashboard = () => {
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-gray-900 to-blue-400 text-white p-2 rounded-full shadow-md hover:from-gray-700 hover:to-blue-400 transition-transform  hover:scale-110 duration-300"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-black via-gray-950 to-blue-400 text-white p-2 rounded-full shadow-md hover:from-gray-700 hover:to-blue-400 transition-transform  hover:scale-110 duration-300"
             >
               <FiSend className="w-5 h-5" />
             </button>
