@@ -48,10 +48,10 @@ const Sidebar = ({ path }: SidebarProps) => {
   ];
 
   return (
-    <aside className="w-64 h-[94vh] nav-col shadow-lg hidden lg:block relative border-r-2">
+    <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2">
       {/* Logo Section */}
       <div className="flex items-center justify-center h-20 border-b-2 ">
-        <h1 className="text-3xl font-semibold text-gray-100">Logo</h1>
+        <h1 className="text-3xl font-semibold text-black">Logo</h1>
       </div>
 
       {/* Navigation Section */}
@@ -60,8 +60,8 @@ const Sidebar = ({ path }: SidebarProps) => {
           <li className="p-2">
             <Link href="/">
               <div
-                className={`flex items-center text-gray-100 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
-                  isDashboard && "bg-gray-500"
+                className={`flex items-center  hover:bg-gray-800 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
+                  isDashboard ? "bg-black text-white" : "text-black"
                 }`}
               >
                 <FiHome className="w-5 h-5 mr-3" />
@@ -77,8 +77,10 @@ const Sidebar = ({ path }: SidebarProps) => {
                 <li key={index} className="p-2">
                   <Link href={link.link}>
                     <div
-                      className={`flex items-center text-gray-100 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
-                        pathname.includes(link.link) && "bg-gray-500"
+                      className={`flex items-center  hover:bg-gray-800 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
+                        pathname.includes(link.link)
+                          ? "bg-black text-white"
+                          : "text-black"
                       }`}
                     >
                       {link.icon}
@@ -90,7 +92,13 @@ const Sidebar = ({ path }: SidebarProps) => {
             : companyLinks.map((link, index) => (
                 <li key={index} className="p-2">
                   <Link href={link.link}>
-                    <div className="flex items-center text-gray-600 hover:bg-gray-700 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300">
+                    <div
+                      className={`flex items-center  hover:bg-gray-800 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300  ${
+                        pathname.includes(link.link)
+                          ? "bg-black text-white"
+                          : "text-black"
+                      }`}
+                    >
                       {link.icon}
                       <span className="text-lg">{link.name}</span>
                     </div>

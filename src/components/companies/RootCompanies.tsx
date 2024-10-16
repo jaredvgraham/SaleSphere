@@ -18,7 +18,7 @@ const RootCompanies = ({ companies }: Props) => {
       {companies?.map((company) => (
         <div
           key={company._id}
-          className="bg-modern-gradient p-6 rounded-lg shadow-md hover:shadow-2xl hover:bg-blue-500 cursor-pointer transition-all duration-300 transform hover:-translate-y-1 border border-transparent hover:border-blue-500"
+          className="bg-card p-6 rounded-lg shadow-md hover:shadow-2xl  cursor-pointer transition-all duration-300 transform hover:-translate-y-1 border  hover:border-blue-500"
           onClick={() => router.push(`/company/${company._id}`)}
         >
           <div className="flex justify-between mb-2">

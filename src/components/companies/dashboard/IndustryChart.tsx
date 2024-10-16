@@ -57,22 +57,31 @@ const IndustryChart = ({ industryData, showBusinesses }: Props) => {
               label: "Root Businesses", // Label for the dataset
               data: industryData.map((ind) => ind.businessCount), // Y-axis data
               backgroundColor: gradient, // Set the gradient as the bar color
-              borderColor: "black", // Optional: border color of bars
+              borderColor: "blue", // Optional: border color of bars
               borderWidth: 1, // Border width for the bars
             },
           ],
         },
         options: {
           indexAxis: "y", // Horizontal bar chart
+          color: "white",
           scales: {
             x: {
               beginAtZero: true, // X-axis starts at 0
               ticks: {
                 stepSize: 1, // Ensure increments of 1 (whole numbers)
+                color: "white",
               },
-              title: {
-                display: true,
-                text: "Industry", // X-axis title
+              grid: {
+                display: false,
+              },
+            },
+            y: {
+              grid: {
+                color: "white",
+              },
+              ticks: {
+                color: "white",
               },
             },
           },

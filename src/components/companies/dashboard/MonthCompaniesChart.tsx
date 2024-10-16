@@ -54,12 +54,9 @@ const MonthCompaniesChart = ({ totalCompanies }: Props) => {
           ],
         },
         options: {
+          color: "white",
           scales: {
             x: {
-              title: {
-                display: true,
-                text: "Week",
-              },
               ticks: {
                 autoSkip: false, // Plot every week
               },

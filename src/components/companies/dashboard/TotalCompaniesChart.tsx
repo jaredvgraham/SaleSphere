@@ -43,8 +43,10 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
 
       const chart = new Chart(ctx, {
         type: "bar", // Bar chart type
+
         data: {
           labels: ["Total Companies"],
+
           datasets: [
             {
               label: "Total Companies",
@@ -56,30 +58,25 @@ const TotalCompaniesChart = ({ totalCompanies }: Props) => {
           ],
         },
         options: {
+          color: "white",
           scales: {
-            x: {
-              ticks: {
-                color: "white", // Set X-axis text color to white
-              },
-            },
             y: {
-              beginAtZero: true,
+              beginAtZero: true, // Start the Y-axis at 0
               ticks: {
-                color: "white", // Set Y-axis text color to white
+                color: "white", // Set the color of the ticks to white
               },
               grid: {
-                color: "white", // Set Y-axis gridline color to white
+                color: "white",
+                display: false,
               },
             },
-          },
-          plugins: {
-            legend: {
-              labels: {
-                color: "white", // Set legend text color to white
+            x: {
+              ticks: {
+                color: "white",
               },
-            },
-            tooltip: {
-              bodyColor: "white", // Tooltip text color
+              grid: {
+                color: "white",
+              },
             },
           },
         },

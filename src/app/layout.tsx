@@ -41,10 +41,12 @@ export default function RootLayout({
           <ClerkLoaded>
             <AuthProvider>
               <CompanyProvider>
-                <Navbar />
-                <div className="flex w-full h-[94vh] bg-gray-100 overflow-hidden">
-                  <Sidebar />
-                  <div className="flex-1">{children}</div>
+                <div className=" bg-modern-gradient">
+                  <Navbar />
+                  <div className="flex w-full h-[94vh] overflow-hidden">
+                    <Sidebar />
+                    <div className="flex-1">{children}</div>
+                  </div>
                 </div>
               </CompanyProvider>
             </AuthProvider>

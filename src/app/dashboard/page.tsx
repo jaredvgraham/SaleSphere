@@ -111,64 +111,68 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="h-[100%] overflow-scroll relative">
+    <div className="h-[100%] overflow-scroll relative p-3">
       {isLoading && <Loader />} {/* Show the loader when loading */}
-      <form
-        onSubmit={handleSubmit}
-        className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg mt-2"
-      >
-        <h2 className="text-center text-3xl font-bold text-gray-500 mb-8">
-          Add New Company
-        </h2>
-
-        <div className="relative flex items-center bg-gray-300 rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300">
-          <input
-            type="text"
-            value={company}
-            onChange={(e) => setCompany(e.target.value)}
-            className="w-full p-4 pr-12 text-gray-800 bg-transparent rounded-lg focus:outline-none placeholder:-gray-800"
-            placeholder="Enter company name"
-          />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-gray-900 to-blue-400 text-white p-2 rounded-full shadow-md hover:from-gray-700 hover:to-blue-400 transition-transform  hover:scale-110 duration-300"
-          >
-            <FiSend className="w-5 h-5" />
-          </button>
-        </div>
-
-        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-        {success && (
-          <p className="text-green-500 text-center mt-4">{success}</p>
-        )}
-      </form>
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 p-6 w-full">
-        <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl font-medium ml-4  p-2">Industries</h2>
-          <IndustryChart
-            industryData={industryData}
-            showBusinesses={showBusinesses}
-          />
-        </div>
-        <div className="bg-gray-800 rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl text-gray-100 font-medium ml-4  p-2">
-            Total Companies:
-            <strong className="text-gray-200"> {totalCompanies}</strong>
+      <div className=" p-6 w-full rounded-2xl bg-modern-gradient  border-black">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg  border-2 border-gray-300"
+        >
+          <h2 className="text-center text-3xl font-thin text-gray-700 mb-8">
+            Add New Company
           </h2>
 
-          <TotalCompaniesChart totalCompanies={totalCompanies} />
-        </div>
-        <div className="bg-modern-gradient rounded-xl p-2 shadow-lg">
-          <h2 className="text-xl font-medium ml-4  p-2">
-            Monthly Companies:
-            <strong className="text-gray-500">
-              {" "}
-              {monthlyCompanies.length}
-            </strong>{" "}
-            <strong className="text-gray-500">/ {user?.maxCompanies}</strong>
-          </h2>
+          <div className="relative flex items-center bg-gray-300 rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300">
+            <input
+              type="text"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              className="w-full p-4 pr-12 text-gray-800 bg-transparent rounded-lg focus:outline-none placeholder:-gray-800"
+              placeholder="Enter company name"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-gray-900 to-blue-400 text-white p-2 rounded-full shadow-md hover:from-gray-700 hover:to-blue-400 transition-transform  hover:scale-110 duration-300"
+            >
+              <FiSend className="w-5 h-5" />
+            </button>
+          </div>
 
-          <MonthCompaniesChart totalCompanies={monthlyCompanies} />
+          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+          {success && (
+            <p className="text-green-500 text-center mt-4">{success}</p>
+          )}
+        </form>
+        <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 p-6 w-full  mt-2 rounded-3xl">
+          <div className="bg-modern-gradient border-2 border-blue-400 rounded-xl p-2 shadow-lg">
+            <h2 className="text-xl  font-light text-gray-300  p-2">
+              Industries
+            </h2>
+            <IndustryChart
+              industryData={industryData}
+              showBusinesses={showBusinesses}
+            />
+          </div>
+          <div className="bg-modern-gradient border-2 border-green-400 rounded-xl p-2 shadow-lg">
+            <h2 className="text-xl text-gray-300 font-light  p-2">
+              Total Companies:
+              <strong className="text-gray-400"> {totalCompanies}</strong>
+            </h2>
+
+            <TotalCompaniesChart totalCompanies={totalCompanies} />
+          </div>
+          <div className="bg-card-teal border-2 border-teal-500 rounded-xl p-2 shadow-lg">
+            <h2 className="text-xl  font-light   p-2">
+              Monthly Companies:
+              <strong className="text-gray-500">
+                {" "}
+                {monthlyCompanies.length}
+              </strong>{" "}
+              <strong className="text-gray-500">/ {user?.maxCompanies}</strong>
+            </h2>
+
+            <MonthCompaniesChart totalCompanies={monthlyCompanies} />
+          </div>
         </div>
       </div>
       {!selectedIndustryCompanies && (

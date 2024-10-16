@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="border-b nav-col border-gray-200 ">
+    <nav className="border-b  border-gray-200 ">
       <div className=" flex items-center justify-evenly h-16">
         <a
           href="#"

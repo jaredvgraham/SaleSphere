@@ -26,7 +26,7 @@ body {
   }
 } */
 
-.bg-modern-gradient {
+/* .bg-modern-gradient {
   background: linear-gradient(
     135deg,
     rgb(234, 247, 247),
@@ -34,15 +34,71 @@ body {
     rgb(228, 234, 244),
     rgb(240, 244, 248)
   );
-}
-.nav-col {
+} */
+.bg-modern-gradient {
   background: linear-gradient(
     135deg,
-    rgb(211, 222, 240) 0%,
-    rgb(161, 171, 187) 25%,
+    rgb(91, 93, 96),
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(91, 93, 96)
+  );
+}
+.bg-card {
+  background: linear-gradient(
+    135deg,
+    rgb(255, 255, 255),
+    rgb(249, 246, 246),
+    rgb(231, 255, 255, 0.4),
+    rgb(255, 255, 255)
+  );
+}
+.bg-card-blue {
+  background: linear-gradient(
+    135deg,
+    rgb(255, 255, 255),
+    rgb(249, 246, 246),
+    rgba(231, 235, 255, 0.8),
+    rgb(255, 255, 255)
+  );
+}
+.bg-card-green {
+  background: linear-gradient(
+    135deg,
+    rgb(255, 255, 255),
+    rgb(249, 246, 246),
+    rgba(237, 255, 231, 0.8),
+    rgb(255, 255, 255)
+  );
+}
+.bg-card-teal {
+  background: linear-gradient(
+    135deg,
+    rgb(255, 255, 255),
+    rgb(249, 246, 246),
+    rgba(231, 254, 255, 0.8),
+    rgb(255, 255, 255)
+  );
+}
+/* .nav-col {
+  background: linear-gradient(
+    135deg,
+    rgb(167, 178, 196) 0%,
+    rgb(139, 147, 161) 25%,
     rgb(112, 121, 135) 80%,
     rgb(112, 121, 135) 90%,
 
     rgb(67, 89, 112) 100%
+  );
+} */
+.nav-col {
+  background: linear-gradient(
+    135deg,
+    rgb(64, 67, 72) 0%,
+    rgb(43, 44, 47) 25%,
+    rgb(35, 37, 40) 80%,
+    rgb(24, 26, 28) 90%,
+
+    rgb(16, 17, 18) 100%
   );
 }
