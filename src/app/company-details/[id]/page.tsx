@@ -87,7 +87,7 @@ const CompanyDetails = () => {
       <div className="max-w-5xl mx-auto">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-6 mb-3">
           {/* Revenue Card */}
-          <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-semibold text-gray-300 mb-4">
               Revenue
             </h2>
@@ -97,7 +97,7 @@ const CompanyDetails = () => {
           </div>
 
           {/* Employee Count Card */}
-          <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-semibold text-gray-300 mb-4">
               Employee Count
             </h2>
@@ -107,13 +107,13 @@ const CompanyDetails = () => {
           </div>
 
           {/* Key People Card */}
-          <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-semibold text-gray-300 mb-4">
               Key People
             </h2>
             <p className="text-violet-300">{companyData.keyPeople || "N/A"}</p>
           </div>
-          <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+          <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-semibold text-gray-300 mb-4">
               Locations
             </h2>
@@ -122,7 +122,7 @@ const CompanyDetails = () => {
             </p>
           </div>
         </div>
-        <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">
+        <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">
           <h2 className="text-2xl font-semibold text-gray-300 mb-4">Website</h2>
           <a
             href={companyData.website}
@@ -133,7 +133,7 @@ const CompanyDetails = () => {
             {companyData.website || "No website available."}
           </a>
         </div>
-        <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">
+        <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300 mb-5">
           <h2 className="text-2xl font-semibold text-gray-300 mb-4">
             Relation to Root Company
           </h2>
@@ -156,7 +156,7 @@ const CompanyDetails = () => {
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Summary Card */}
-        <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
           <h2 className="text-2xl font-semibold text-gray-300 mb-4">Summary</h2>
           <ul className="text-gray-300 pl-2">
             {companyData.summary &&
@@ -171,7 +171,7 @@ const CompanyDetails = () => {
         {/* numOfLocations*/}
 
         {/* Products/Services Card */}
-        <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <div className="bg-alt border border-gray-600  rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
           <h2 className="text-2xl font-semibold text-gray-300 mb-4">
             Products/Services
           </h2>
@@ -181,7 +181,7 @@ const CompanyDetails = () => {
         </div>
 
         {/* Competitors Card */}
-        <div className="bg-alt rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+        <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
           <h2 className="text-2xl font-semibold text-gray-300 mb-4">
             Competitors
           </h2>
