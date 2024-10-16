@@ -94,7 +94,7 @@ const Console = () => {
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-alt border border-gray-700 shadow-xl rounded-3xl p-8">
           <h2 className="text-2xl font-semibold text-gray-300 mb-2">Revenue</h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-green-400 mb-4">
             {companyData.revenue || "Revenue data unavailable."}
           </p>
         </div>
@@ -102,11 +102,15 @@ const Console = () => {
           <h2 className="text-2xl font-semibold text-gray-300 mb-2">
             Key People
           </h2>
-          <p className="text-gray-300 mb-4">
+          <p className="text-violet-300 mb-4">
             {companyData.keyPeople || "No key people information available."}
           </p>
         </div>
       </div>
+
+      {/* Email Editor Section*/}
+
+      <div>{companyId && <SalesEditor companyId={companyId as string} />}</div>
 
       {/* Contacts Section */}
       <div className="bg-alt border border-gray-700 shadow-xl rounded-3xl p-8 mb-8 relative">
