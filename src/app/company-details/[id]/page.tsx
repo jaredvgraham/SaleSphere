@@ -146,6 +146,8 @@ const CompanyDetails = () => {
           </h2>
           <a
             className="text-blue-400 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
             href={`https://www.linkedin.com/company/${companyData.name
               .split(" ")
               .join("")}`}
