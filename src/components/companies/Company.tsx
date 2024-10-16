@@ -129,7 +129,7 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
           {company?.rootCompanyId && (
             <div className="flex ">
               <Link
-                href={`/company-details/${company.rootCompanyId}`}
+                href={`/company/${company.rootCompanyId}`}
                 className="text-blue-400 hover:underline"
               >
                 Back to Root →
