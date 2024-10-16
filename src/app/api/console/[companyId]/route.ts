@@ -39,6 +39,7 @@ export async function GET(
 
     return NextResponse.json(
       {
+        name: company.name,
         summary: company.wikiData?.summary,
         revenue: company.wikiData?.revenue,
         keyPeople: company.wikiData?.keyPeople,

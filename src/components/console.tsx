@@ -74,45 +74,47 @@ const Console = () => {
 
   return (
     <div className="h-[100%] p-8 overflow-scroll">
-      <div className="shadow-xl rounded-3xl p-8 mb-8">
-        <h1 className="text-4xl font-bold text-gray-300 mb-4">
-          {companyData.name}
-        </h1>
-        <div>
-          <SalesEditor companyId={companyId as string} />{" "}
-          {/* Add the email editor */}
+      {/* Hero Section */}
+      <div className="relative bg-modern-gradient text-gray-300 py-12 mb-8 rounded-lg shadow-lg">
+        <h1 className="text-5xl font-bold text-center">{companyData.name}</h1>
+        <p className="py-4 text-gray-300 text-center text-xl">
+          Build your lead with {companyData.name}
+        </p>
+      </div>
+
+      {/* Summary Section (separated for more space) */}
+      <div className="max-w-5xl mx-auto bg-alt border border-gray-700 shadow-xl rounded-3xl p-8 mb-8">
+        <h2 className="text-3xl font-bold text-gray-300 mb-4">Summary</h2>
+        <p className="text-gray-300 mb-4">
+          {companyData.summary || "No summary available."}
+        </p>
+      </div>
+
+      {/* Revenue and Key People Section */}
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="bg-alt border border-gray-700 shadow-xl rounded-3xl p-8">
+          <h2 className="text-2xl font-semibold text-gray-300 mb-2">Revenue</h2>
+          <p className="text-gray-300 mb-4">
+            {companyData.revenue || "Revenue data unavailable."}
+          </p>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-2">
-              Summary
-            </h2>
-            <p className="text-gray-300 mb-4">
-              {companyData.summary || "No summary available."}
-            </p>
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-2">
-              Revenue
-            </h2>
-            <p className="text-gray-300 mb-4">
-              {companyData.revenue || "Revenue data unavailable."}
-            </p>
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-2">
-              Key People
-            </h2>
-            <p className="text-gray-300 mb-4">
-              {companyData.keyPeople || "No key people information available."}
-            </p>
-          </div>
+        <div className="bg-alt border border-gray-700 shadow-xl rounded-3xl p-8">
+          <h2 className="text-2xl font-semibold text-gray-300 mb-2">
+            Key People
+          </h2>
+          <p className="text-gray-300 mb-4">
+            {companyData.keyPeople || "No key people information available."}
+          </p>
         </div>
       </div>
 
-      {/* Updated Contacts Section */}
+      {/* Contacts Section */}
       <div className="bg-alt border border-gray-700 shadow-xl rounded-3xl p-8 mb-8 relative">
         <h2 className="text-3xl font-bold text-gray-300 mb-4">Contacts</h2>
 
         {/* Plus button to add contact */}
         <button
-          className="absolute top-8 right-8 bg-indigo-500 text-white rounded-full p-2 hover:bg-indigo-600"
+          className="absolute top-8 right-8 bg-alt border border-gray-300 hover:border-emerald-600 text-white rounded-full p-2 "
           onClick={() => setShowAddContact(!showAddContact)}
         >
           +
@@ -132,7 +134,7 @@ const Console = () => {
                   onChange={(e) =>
                     setNewContact({ ...newContact, firstName: e.target.value })
                   }
-                  className="w-full p-2 bg-alt border border-gray-700 text-gray-100 rounded-lg focus:outline-none"
+                  className="w-full p-2 bg-alt border border-gray-600 text-gray-100 rounded-lg focus:outline-none focus:border-emerald-600"
                 />
               </div>
               <div>
@@ -143,7 +145,7 @@ const Console = () => {
                   onChange={(e) =>
                     setNewContact({ ...newContact, lastName: e.target.value })
                   }
-                  className="w-full p-2 bg-alt border border-gray-700 text-gray-100 rounded-lg focus:outline-none"
+                  className="w-full p-2 bg-alt border border-gray-600 text-gray-100 rounded-lg focus:outline-none focus:border-emerald-600"
                 />
               </div>
               <div>
@@ -154,7 +156,7 @@ const Console = () => {
                   onChange={(e) =>
                     setNewContact({ ...newContact, phone: e.target.value })
                   }
-                  className="w-full p-2 bg-alt border border-gray-700 text-gray-100 rounded-lg focus:outline-none"
+                  className="w-full p-2 bg-alt border border-gray-600 text-gray-100 rounded-lg focus:outline-none focus:border-emerald-600"
                 />
               </div>
               <div>
@@ -165,7 +167,7 @@ const Console = () => {
                   onChange={(e) =>
                     setNewContact({ ...newContact, email: e.target.value })
                   }
-                  className="w-full p-2 bg-alt border border-gray-700 text-gray-100 rounded-lg focus:outline-none"
+                  className="w-full p-2 bg-alt border border-gray-600 text-gray-100 rounded-lg focus:outline-none focus:border-emerald-600"
                 />
               </div>
               <div>
@@ -176,12 +178,12 @@ const Console = () => {
                   onChange={(e) =>
                     setNewContact({ ...newContact, linkedin: e.target.value })
                   }
-                  className="w-full p-2 bg-alt border border-gray-700 text-gray-100 rounded-lg focus:outline-none"
+                  className="w-full p-2 bg-alt border border-gray-600 text-gray-100 rounded-lg focus:outline-none focus:border-emerald-600"
                 />
               </div>
               <button
                 type="submit"
-                className="bg-alt border border-gray-700 hover:border-blue-500 text-white py-2 px-4 rounded-full shadow"
+                className="bg-alt border border-gray-300 hover:border-emerald-600 text-white py-2 px-4 rounded-full shadow hover:bg-emerald-600"
               >
                 Add Contact
               </button>
@@ -209,14 +211,14 @@ const Console = () => {
         </div>
       </div>
 
-      {/* Updated Notes Section */}
+      {/* Notes Section */}
       <div className="bg-alt border border-gray-700 shadow-xl rounded-3xl p-8">
         <h2 className="text-3xl font-bold text-gray-300 mb-4">Notes</h2>
         <textarea
           placeholder="Add notes about the company..."
-          className="w-full p-4 bg-alt border border-gray-700 text-gray-100 rounded-lg shadow-inner focus:outline-none focus:border-indigo-500"
+          className="w-full p-4 bg-alt border border-gray-600 text-gray-100 rounded-lg shadow-inner focus:outline-none focus:border-emerald-600"
         />
-        <button className="mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white py-3 px-8 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300 ease-in-out">
+        <button className="mt-4 bg-alt border border-gray-300 text-white py-3 px-8 rounded-full shadow-lg hover:border-emerald-600">
           Save Notes
         </button>
       </div>
