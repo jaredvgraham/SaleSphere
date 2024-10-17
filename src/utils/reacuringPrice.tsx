@@ -2,7 +2,7 @@ export async function createRecurringPrice(plan: string) {
   let price: number;
   switch (plan) {
     case "basic":
-      price = 1000;
+      price = 100;
       break;
     case "standard":
       price = 5000;

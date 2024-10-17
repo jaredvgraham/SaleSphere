@@ -18,6 +18,7 @@ const Page = () => {
         console.error(error);
       }
     };
+    getPortal();
   }, []);
 
   const cancelSubscription = async () => {

@@ -21,6 +21,30 @@ const Sidebar = ({ path }: SidebarProps) => {
 
   const isDashboard = pathname === "/" || pathname === "/dashboard";
 
+  const isAuthPage =
+    pathname.startsWith("/sign-in") ||
+    pathname.startsWith("/sign-up") ||
+    pathname.startsWith("/pricing") ||
+    pathname.startsWith("/landing");
+
+  const authLinks = [
+    {
+      name: "Sign In",
+      icon: <FiHome className="w-5 h-5 mr-3" />,
+      link: "/sign-in",
+    },
+    {
+      name: "Sign Up",
+      icon: <FiMail className="w-5 h-5 mr-3" />,
+      link: "/sign-up",
+    },
+    {
+      name: "Pricing",
+      icon: <FiMail className="w-5 h-5 mr-3" />,
+      link: "/pricing",
+    },
+  ];
+
   const dashboardLinks = [
     {
       name: "Your Company",
@@ -46,6 +70,39 @@ const Sidebar = ({ path }: SidebarProps) => {
       link: `/console/${globalCompanyId}`,
     },
   ];
+
+  if (isAuthPage) {
+    return (
+      <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2">
+        {/* Logo Section */}
+        <div className="flex items-center justify-center h-20 border-b-2 ">
+          <h1 className="text-3xl font-semibold text-black">Logo</h1>
+        </div>
+
+        {/* Navigation Section */}
+        <nav className="mt-10">
+          <ul className="space-y-4">
+            {authLinks.map((link, index) => (
+              <li key={index} className="p-2">
+                <Link href={link.link}>
+                  <div
+                    className={`flex items-center  hover:bg-gray-950 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
+                      pathname.includes(link.link)
+                        ? "bg-black text-white"
+                        : "text-gray-200"
+                    }`}
+                  >
+                    {link.icon}
+                    <span className="text-lg">{link.name}</span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    );
+  }
 
   return (
     <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2">
