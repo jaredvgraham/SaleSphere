@@ -55,7 +55,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
       } catch (error) {
         console.error(error);
-        router.push("/login");
       } finally {
         setAuthLoading(false);
       }
@@ -64,6 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }, []);
 
   useEffect(() => {
+    console.log("checking condition");
     if (user?.plan === "none" && pathname !== "/pricing") {
       router.push("/pricing");
     }

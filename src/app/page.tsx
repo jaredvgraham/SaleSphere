@@ -6,5 +6,11 @@ import PricingPage from "./pricing/page";
 
 export default function Home() {
   const { user } = useAuthTwo();
-  return <>{user?.plan === "none" ? <PricingPage /> : <Dashboard />}</>;
+  console.log("user from home", user);
+
+  return (
+    <>
+      {user?.plan === "none" || !user?.plan ? <PricingPage /> : <Dashboard />}
+    </>
+  );
 }
