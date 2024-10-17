@@ -139,7 +139,7 @@ const Sidebar = ({ path }: SidebarProps) => {
               <div
                 className={`flex items-center  hover:bg-gray-950 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
                   isDashboard ? "bg-black text-white" : "text-gray-200"
-                } ${isCompany && " text-teal-400"}`}
+                } ${isCompany && " text-blue-400 "}`}
               >
                 <FiHome className="w-5 h-5 mr-3" />
                 <span className="text-lg">Dashboard</span>
@@ -173,7 +173,7 @@ const Sidebar = ({ path }: SidebarProps) => {
                       className={`flex items-center  hover:bg-gray-950 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300  ${
                         pathname.includes(link.link)
                           ? "bg-black text-white"
-                          : "text-teal-400"
+                          : "text-blue-400"
                       }`}
                     >
                       {link.icon}
