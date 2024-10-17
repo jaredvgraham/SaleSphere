@@ -87,9 +87,9 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
   return (
     <div className="h-[100%] overflow-scroll  p-8">
       {/* Company Information Section */}
-      <div className="border-2 border-gray-500 shadow-md rounded-lg p-8 mb-10 flex justify-between">
+      <div className="border-2 relative border-gray-500 shadow-md rounded-lg p-8  mb-10 flex justify-between">
         <div>
-          <h1 className="text-4xl font-bold text-gray-300 mb-4">
+          <h1 className="text-4xl font-bold text-gray-300 mb-4 mt-3">
             {company?.name} :{" "}
             {!company?.rootCompanyId ? (
               <span className="text-violet-400">Root Company</span>
@@ -126,13 +126,15 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
           <div className="flex justify-end  p-4">
             <AddFav relatedCompany={company as Company} size={60} />
           </div>
+        </div>
+        <div className="absolute top-0 left-0 p-2">
           {company?.rootCompanyId && (
             <div className="flex ">
               <Link
                 href={`/company/${company.rootCompanyId}`}
                 className="text-blue-400 hover:underline"
               >
-                Back to Root →
+                ← Back to Root Company
               </Link>
             </div>
           )}

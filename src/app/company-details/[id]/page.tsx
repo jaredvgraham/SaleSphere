@@ -72,21 +72,23 @@ const CompanyDetails = () => {
           <span className="font-semibold">{companyData.name}</span>.
         </p>
         <div className="absolute top-0 right-0 p-4">
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between ">
             <div className="flex justify-end  p-4">
               <AddFav relatedCompany={companyData as Company} size={60} />
             </div>
-            {companyData?.rootCompanyId && (
-              <div className="flex ">
-                <Link
-                  href={`/company/${companyData.rootCompanyId}`}
-                  className="text-blue-400 hover:underline"
-                >
-                  Back to Root →
-                </Link>
-              </div>
-            )}
           </div>
+        </div>
+        <div className="absolute top-0 left-0 p-4">
+          {companyData?.rootCompanyId && (
+            <div className="flex ">
+              <Link
+                href={`/company/${companyData.rootCompanyId}`}
+                className="text-blue-400 hover:underline"
+              >
+                ← Back to Root Company
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 

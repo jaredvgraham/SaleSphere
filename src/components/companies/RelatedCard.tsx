@@ -15,7 +15,7 @@ const RelatedCard = ({ relatedCompany, pathname, userPlan }: Props) => {
   return (
     <div
       key={relatedCompany._id}
-      className="bg-modern-gradient border border-gray-600 p-6 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-300"
+      className="bg-card border border-gray-600 p-6 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-300"
     >
       <div className="flex justify-between mb-2">
         <h3 className="text-xl font-semibold text-gray-300 mb-2">
