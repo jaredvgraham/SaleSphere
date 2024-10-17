@@ -7,6 +7,7 @@ import { useCompany } from "@/hooks/companyContext";
 import ContactCard from "./contactCard";
 
 type Contact = {
+  _id: string;
   firstName: string;
   lastName: string;
   phone: string;
@@ -65,8 +66,13 @@ const Console = () => {
     });
 
     const data = await response.json();
-    console.log(data);
-    setContacts((prev) => [...(prev as any), newContact]);
+    const newContactt = {
+      ...newContact,
+      _id: data.id,
+    };
+    console.log("Id response", data);
+    console.log("New contact: ", newContactt);
+    setContacts((prev) => [...(prev as any), newContactt]);
 
     // Reset the form and close the add contact form
     setNewContact({

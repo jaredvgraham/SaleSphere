@@ -44,13 +44,22 @@ body {
     rgb(45, 45, 46)
   );
 }
-.bg-card {
+/* .bg-card {
   background: linear-gradient(
     135deg,
     rgb(91, 93, 96),
     rgb(0, 0, 0),
     rgb(0, 0, 0),
     rgb(91, 93, 96)
+  );
+} */
+.bg-card {
+  background: linear-gradient(
+    135deg,
+    rgb(36, 36, 37),
+    rgb(11, 10, 10),
+    rgb(0, 0, 0),
+    rgb(34, 35, 37)
   );
 }
 .bg-alt {
