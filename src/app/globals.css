@@ -29,19 +29,19 @@ body {
 /* .bg-modern-gradient {
   background: linear-gradient(
     135deg,
-    rgb(234, 247, 247),
-    rgb(232, 232, 232),
-    rgb(228, 234, 244),
-    rgb(240, 244, 248)
+    rgb(91, 93, 96),
+    rgb(0, 0, 0),
+    rgb(0, 0, 0),
+    rgb(91, 93, 96)
   );
 } */
 .bg-modern-gradient {
   background: linear-gradient(
     135deg,
-    rgb(91, 93, 96),
+    rgb(49, 49, 49),
     rgb(0, 0, 0),
     rgb(0, 0, 0),
-    rgb(91, 93, 96)
+    rgb(45, 45, 46)
   );
 }
 .bg-card {
