@@ -4,6 +4,7 @@ import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import { wikiScraper } from "@/services/scraping/wiki";
 import { auth } from "@clerk/nextjs/server";
+import Contact from "@/models/contactModel";
 
 export async function GET(
   req: NextRequest,
@@ -37,12 +38,15 @@ export async function GET(
       await company.save();
     }
 
+    const contacts = await Contact.find({ _id: { $in: company.contacts } });
+
     return NextResponse.json(
       {
         name: company.name,
         summary: company.wikiData?.summary,
         revenue: company.wikiData?.revenue,
         keyPeople: company.wikiData?.keyPeople,
+        contacts: contacts,
       },
       { status: 200 }
     );

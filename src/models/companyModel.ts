@@ -30,6 +30,7 @@ export interface ICompany {
   revenue?: string;
   relatedScore?: number;
   numOfLocations?: number;
+  contacts?: Types.ObjectId[];
 }
 
 const wikiDataSchema = new Schema<WikiData>({
@@ -66,6 +67,7 @@ const companySchema = new Schema<ICompany>({
   revenue: { type: String },
   relatedScore: { type: Number, required: false },
   numOfLocations: { type: Number, required: false },
+  contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
 });
 
 // 2dsphere index for geospatial queries

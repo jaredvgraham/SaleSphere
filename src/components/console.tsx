@@ -4,6 +4,15 @@ import { useParams } from "next/navigation";
 import SalesEditor from "@/components/emailEditor";
 import Loader from "@/components/loader"; // Import the loader
 import { useCompany } from "@/hooks/companyContext";
+import ContactCard from "./contactCard";
+
+type Contact = {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  linkedIn: string;
+};
 
 const Console = () => {
   const { companyId } = useParams(); // Fetch the company ID from the URL parameters
@@ -15,12 +24,13 @@ const Console = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAddContact, setShowAddContact] = useState(false); // New state for showing the form
+  const [contacts, setContacts] = useState<Contact[] | null>(null);
   const [newContact, setNewContact] = useState({
     firstName: "",
     lastName: "",
     phone: "",
     email: "",
-    linkedin: "",
+    linkedIn: "",
   }); // State for holding the new contact details
 
   useEffect(() => {
@@ -34,6 +44,7 @@ const Console = () => {
         }
         const data = await response.json();
         setCompanyData(data);
+        setContacts(data.contacts);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -44,10 +55,18 @@ const Console = () => {
     fetchCompanyData();
   }, [companyId]);
 
-  const handleAddContact = (e: React.FormEvent) => {
+  const handleAddContact = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle adding the new contact
-    // You can submit the newContact data to your API here
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ newContact, companyId }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+    setContacts((prev) => [...(prev as any), newContact]);
 
     // Reset the form and close the add contact form
     setNewContact({
@@ -55,7 +74,7 @@ const Console = () => {
       lastName: "",
       phone: "",
       email: "",
-      linkedin: "",
+      linkedIn: "",
     });
     setShowAddContact(false);
   };
@@ -108,8 +127,7 @@ const Console = () => {
         </div>
       </div>
 
-      {/* Email Editor Section*/}
-
+      {/* Email Editor Section */}
       <div>{companyId && <SalesEditor companyId={companyId as string} />}</div>
 
       {/* Contacts Section */}
@@ -178,9 +196,9 @@ const Console = () => {
                 <input
                   type="url"
                   placeholder="LinkedIn Profile Link"
-                  value={newContact.linkedin}
+                  value={newContact.linkedIn}
                   onChange={(e) =>
-                    setNewContact({ ...newContact, linkedin: e.target.value })
+                    setNewContact({ ...newContact, linkedIn: e.target.value })
                   }
                   className="w-full p-2 bg-alt border border-gray-600 text-gray-100 rounded-lg focus:outline-none focus:border-emerald-600"
                 />
@@ -197,17 +215,12 @@ const Console = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           {companyData.contacts ? (
-            companyData.contacts.map((contact: any, index: number) => (
-              <div
+            contacts?.map((contact: any, index: number) => (
+              <ContactCard
                 key={index}
-                className="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-              >
-                <h3 className="text-xl font-semibold text-gray-100">
-                  {contact.name}
-                </h3>
-                <p className="text-gray-400">Email: {contact.email}</p>
-                <p className="text-gray-400">Phone: {contact.phone}</p>
-              </div>
+                contact={contact}
+                companyId={companyId as string}
+              />
             ))
           ) : (
             <p className="text-gray-400">No contacts available.</p>
