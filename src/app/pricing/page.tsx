@@ -6,7 +6,7 @@ import { useAuthFetch } from "@/hooks/privateFetch";
 import { useAuthTwo } from "@/hooks/authContext";
 
 const allFeatures = [
-  { text: "Website" },
+  { text: "Company Website" },
   { text: "Relation to Root Company" },
   { text: "Summary" },
   { text: "Number of Locations" },
@@ -14,7 +14,6 @@ const allFeatures = [
   { text: "Unlimited Revenue" },
   { text: "Unlimited Employee Count" },
   { text: "Key People" },
-  { text: "Competitors" },
 ];
 
 const packages = [
@@ -22,7 +21,7 @@ const packages = [
     title: "Basic",
     price: "$10 / month",
     features: [
-      "Website",
+      "Company Website",
       "Relation to Root Company",
       "Summary",
       "Number of Locations",
@@ -33,7 +32,7 @@ const packages = [
     title: "Standard",
     price: "$50 / month",
     features: [
-      "Website",
+      "Company Website",
       "Relation to Root Company",
       "Summary",
       "Number of Locations",
@@ -46,7 +45,7 @@ const packages = [
     title: "Premium",
     price: "$100 / month",
     features: [
-      "Website",
+      "Company Website",
       "Relation to Root Company",
       "Summary",
       "Number of Locations",
@@ -54,7 +53,6 @@ const packages = [
       "Unlimited Revenue",
       "Unlimited Employee Count",
       "Key People",
-      "Competitors",
     ],
   },
 ];
@@ -62,9 +60,14 @@ const packages = [
 type PricingPageProps = {
   upgrade?: boolean | null | undefined;
   currentPlanProp?: string | null;
+  scroll?: boolean;
 };
 
-const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
+const PricingPage = ({
+  upgrade,
+  currentPlanProp,
+  scroll = true,
+}: PricingPageProps) => {
   const Router = useRouter();
   const authFetch = useAuthFetch();
   const [currentPlan, setCurrentPlan] = useState(currentPlanProp);
@@ -122,13 +125,15 @@ const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
   };
 
   return (
-    <div className="h-[100%] p-6 md:p-10 overflow-scroll">
+    <div className={`h-[100%] p-6 md:p-10 ${scroll && "overflow-y-scroll"}`}>
       <div className=" p-8 rounded-t-lg shadow-lg">
         <h1 className="text-4xl md:text-6xl font-extrabold text-center m-5 text-gray-300">
           Pricing Plans
         </h1>
         {error && (
-          <p className="text-red-500 text-center font-semibold">{error}</p>
+          <p className="text-red-600 p-2 text-center text-lg font-semibold">
+            {error}
+          </p>
         )}
         {succsess && (
           <p className="text-green-500 text-center font-semibold">{succsess}</p>

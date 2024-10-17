@@ -9,6 +9,9 @@ export const useAuthFetch = () => {
 
       const token = await session?.getToken();
       console.log("token", token);
+      if (!token) {
+        throw new Error("No token found!");
+      }
 
       const headers = {
         ...options.headers,

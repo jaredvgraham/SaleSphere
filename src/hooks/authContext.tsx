@@ -8,6 +8,8 @@ import { ReactNode } from "react";
 import Loader from "@/components/loader";
 import { User } from "@/types";
 import { getMaxCompanies } from "@/contants";
+import { useAuth, useSession, useUser } from "@clerk/nextjs";
+import { se } from "date-fns/locale";
 
 type AuthContextType = {
   user: User | null;
@@ -30,40 +32,49 @@ type AuthProviderProps = {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const { session } = useSession();
+
   const authFetch = useAuthFetch();
   const router = useRouter();
   const pathname = usePathname();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        console.log("fetching user");
+  const fetchUser = async () => {
+    try {
+      console.log("fetching user");
 
-        const res = await authFetch("user", {
-          method: "GET",
-        });
-        setUser({
-          ...res.user,
-          maxCompanies:
-            getMaxCompanies[res.user.plan as keyof typeof getMaxCompanies] || 0,
-        });
+      const res = await authFetch("user", {
+        method: "GET",
+      });
+      setUser({
+        ...res.user,
+        maxCompanies:
+          getMaxCompanies[res.user.plan as keyof typeof getMaxCompanies] || 0,
+      });
 
-        setAuthLoading(false);
+      setAuthLoading(false);
 
-        if (res.user?.plan === "none") {
-          router.push("/pricing");
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setAuthLoading(false);
+      if (res.user?.plan === "none") {
+        router.push("/pricing");
       }
-    };
+    } catch (error) {
+      console.error(error);
+      setUser(null);
+    } finally {
+      setAuthLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchUser();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     console.log("checking condition");
+    if (!user && session) {
+      fetchUser();
+      return;
+    }
+
     if (!user && pathname === "/pricing") {
       return;
     } else if (user?.plan === "none" && pathname !== "/pricing") {

@@ -21,13 +21,18 @@ const Sidebar = ({ path }: SidebarProps) => {
 
   const isDashboard = pathname === "/" || pathname === "/dashboard";
 
-  const isAuthPage =
-    pathname.startsWith("/sign-in") ||
-    pathname.startsWith("/sign-up") ||
-    pathname.startsWith("/pricing") ||
-    pathname.startsWith("/landing");
+  let isAuthPage;
+
+  if (!user) {
+    isAuthPage = true;
+  }
 
   const authLinks = [
+    {
+      name: "Home",
+      icon: <FiHome className="w-5 h-5 mr-3" />,
+      link: "/",
+    },
     {
       name: "Sign In",
       icon: <FiHome className="w-5 h-5 mr-3" />,
@@ -82,22 +87,23 @@ const Sidebar = ({ path }: SidebarProps) => {
         {/* Navigation Section */}
         <nav className="mt-10">
           <ul className="space-y-4">
-            {authLinks.map((link, index) => (
-              <li key={index} className="p-2">
-                <Link href={link.link}>
-                  <div
-                    className={`flex items-center  hover:bg-gray-950 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
-                      pathname.includes(link.link)
-                        ? "bg-black text-white"
-                        : "text-gray-200"
-                    }`}
-                  >
-                    {link.icon}
-                    <span className="text-lg">{link.name}</span>
-                  </div>
-                </Link>
-              </li>
-            ))}
+            {!user &&
+              authLinks.map((link, index) => (
+                <li key={index} className="p-2">
+                  <Link href={link.link}>
+                    <div
+                      className={`flex items-center  hover:bg-gray-950 hover:text-white rounded-md p-3 cursor-pointer transition-colors duration-300 ${
+                        pathname === link.link
+                          ? "bg-black text-white"
+                          : "text-gray-200"
+                      }`}
+                    >
+                      {link.icon}
+                      <span className="text-lg">{link.name}</span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
           </ul>
         </nav>
       </aside>
