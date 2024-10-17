@@ -31,10 +31,7 @@ export async function POST(req: NextRequest) {
     await contact.save();
     company.contacts.push(contact._id);
     await company.save();
-    return NextResponse.json(
-      { message: "Contact saved successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ id: contact._id }, { status: 200 });
   } catch (error: any) {
     console.error(error);
     return NextResponse.json({ error: "Something went wron" }, { status: 500 });
