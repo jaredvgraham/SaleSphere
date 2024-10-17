@@ -41,12 +41,10 @@ export default function RootLayout({
           <ClerkLoaded>
             <AuthProvider>
               <CompanyProvider>
-                <div className=" ">
-                  <Navbar />
-                  <div className="flex w-full h-[94vh] overflow-hidden">
-                    <Sidebar />
-                    <div className="flex-1">{children}</div>
-                  </div>
+                <Navbar />
+                <div className="flex max-w-full h-[94vh] overflow-y-hidden">
+                  <Sidebar />
+                  <div className="flex-1 w-full">{children}</div>
                 </div>
               </CompanyProvider>
             </AuthProvider>

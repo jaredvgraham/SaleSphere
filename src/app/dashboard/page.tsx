@@ -111,7 +111,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="h-[100%] overflow-scroll relative p-3">
+    <div className="h-[100%] w-[100%] overflow-y-scroll  p-3">
       {isLoading && <Loader />} {/* Show the loader when loading */}
       <div className=" p-6 w-full rounded-2xl ">
         <form
@@ -122,12 +122,12 @@ const Dashboard = () => {
             Add New Company
           </h2>
 
-          <div className="relative flex items-center bg-transparent rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300">
+          <div className="relative flex items-center bg-transparent rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300 ">
             <input
               type="text"
               value={company}
               onChange={(e) => setCompany(e.target.value)}
-              className="w-full p-4 pr-12 text-gray-300 bg-transparent rounded-lg focus:outline-none placeholder:-gray-300"
+              className="p-4 pr-12 text-gray-300 bg-transparent rounded-lg focus:outline-none placeholder:-gray-300"
               placeholder="Enter company name"
             />
             <button
@@ -143,8 +143,8 @@ const Dashboard = () => {
             <p className="text-green-500 text-center mt-4">{success}</p>
           )}
         </form>
-        <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 p-6 w-full  mt-2 rounded-3xl">
-          <div className="bg-modern-gradient border-2 border-blue-400 rounded-xl p-2 shadow-lg">
+        <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6 w-full  rounded-3xl">
+          <div className="bg-modern-gradient border-2 border-blue-400 rounded-xl p-2 shadow-lg w-full">
             <h2 className="text-xl  font-light text-gray-300  p-2">
               Industries
             </h2>
@@ -153,7 +153,7 @@ const Dashboard = () => {
               showBusinesses={showBusinesses}
             />
           </div>
-          <div className="bg-modern-gradient border-2 border-green-400 rounded-xl p-2 shadow-lg">
+          <div className="bg-modern-gradient border-2 border-green-400 rounded-xl p-2 shadow-lg w-full">
             <h2 className="text-xl text-gray-300 font-light  p-2">
               Total Companies:
               <strong className="text-gray-400"> {totalCompanies}</strong>
@@ -161,7 +161,7 @@ const Dashboard = () => {
 
             <TotalCompaniesChart totalCompanies={totalCompanies} />
           </div>
-          <div className="bg-modern-gradient border-2 border-teal-500 rounded-xl p-2 shadow-lg">
+          <div className="bg-modern-gradient border-2 border-teal-500 rounded-xl p-2 shadow-lg w-full">
             <h2 className="text-xl text-gray-300 font-light   p-2">
               Monthly Companies:
               <strong
@@ -183,7 +183,7 @@ const Dashboard = () => {
       </div>
       {!selectedIndustryCompanies && (
         <>
-          <div className="p-6 w-full  ">
+          <div className="p-6   ">
             <h2 className="text-2xl text-gray-300 font-medium p-2 text-center">
               Root Companies
             </h2>
@@ -191,7 +191,7 @@ const Dashboard = () => {
               companies={companies.filter((company) => !company.rootCompanyId)}
             />
           </div>
-          <div className="p-6 w-full mt-2">
+          <div className="p-6  mt-2">
             <h2 className="text-2xl font-medium text-gray-300 p-2 text-center">
               Favorites
             </h2>
@@ -202,7 +202,7 @@ const Dashboard = () => {
         </>
       )}
       {selectedIndustryCompanies && (
-        <div className="p-6 w-full">
+        <div className="p-6 ">
           <div className="flex  items-center p-2">
             <h2 className="text-xl">{selectedIndustry} Companies</h2>
 
