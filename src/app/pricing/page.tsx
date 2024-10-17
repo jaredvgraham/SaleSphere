@@ -73,12 +73,18 @@ const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
   const [error, setError] = useState("");
   //
   useEffect(() => {
-    if (user?.plan !== "none" && !upgrade) {
+    if (!user) {
+      return;
+    } else if (user?.plan !== "none" && !upgrade) {
       Router.push("/");
     }
   }, [user]);
 
   const handlePlan = async (title: string) => {
+    if (!user) {
+      setError("You need to be logged in to select a plan");
+      return;
+    }
     if (currentPlan === title.toLowerCase()) {
       return;
     }
@@ -116,9 +122,9 @@ const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100 p-2 md:p-10">
-      <div className="bg-white p-8 rounded-t-lg">
-        <h1 className="text-4xl md:text-6xl font-extrabold text-center m-5 text-gray-600">
+    <div className="h-[100%] p-6 md:p-10 overflow-scroll">
+      <div className=" p-8 rounded-t-lg shadow-lg">
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center m-5 text-gray-300">
           Pricing Plans
         </h1>
         {error && (
@@ -127,12 +133,12 @@ const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
         {succsess && (
           <p className="text-green-500 text-center font-semibold">{succsess}</p>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-12">
           {packages.map((pkg) => (
             <div
               onClick={() => handlePlan(pkg.title)}
               key={pkg.title}
-              className={`relative p-7 cursor-pointer rounded-lg shadow-2xl transform transition-transform bg-white hover:bg-teal-200 hover:bg-opacity-10 ${
+              className={`relative p-7 cursor-pointer border border-gray-600 rounded-lg shadow-2xl transform transition-transform bg-alt  hover:border-teal-400 hover:bg-opacity-10 ${
                 pkg.title === "Standard Plan"
                   ? "border-4 gradient-border scale-105 "
                   : ""
@@ -141,12 +147,12 @@ const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
                 "bg-gray-200 cursor-not-allowed opacity-50 line-through"
               }`}
             >
-              {pkg.title === "Standard Plan" && (
-                <div className="absolute top-0 right-0 gradient-bg text-white text-xs font-bold px-2 py-1 rounded-bl-lg bg-black">
+              {pkg.title === "Standard" && (
+                <div className="absolute top-0 right-0 bg-card text-teal-500 text-xs font-bold p-1 rounded-bl-lg bg-black ">
                   Most Popular
                 </div>
               )}
-              <div className="bg-gradient-to-r from-gray-400 to-black p-4 rounded-t-lg">
+              <div className="bg-gradient-to-r from-gray-800 to-black p-4 rounded-t-lg">
                 <h2 className="text-4xl font-bold mb-4 text-white text-center">
                   {pkg.title}
                 </h2>
@@ -154,7 +160,7 @@ const PricingPage = ({ upgrade, currentPlanProp }: PricingPageProps) => {
                   {pkg.price}
                 </p>
               </div>
-              <ul className="list-none pl-1 space-y-3 p-4 text-gray-700">
+              <ul className="list-none pl-1 space-y-3 p-4 text-gray-300">
                 {allFeatures.map((feature) => (
                   <li key={feature.text} className="flex items-center">
                     {feature.text}

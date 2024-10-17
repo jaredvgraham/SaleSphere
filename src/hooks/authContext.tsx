@@ -64,7 +64,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     console.log("checking condition");
-    if (user?.plan === "none" && pathname !== "/pricing") {
+    if (!user && pathname === "/pricing") {
+      return;
+    } else if (user?.plan === "none" && pathname !== "/pricing") {
       router.push("/pricing");
     }
   }, [user, pathname]);
