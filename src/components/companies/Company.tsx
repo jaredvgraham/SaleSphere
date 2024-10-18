@@ -173,36 +173,12 @@ const CompanyPage = ({ companyId, layerDeep }: Props) => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {nearbyCompanies.map((nearbyCompany) => (
-            <div
+            <RelatedCard
               key={nearbyCompany._id}
-              className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl cursor-pointer transition-shadow duration-300"
-            >
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {nearbyCompany.name}
-              </h3>
-              <div className="flex flex-col items-start  mb-2">
-                <Link
-                  className="text-blue-600 font-semibold hover:underline"
-                  href={`/company-details/${nearbyCompany._id}`}
-                >
-                  More Details →
-                </Link>
-                {!layerDeep && (
-                  <button
-                    className="text-blue-600 font-semibold hover:underline"
-                    onClick={() =>
-                      router.push(`${pathname}/nearby/${nearbyCompany._id}`)
-                    }
-                  >
-                    More related to{" "}
-                    <strong className="text-gray-700">
-                      {nearbyCompany.name}
-                    </strong>{" "}
-                    →
-                  </button>
-                )}
-              </div>
-            </div>
+              relatedCompany={nearbyCompany}
+              pathname={pathname}
+              userPlan={userPlan}
+            />
           ))}
         </div>
       </div>
