@@ -1,3 +1,4 @@
+import Loader from "@/components/loader";
 import { useAuthFetch } from "@/hooks/privateFetch";
 import { Company, User } from "@/types";
 import { formatError } from "@/utils/formatErr";
@@ -7,34 +8,35 @@ import { FiSend } from "react-icons/fi";
 type AddCompanyProps = {
   user: User;
   setCompanies: React.Dispatch<React.SetStateAction<Company[]>>;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+
   totalCompanies: number;
 };
 
 const AddCompany = ({
   user,
   setCompanies,
-  setIsLoading,
+
   totalCompanies,
 }: AddCompanyProps) => {
   const authFetch = useAuthFetch();
   const [company, setCompany] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!company || !user?.maxCompanies) {
       setError("Company name cannot be empty");
-      setIsLoading(false);
+      setSubmitting(false);
       return;
     }
     if (user?.maxCompanies <= totalCompanies) {
       setError("You have reached the maximum number of companies on your plan");
-      setIsLoading(false);
+      setSubmitting(false);
       return;
     }
-    setIsLoading(true);
+    setSubmitting(true);
 
     try {
       const res = await authFetch("companies", {
@@ -50,7 +52,7 @@ const AddCompany = ({
       console.error(error);
       setError(formatError(error));
     } finally {
-      setIsLoading(false);
+      setSubmitting(false);
     }
   };
   return (
@@ -69,6 +71,7 @@ const AddCompany = ({
           onChange={(e) => setCompany(e.target.value)}
           className="p-4 pr-12 text-gray-300 bg-transparent rounded-lg focus:outline-none placeholder:-gray-300"
           placeholder="Enter company name"
+          disabled={submitting}
         />
         <button
           type="submit"
@@ -80,6 +83,7 @@ const AddCompany = ({
 
       {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       {success && <p className="text-green-500 text-center mt-4">{success}</p>}
+      {submitting && <Loader height="200px" />}
     </form>
   );
 };

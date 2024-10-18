@@ -1,14 +1,18 @@
 "use client";
 import React from "react";
 
-const Loader: React.FC = () => {
+type LoaderProps = {
+  height?: string;
+};
+
+const Loader = ({ height }: LoaderProps) => {
   return (
     <div
       style={{
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
+        height: `${height ? height : "100vh"}`,
         // Optional: Slight background overlay
       }}
     >
