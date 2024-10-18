@@ -12,15 +12,25 @@ export async function addUserCompany(request: UserCompanyRequest) {
     if (!user) {
       throw new Error("No user found");
     }
-    const userCompany = new UserCompany({
-      userId: user._id,
-      name: request.name,
-      industry: request.industry,
-      productOrService: request.productOrService,
-      website: request.website,
-      ceo: request.ceo,
-    });
-    await userCompany.save();
+    const userCompanyOpt = await UserCompany.findOne({ userId: user._id });
+    if (!userCompanyOpt) {
+      const userCompany = new UserCompany({
+        userId: user._id,
+        name: request.name,
+        industry: request.industry,
+        productOrService: request.productOrService,
+        website: request.website,
+        ceo: request.ceo,
+      });
+      await userCompany.save();
+    } else {
+      userCompanyOpt.name = request.name;
+      userCompanyOpt.industry = request.industry;
+      userCompanyOpt.productOrService = request.productOrService;
+      userCompanyOpt.website = request.website;
+      userCompanyOpt.ceo = request.ceo;
+      await userCompanyOpt.save();
+    }
     return true;
   } catch (error: any) {
     throw new Error("Unable to save userCompany");

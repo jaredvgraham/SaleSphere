@@ -1,6 +1,5 @@
 "use client";
-import React, { useState } from "react";
-import { useAuthFetch } from "@/hooks/privateFetch";
+import React, { useState, useEffect } from "react";
 import Loader from "@/components/loader";
 
 interface FormData {
@@ -20,7 +19,47 @@ const AddCompany: React.FC = () => {
     ceo: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const authFetch = useAuthFetch();
+
+  useEffect(() => {
+    const fetchCompanyData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("/api/user-company", {
+          method: "GET",
+        });
+
+        if (response.ok) {
+          const { userCompany } = await response.json();
+          console.log("Fetched company data:", userCompany);
+
+          // Populate form fields with data from userCompany
+          setFormData({
+            name: userCompany.name || "",
+            industry: userCompany.industry || "",
+            productOrService: userCompany.productOrService || "",
+            website: userCompany.website || "",
+            ceo: userCompany.ceo || "",
+          });
+        } else {
+          console.error(
+            "Failed to fetch company data.",
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (error: any) {
+        console.error(
+          "Error fetching company data:",
+          error.message,
+          error.stack
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCompanyData();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,7 +70,7 @@ const AddCompany: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await authFetch("/user-company", {
+      const response = await fetch("/api/user-company", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -42,16 +81,7 @@ const AddCompany: React.FC = () => {
       if (!response.ok) {
         console.log(response);
       }
-      console.log(response);
-
-      setFormData({
-        name: "",
-        industry: "",
-        productOrService: "",
-        website: "",
-        ceo: "",
-      });
-      alert("Company added successfully");
+      console.log("response: ", response);
     } catch (error) {
       console.error("Error saving company:", error);
     } finally {
@@ -67,22 +97,26 @@ const AddCompany: React.FC = () => {
         className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-alt border border-gray-300"
       >
         <h2 className="text-center text-4xl text-gray-300 font-semibold mb-6 italic">
-          Add New Company
+          Tell Us About Your Company
         </h2>
         <div className="flex flex-col space-y-4">
-          {["name", "industry", "productOrService", "website", "ceo"].map(
-            (field) => (
-              <input
-                key={field}
-                type="text"
-                name={field}
-                value={formData[field as keyof FormData]}
-                onChange={handleChange}
-                className="flex-grow bg-alt border border-gray-300 focus:border-emerald-600 text-gray-300 px-6 py-3 rounded-full focus:outline-none shadow-sm"
-                placeholder={`Enter ${field}`}
-              />
-            )
-          )}
+          {[
+            { field: "name", label: "company-name" },
+            { field: "industry", label: "industry" },
+            { field: "productOrService", label: "product/service" },
+            { field: "website", label: "website" },
+            { field: "ceo", label: "ceo" },
+          ].map(({ field, label }) => (
+            <input
+              key={field}
+              type="text"
+              name={field}
+              value={formData[field as keyof FormData]} // Bind value directly to state
+              onChange={handleChange}
+              className="flex-grow bg-alt border border-gray-300 focus:border-emerald-600 text-gray-300 px-6 py-3 rounded-full focus:outline-none shadow-sm"
+              placeholder={`Enter ${label}`}
+            />
+          ))}
           <button
             type="submit"
             className="mt-4 bg-gradient-to-r from-gray-600 to-black text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-2xl transform hover:scale-105 transition-transform duration-300 ease-in-out"

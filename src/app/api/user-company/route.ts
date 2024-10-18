@@ -36,3 +36,30 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
+
+export async function GET(req: NextRequest) {
+  const { userId } = auth();
+  if (!userId) {
+    return NextResponse.json({ error: "Auth failed" }, { status: 400 });
+  }
+  try {
+    await connectDB();
+    const user = await User.findOne({ clerkId: userId });
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found for clerk id" },
+        { status: 404 }
+      );
+    }
+
+    const userCompany = await UserCompany.findOne({ userId: user._id });
+    console.log(userCompany);
+    return NextResponse.json({ userCompany: userCompany }, { status: 200 });
+  } catch (error: any) {
+    console.error(error);
+    return NextResponse.json(
+      { error: `Something went wrong: ${error.message}` },
+      { status: 500 }
+    );
+  }
+}
