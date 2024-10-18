@@ -1,6 +1,7 @@
 "use client";
 import { AuthProvider, useAuthTwo } from "@/hooks/authContext";
 import { useCompany } from "@/hooks/companyContext";
+import Image from "next/image";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import React, { useState } from "react";
@@ -92,10 +93,10 @@ const Sidebar = ({ path }: SidebarProps) => {
 
   if (isAuthPage) {
     return (
-      <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2">
+      <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2 bg-white">
         {/* Logo Section */}
-        <div className="flex items-center justify-center h-20 border-b-2 ">
-          <h1 className="text-3xl font-semibold text-black">Logo</h1>
+        <div className="flex items-center justify-center h-20 border-b-2 bg-white ">
+          <Image src="/logo.png" width={50} height={50} alt="logo" />
         </div>
 
         {/* Navigation Section */}
