@@ -60,13 +60,13 @@ const AddCompany: React.FC = () => {
   };
 
   return (
-    <div className="h-screen bg-slate-50 overflow-scroll flex justify-center items-center">
+    <div className="h-screen overflow-scroll flex justify-center items-center">
       {isLoading && <Loader />}
       <form
         onSubmit={handleSubmit}
-        className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-white"
+        className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-alt border border-gray-300"
       >
-        <h2 className="text-center text-4xl text-gray-900 font-semibold mb-6 italic">
+        <h2 className="text-center text-4xl text-gray-300 font-semibold mb-6 italic">
           Add New Company
         </h2>
         <div className="flex flex-col space-y-4">
@@ -78,7 +78,7 @@ const AddCompany: React.FC = () => {
                 name={field}
                 value={formData[field as keyof FormData]}
                 onChange={handleChange}
-                className="flex-grow bg-white text-gray-800 px-6 py-3 rounded-full focus:outline-none border-none shadow-sm"
+                className="flex-grow bg-alt border border-gray-300 focus:border-emerald-600 text-gray-300 px-6 py-3 rounded-full focus:outline-none shadow-sm"
                 placeholder={`Enter ${field}`}
               />
             )
