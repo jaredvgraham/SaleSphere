@@ -13,6 +13,7 @@ import { useAuthTwo } from "@/hooks/authContext";
 import { FiSend } from "react-icons/fi";
 import MonthCompaniesChart from "@/components/companies/dashboard/MonthCompaniesChart";
 import AddCompany from "@/components/companies/dashboard/AddCompany";
+import SortCompanies from "@/components/companies/dashboard/SortCompanies";
 // Import your chart component
 
 const Dashboard = () => {
@@ -119,7 +120,6 @@ const Dashboard = () => {
           setCompanies={setCompanies}
           totalCompanies={totalCompanies}
           user={user as User}
-          setIsLoading={setIsLoading}
         />
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6 w-full  rounded-3xl">
           <div className="bg-modern-gradient border-2 border-blue-400 rounded-xl p-2 shadow-lg w-full">
@@ -161,7 +161,8 @@ const Dashboard = () => {
       </div>
       {!selectedIndustryCompanies && (
         <>
-          <div className="p-6   ">
+          <div className="p-6 relative   ">
+            <SortCompanies companies={companies} setCompanies={setCompanies} />
             <h2 className="text-2xl text-gray-300 font-medium p-2 text-center">
               Root Companies
             </h2>
