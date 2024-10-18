@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Loader from "@/components/loader";
+import { set } from "mongoose";
 
 interface FormData {
   name: string;
@@ -19,6 +20,8 @@ const AddCompany: React.FC = () => {
     ceo: "",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCompanyData = async () => {
@@ -40,6 +43,7 @@ const AddCompany: React.FC = () => {
             website: userCompany.website || "",
             ceo: userCompany.ceo || "",
           });
+          setSuccess("Your Company.");
         } else {
           console.error(
             "Failed to fetch company data.",
@@ -53,6 +57,7 @@ const AddCompany: React.FC = () => {
           error.message,
           error.stack
         );
+        setError("Error fetching company data.");
       } finally {
         setIsLoading(false);
       }
@@ -82,8 +87,10 @@ const AddCompany: React.FC = () => {
         console.log(response);
       }
       console.log("response: ", response);
+      setSuccess("Company saved successfully.");
     } catch (error) {
       console.error("Error saving company:", error);
+      setError("Error saving company.");
     } finally {
       setIsLoading(false);
     }
@@ -91,14 +98,18 @@ const AddCompany: React.FC = () => {
 
   return (
     <div className="h-screen overflow-scroll flex justify-center items-center">
-      {isLoading && <Loader />}
       <form
         onSubmit={handleSubmit}
         className="w-2/3 mx-auto p-6 rounded-3xl shadow-xl bg-alt border border-gray-300"
       >
-        <h2 className="text-center text-4xl text-gray-300 font-semibold mb-6 italic">
+        {isLoading && <Loader height="100px " />}
+        <h2 className="text-center text-4xl text-gray-300 font-semibold mb-2 italic">
           Tell Us About Your Company
         </h2>
+        {error && <div className="text-red-500 p-1 text-center">{error}</div>}
+        {success && (
+          <div className="text-green-500 p-1 text-center">{success}</div>
+        )}
         <div className="flex flex-col space-y-4">
           {[
             { field: "name", label: "company-name" },
