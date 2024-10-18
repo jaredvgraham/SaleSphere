@@ -11,7 +11,7 @@ const SortCompanies = ({ companies, setCompanies }: SortCompaniesProps) => {
   const [sortOption, setSortOption] = useState("Oldest");
 
   const handleSort = (option: string) => {
-    let sortedArray = [...companies];
+    const sortedArray = [...companies];
     if (option === "recent") {
       sortedArray.sort(
         (a, b) =>
@@ -43,7 +43,7 @@ const SortCompanies = ({ companies, setCompanies }: SortCompaniesProps) => {
       <select
         value={sortOption}
         onChange={handleSortChange}
-        className="border rounded p-2 bg-transparent text-gray-300"
+        className="border  p-2 bg-transparent text-gray-300 focus:outline-none rounded-3xl"
       >
         <option value="oldest">Oldest</option>
         <option value="recent">Most Recent</option>

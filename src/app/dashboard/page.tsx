@@ -183,7 +183,9 @@ const Dashboard = () => {
       {selectedIndustryCompanies && (
         <div className="p-6 ">
           <div className="flex  items-center p-2">
-            <h2 className="text-xl">{selectedIndustry} Companies</h2>
+            <h2 className="text-2xl font-medium text-gray-300 p-2 text-center">
+              {selectedIndustry} Companies
+            </h2>
 
             <button
               onClick={() => setSelectedIndustryCompanies(null)}
