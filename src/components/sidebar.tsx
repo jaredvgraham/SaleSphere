@@ -93,7 +93,7 @@ const Sidebar = ({ path }: SidebarProps) => {
 
   if (isAuthPage) {
     return (
-      <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2 bg-white">
+      <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2 ">
         {/* Logo Section */}
         <div className="flex items-center justify-center h-20 border-b-2 bg-white ">
           <Image src="/logo.png" width={50} height={50} alt="logo" />
@@ -128,12 +128,12 @@ const Sidebar = ({ path }: SidebarProps) => {
   return (
     <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2">
       {/* Logo Section */}
-      <div className="flex items-center justify-center h-20 border-b-2 ">
-        <h1 className="text-3xl font-semibold text-black">Logo</h1>
+      <div className="flex items-center justify-center h-20   ">
+        <Image src="/logo.png" width={70} height={70} alt="logo" />
       </div>
 
       {/* Navigation Section */}
-      <nav className="mt-10">
+      <nav className="">
         <ul className="space-y-4">
           <li className="p-2">
             <Link href="/">

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import RootCompanies from "@/components/companies/RootCompanies";
 
 import { useAuthFetch } from "@/hooks/privateFetch";
-import { Company } from "@/types";
+import { Company, User } from "@/types";
 import { useAuth } from "@clerk/nextjs";
 import IndustryChart from "@/components/companies/dashboard/IndustryChart";
 import TotalCompaniesChart from "@/components/companies/dashboard/TotalCompaniesChart";
@@ -12,6 +12,7 @@ import { formatError } from "@/utils/formatErr";
 import { useAuthTwo } from "@/hooks/authContext";
 import { FiSend } from "react-icons/fi";
 import MonthCompaniesChart from "@/components/companies/dashboard/MonthCompaniesChart";
+import AddCompany from "@/components/companies/dashboard/AddCompany";
 // Import your chart component
 
 const Dashboard = () => {
@@ -114,35 +115,12 @@ const Dashboard = () => {
     <div className="h-[100%] w-[100%] overflow-y-scroll  p-3">
       {isLoading && <Loader />} {/* Show the loader when loading */}
       <div className=" p-6 w-full rounded-2xl ">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full md:w-2/3 mx-auto p-6 bg-modern-gradient rounded-2xl shadow-lg  border-2 border-gray-300"
-        >
-          <h2 className="text-center text-3xl font-thin text-gray-300 mb-8">
-            Add New Company
-          </h2>
-
-          <div className="relative flex items-center bg-transparent rounded-full border border-gray-200 shadow-lg focus-within:ring-4 focus-within:ring-blue-500 transition duration-300 ">
-            <input
-              type="text"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              className="p-4 pr-12 text-gray-300 bg-transparent rounded-lg focus:outline-none placeholder:-gray-300"
-              placeholder="Enter company name"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-black via-gray-950 to-blue-400 text-white p-2 rounded-full shadow-md hover:from-gray-700 hover:to-blue-400 transition-transform  hover:scale-110 duration-300"
-            >
-              <FiSend className="w-5 h-5" />
-            </button>
-          </div>
-
-          {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-          {success && (
-            <p className="text-green-500 text-center mt-4">{success}</p>
-          )}
-        </form>
+        <AddCompany
+          setCompanies={setCompanies}
+          totalCompanies={totalCompanies}
+          user={user as User}
+          setIsLoading={setIsLoading}
+        />
         <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 mt-6 w-full  rounded-3xl">
           <div className="bg-modern-gradient border-2 border-blue-400 rounded-xl p-2 shadow-lg w-full">
             <h2 className="text-xl  font-light text-gray-300  p-2">
