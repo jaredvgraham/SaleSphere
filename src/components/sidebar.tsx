@@ -95,7 +95,7 @@ const Sidebar = ({ path }: SidebarProps) => {
     return (
       <aside className="w-64 h-[94vh] shadow-lg hidden lg:block relative border-r-2 ">
         {/* Logo Section */}
-        <div className="flex items-center justify-center h-20 border-b-2 bg-white ">
+        <div className="flex items-center justify-center h-20 border-b-2  ">
           <Image src="/logo.png" width={50} height={50} alt="logo" />
         </div>
 
