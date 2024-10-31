@@ -122,7 +122,14 @@ const CompanyDetails = () => {
             <h2 className="text-2xl font-semibold text-gray-300 mb-4">
               Key People
             </h2>
-            <p className="text-violet-300">{companyData.keyPeople || "N/A"}</p>
+            <ul className="text-gray-300 pl-2">
+              {companyData.keyPeople &&
+                companyData.keyPeople.split("\n").map((person, index) => (
+                  <li key={index} className="list-disc mt-4 text-violet-400">
+                    {person}
+                  </li>
+                ))}
+            </ul>
           </div>
           <div className="bg-alt border border-gray-600 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
             <h2 className="text-2xl font-semibold text-gray-300 mb-4">

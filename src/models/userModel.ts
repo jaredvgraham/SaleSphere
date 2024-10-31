@@ -29,7 +29,7 @@ const userSchema = new Schema({
   plan: {
     type: String,
     enum: ["none", "basic", "standard", "premium"],
-    default: "none",
+    default: "standard",
   },
   companyIds: [
     {

@@ -24,6 +24,7 @@ export const getNumOfLocations = async (company: string) => {
     }
 
     const content = response.choices[0].message.content.trim();
+    console.log("CONTENT", content);
 
     // Ensure that the content is a number and handle parsing issues
     const numOfLocations = isNaN(Number(content)) ? 0 : Number(content);
