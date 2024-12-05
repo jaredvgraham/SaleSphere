@@ -52,16 +52,6 @@ const Landing = () => {
               that are relevant to your sales goals.
             </p>
           </div>
-          <div className="p-7 border border-gray-600 rounded-lg shadow-2xl bg-alt hover:border-teal-400 hover:bg-opacity-10">
-            <h3 className="text-3xl font-bold text-white mb-4">
-              Geographic Intelligence
-            </h3>
-            <p className="text-gray-300">
-              Visualize company locations across the globe, and understand their
-              geographic reach. Pinpoint regional opportunities and expand your
-              network with location-based data.
-            </p>
-          </div>
         </div>
       </section>
 
@@ -82,7 +72,7 @@ const Landing = () => {
             </p>
           </div>
 
-          <div className="p-7 border border-gray-600 rounded-lg shadow-2xl bg-alt hover:border-teal-400 hover:bg-opacity-10">
+          {/* <div className="p-7 border border-gray-600 rounded-lg shadow-2xl bg-alt hover:border-teal-400 hover:bg-opacity-10">
             <h3 className="text-3xl font-bold text-white mb-4">
               Philanthropy & Ethics Insights
             </h3>
@@ -91,7 +81,7 @@ const Landing = () => {
               Partner with companies that align with your values and build
               deeper, more meaningful relationships.
             </p>
-          </div>
+          </div> */}
 
           <div className="p-7 border border-gray-600 rounded-lg shadow-2xl bg-alt hover:border-teal-400 hover:bg-opacity-10">
             <h3 className="text-3xl font-bold text-white mb-4">
