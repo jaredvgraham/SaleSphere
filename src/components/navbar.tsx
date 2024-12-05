@@ -1,8 +1,16 @@
+"use client";
 import Link from "next/link";
 import React from "react";
 import Logout from "./Logout";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 const Navbar = () => {
+  const pathname = usePathname();
+  const { userId } = useAuth();
+  if (!userId || pathname === "/") {
+    return null;
+  }
   return (
     <nav className="border-b  border-gray-200 ">
       <div className=" flex items-center justify-evenly h-16">
