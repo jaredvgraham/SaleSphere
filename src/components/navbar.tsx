@@ -9,7 +9,26 @@ const Navbar = () => {
   const pathname = usePathname();
   const { userId } = useAuth();
   if (!userId || pathname === "/") {
-    return null;
+    return (
+      <nav className="border-b  border-gray-200 ">
+        <div className=" flex items-center justify-evenly h-16">
+          <Link
+            href="/"
+            className=" text-gray-100 hover:bg-gray-500 px-3 py-2 rounded-md
+            text-sm font-medium"
+          >
+            Login
+          </Link>
+          <Link
+            href={"/user-company"}
+            className=" text-gray-100 hover:bg-gray-500 px-3 py-2 rounded-md
+            text-sm font-medium"
+          >
+            Sign Up
+          </Link>
+        </div>
+      </nav>
+    );
   }
   return (
     <nav className="border-b  border-gray-200 ">
