@@ -8,7 +8,8 @@ import { useAuth } from "@clerk/nextjs";
 const Navbar = () => {
   const pathname = usePathname();
   const { userId } = useAuth();
-  if (!userId || pathname === "/") {
+
+  if (!userId || pathname === "/sign-in" || pathname === "/sign-up") {
     return (
       <nav className="border-b  border-gray-200 ">
         <div className=" flex items-center justify-evenly h-16">
