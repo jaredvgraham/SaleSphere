@@ -100,20 +100,15 @@ export async function GET(
       ? 0
       : Number(numOfLocations);
 
-    if (!wikiData) {
-      return NextResponse.json(
-        { error: "Failed to fetch company data from Wikipedia" },
-        { status: 500 }
-      );
+    if (wikiData) {
+      companyData.summary = wikiData.summary;
+      companyData.products = wikiData.products;
+
+      companyData.keyPeople = wikiData.keyPeople;
+      companyData.competitors = wikiData.competitors;
+
+      company.wikiData = companyData;
     }
-
-    companyData.summary = wikiData.summary;
-    companyData.products = wikiData.products;
-
-    companyData.keyPeople = wikiData.keyPeople;
-    companyData.competitors = wikiData.competitors;
-
-    company.wikiData = companyData;
     company.numOfLocations = companyData.numOfLocations || 0;
 
     await company.save();
