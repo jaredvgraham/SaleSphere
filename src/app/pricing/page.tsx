@@ -77,7 +77,7 @@ const PricingPage = ({
   //
   useEffect(() => {
     if (!user) {
-      return;
+      Router.push("/");
     } else if (user?.plan !== "none" && !upgrade) {
       Router.push("/");
     }
